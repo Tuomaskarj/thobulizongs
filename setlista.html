@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settilista – Thö Bulizongs</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #1c1c1c;
+      --white: #ffffff;
+      --off-white: #f7f5f2;
+      --accent: #c0392b;
+      --accent-light: #e74c3c;
+      --grey-mid: #555;
+      --grey-light: #999;
+      --card-bg: #252525;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--off-white);
+      color: var(--black);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--black);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 900;
+      font-style: italic;
+      color: var(--white);
+      text-decoration: none;
+      text-shadow: 2px 2px 0px #000, 3px 3px 6px rgba(0,0,0,0.5);
+    }
+
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; align-items: center; }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      background: var(--accent) !important;
+      color: var(--white) !important;
+      padding: 0.45rem 1.1rem;
+      border-radius: 4px;
+    }
+
+    /* PAGE HEADER */
+    .page-header {
+      background: var(--black);
+      padding: 4rem 2rem 3rem;
+      text-align: center;
+    }
+
+    .page-header p {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 0.6rem;
+    }
+
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      font-style: italic;
+      color: var(--white);
+      text-shadow: 2px 2px 0 #000, 4px 4px 12px rgba(0,0,0,0.4);
+      margin-bottom: 0.8rem;
+    }
+
+    .page-header .sub {
+      color: rgba(255,255,255,0.5);
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* FILTER TABS */
+    .filter-bar {
+      background: var(--white);
+      border-bottom: 1px solid #e0ddd8;
+      padding: 0 2rem;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      position: sticky;
+      top: 58px;
+      z-index: 90;
+    }
+
+    .filter-tab {
+      padding: 1rem 1.4rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--grey-mid);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .filter-tab:hover { color: var(--black); }
+    .filter-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 500; }
+
+    /* CONTENT */
+    main { max-width: 900px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+
+    .genre-section { margin-bottom: 3rem; }
+
+    .genre-section.hidden { display: none; }
+
+    .genre-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .genre-icon { font-size: 1.4rem; }
+
+    .genre-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--black);
+    }
+
+    .genre-count {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey-light);
+      margin-left: auto;
+    }
+
+    .song-list { border: 1px solid #e8e5e0; border-radius: 6px; overflow: hidden; }
+
+    .song-row {
+      display: grid;
+      grid-template-columns: 36px 1fr auto;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.9rem 1.2rem;
+      border-bottom: 1px solid #f0ede8;
+      transition: background 0.15s;
+    }
+
+    .song-row:last-child { border-bottom: none; }
+    .song-row:hover { background: #faf8f5; }
+
+    .song-num {
+      font-size: 0.78rem;
+      color: var(--grey-light);
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .song-info .title {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: 0.15rem;
+    }
+
+    .song-info .artist {
+      font-size: 0.8rem;
+      color: var(--grey-light);
+    }
+
+    .song-year {
+      font-size: 0.75rem;
+      color: #bbb;
+      white-space: nowrap;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--black);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 900;
+      font-style: italic;
+      color: var(--white);
+      text-shadow: 2px 2px 0 #000;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-back {
+      color: rgba(255,255,255,0.4);
+      font-size: 0.82rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-back:hover { color: rgba(255,255,255,0.85); }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem; }
+      .nav-links { display: none; }
+      .song-row { grid-template-columns: 28px 1fr; }
+      .song-year { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Thö Bulizongs</a>
+    <ul class="nav-links">
+      <li><a href="index.html#about">Bändi</a></li>
+      <li><a href="index.html#keikkakalenteri">Keikat</a></li>
+      <li><a href="index.html#musiikki">Musiikki</a></li>
+      <li><a href="index.html#yhteydenotto" class="nav-cta">Tilaa keikka</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <p>Mitä soitamme</p>
+    <h1>Settilista</h1>
+    <p class="sub">50 kappaletta · Häihin, juhliin ja pubeihin</p>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-tab active" onclick="filterGenre('kaikki', this)">Kaikki (50)</button>
+    <button class="filter-tab" onclick="filterGenre('iskelma', this)"> Iskelmä</button>
+    <button class="filter-tab" onclick="filterGenre('rock', this)"> Rock & Pop</button>
+    <button class="filter-tab" onclick="filterGenre('tanssi', this)"> Tanssi & Viihde</button>
+    <button class="filter-tab" onclick="filterGenre('kansainvalinen', this)"> Kansainväliset</button>
+  </div>
+
+  <main>
+
+    <!-- SUOMALAINEN ISKELMÄ -->
+    <div class="genre-section" data-genre="iskelma">
+      <div class="genre-header">
+        <span class="genre-icon"></span>
+        <span class="genre-title">Suomalainen iskelmä</span>
+        <span class="genre-count">14 kappaletta</span>
+      </div>
+      <div class="song-list">
+        <div class="song-row"><div class="song-num">1</div><div class="song-info"><div class="title">Paratiisi</div><div class="artist">Rauli Badding Somerjoki</div></div><div class="song-year">1980</div></div>
+        <div class="song-row"><div class="song-num">2</div><div class="song-info"><div class="title">Sinisten tähti</div><div class="artist">Tapani Kansa</div></div><div class="song-year">1967</div></div>
+        <div class="song-row"><div class="song-num">3</div><div class="song-info"><div class="title">Satumaa</div><div class="artist">Reijo Taipale</div></div><div class="song-year">1962</div></div>
+        <div class="song-row"><div class="song-num">4</div><div class="song-info"><div class="title">Hopeinen kuu</div><div class="artist">Olavi Virta</div></div><div class="song-year">1952</div></div>
+        <div class="song-row"><div class="song-num">5</div><div class="song-info"><div class="title">On suuri sun rantas autius</div><div class="artist">Reijo Taipale</div></div><div class="song-year">1965</div></div>
+        <div class="song-row"><div class="song-num">6</div><div class="song-info"><div class="title">Tähtisumua</div><div class="artist">Katri Helena</div></div><div class="song-year">1971</div></div>
+        <div class="song-row"><div class="song-num">7</div><div class="song-info"><div class="title">Ennen kuin lehdet putoaa</div><div class="artist">Jukka Kuoppamäki</div></div><div class="song-year">1970</div></div>
+        <div class="song-row"><div class="song-num">8</div><div class="song-info"><div class="title">Kesäpäivä Kangasalla</div><div class="artist">Peräsmäki & Huttunen</div></div><div class="song-year">1960</div></div>
+        <div class="song-row"><div class="song-num">9</div><div class="song-info"><div class="title">Muistatko Monrepos'n</div><div class="artist">Olavi Virta</div></div><div class="song-year">1955</div></div>
+        <div class="song-row"><div class="song-num">10</div><div class="song-info"><div class="title">Puhelinlangat laulaa</div><div class="artist">Laila Kinnunen</div></div><div class="song-year">1960</div></div>
+        <div class="song-row"><div class="song-num">11</div><div class="song-info"><div class="title">Sydänjuuret</div><div class="artist">Tapani Kansa</div></div><div class="song-year">1972</div></div>
+        <div class="song-row"><div class="song-num">12</div><div class="song-info"><div class="title">Hilpeä perjantai</div><div class="artist">Markus Allan</div></div><div class="song-year">1975</div></div>
+        <div class="song-row"><div class="song-num">13</div><div class="song-info"><div class="title">Elämää juoksuhaudoissa</div><div class="artist">Rauli Badding Somerjoki</div></div><div class="song-year">1978</div></div>
+        <div class="song-row"><div class="song-num">14</div><div class="song-info"><div class="title">Mennyt on</div><div class="artist">Reijo Taipale</div></div><div class="song-year">1968</div></div>
+      </div>
+    </div>
+
+    <!-- ROCK & POP -->
+    <div class="genre-section" data-genre="rock">
+      <div class="genre-header">
+        <span class="genre-icon"></span>
+        <span class="genre-title">Rock & Pop</span>
+        <span class="genre-count">12 kappaletta</span>
+      </div>
+      <div class="song-list">
+        <div class="song-row"><div class="song-num">1</div><div class="song-info"><div class="title">Daa Daa</div><div class="artist">Sammy Babitzin</div></div><div class="song-year">1982</div></div>
+        <div class="song-row"><div class="song-num">2</div><div class="song-info"><div class="title">Pienen pojan elämää</div><div class="artist">Juice Leskinen</div></div><div class="song-year">1978</div></div>
+        <div class="song-row"><div class="song-num">3</div><div class="song-info"><div class="title">Rakkaus on lumivalkoinen</div><div class="artist">Agents</div></div><div class="song-year">1989</div></div>
+        <div class="song-row"><div class="song-num">4</div><div class="song-info"><div class="title">Minä soitan sinulle illalla</div><div class="artist">Eppu Normaali</div></div><div class="song-year">1982</div></div>
+        <div class="song-row"><div class="song-num">5</div><div class="song-info"><div class="title">Lasse Liinanen</div><div class="artist">Hassisen Kone</div></div><div class="song-year">1981</div></div>
+        <div class="song-row"><div class="song-num">6</div><div class="song-info"><div class="title">Njet njet</div><div class="artist">Leevi and the Leavings</div></div><div class="song-year">1983</div></div>
+        <div class="song-row"><div class="song-num">7</div><div class="song-info"><div class="title">Täältä tullaan elämä</div><div class="artist">Juice Leskinen</div></div><div class="song-year">1980</div></div>
+        <div class="song-row"><div class="song-num">8</div><div class="song-info"><div class="title">Eläköön elämä</div><div class="artist">Agents</div></div><div class="song-year">1991</div></div>
+        <div class="song-row"><div class="song-num">9</div><div class="song-info"><div class="title">Rosvo-Roope</div><div class="artist">Hector</div></div><div class="song-year">1969</div></div>
+        <div class="song-row"><div class="song-num">10</div><div class="song-info"><div class="title">Mä olen jo iso</div><div class="artist">Kirka</div></div><div class="song-year">1977</div></div>
+        <div class="song-row"><div class="song-num">11</div><div class="song-info"><div class="title">Johnny, Johnny</div><div class="artist">Irwin Goodman</div></div><div class="song-year">1968</div></div>
+        <div class="song-row"><div class="song-num">12</div><div class="song-info"><div class="title">Korkeasaari</div><div class="artist">Leevi and the Leavings</div></div><div class="song-year">1985</div></div>
+      </div>
+    </div>
+
+    <!-- TANSSI & VIIHDE -->
+    <div class="genre-section" data-genre="tanssi">
+      <div class="genre-header">
+        <span class="genre-icon"></span>
+        <span class="genre-title">Tanssi & Viihde</span>
+        <span class="genre-count">12 kappaletta</span>
+      </div>
+      <div class="song-list">
+        <div class="song-row"><div class="song-num">1</div><div class="song-info"><div class="title">Hiljaa virtaa Väinäjoki</div><div class="artist">Timo Mutanen</div></div><div class="song-year">1970</div></div>
+        <div class="song-row"><div class="song-num">2</div><div class="song-info"><div class="title">Pohjolan poika</div><div class="artist">Eino Grön</div></div><div class="song-year">1964</div></div>
+        <div class="song-row"><div class="song-num">3</div><div class="song-info"><div class="title">Prinsessa</div><div class="artist">Eino Grön</div></div><div class="song-year">1967</div></div>
+        <div class="song-row"><div class="song-num">4</div><div class="song-info"><div class="title">Viva Espanja</div><div class="artist">Markus Allan</div></div><div class="song-year">1973</div></div>
+        <div class="song-row"><div class="song-num">5</div><div class="song-info"><div class="title">Siltarumpupolkka</div><div class="artist">Väinö Noponen</div></div><div class="song-year">1955</div></div>
+        <div class="song-row"><div class="song-num">6</div><div class="song-info"><div class="title">Kuusamon tyttö</div><div class="artist">Tapio Rautavaara</div></div><div class="song-year">1956</div></div>
+        <div class="song-row"><div class="song-num">7</div><div class="song-info"><div class="title">Villiruusu</div><div class="artist">Olavi Virta</div></div><div class="song-year">1950</div></div>
+        <div class="song-row"><div class="song-num">8</div><div class="song-info"><div class="title">Muistathan</div><div class="artist">Lasse Mårtenson</div></div><div class="song-year">1961</div></div>
+        <div class="song-row"><div class="song-num">9</div><div class="song-info"><div class="title">Hän</div><div class="artist">Eino Grön</div></div><div class="song-year">1966</div></div>
+        <div class="song-row"><div class="song-num">10</div><div class="song-info"><div class="title">Tuu tuu tupakkarulla</div><div class="artist">Kansanlaulu</div></div><div class="song-year">–</div></div>
+        <div class="song-row"><div class="song-num">11</div><div class="song-info"><div class="title">Ihanaa, ihanaa</div><div class="artist">Eino Grön</div></div><div class="song-year">1970</div></div>
+        <div class="song-row"><div class="song-num">12</div><div class="song-info"><div class="title">Cha cha cha</div><div class="artist">Armi ja Danny</div></div><div class="song-year">1983</div></div>
+      </div>
+    </div>
+
+    <!-- KANSAINVÄLISET -->
+    <div class="genre-section" data-genre="kansainvalinen">
+      <div class="genre-header">
+        <span class="genre-icon"></span>
+        <span class="genre-title">Kansainväliset klassiikot</span>
+        <span class="genre-count">12 kappaletta</span>
+      </div>
+      <div class="song-list">
+        <div class="song-row"><div class="song-num">1</div><div class="song-info"><div class="title">Can't Help Falling in Love</div><div class="artist">Elvis Presley</div></div><div class="song-year">1961</div></div>
+        <div class="song-row"><div class="song-num">2</div><div class="song-info"><div class="title">Brown Eyed Girl</div><div class="artist">Van Morrison</div></div><div class="song-year">1967</div></div>
+        <div class="song-row"><div class="song-num">3</div><div class="song-info"><div class="title">Ring of Fire</div><div class="artist">Johnny Cash</div></div><div class="song-year">1963</div></div>
+        <div class="song-row"><div class="song-num">4</div><div class="song-info"><div class="title">Proud Mary</div><div class="artist">Creedence Clearwater Revival</div></div><div class="song-year">1969</div></div>
+        <div class="song-row"><div class="song-num">5</div><div class="song-info"><div class="title">Sweet Home Chicago</div><div class="artist">Robert Johnson</div></div><div class="song-year">1936</div></div>
+        <div class="song-row"><div class="song-num">6</div><div class="song-info"><div class="title">La Bamba</div><div class="artist">Ritchie Valens</div></div><div class="song-year">1958</div></div>
+        <div class="song-row"><div class="song-num">7</div><div class="song-info"><div class="title">Johnny B. Goode</div><div class="artist">Chuck Berry</div></div><div class="song-year">1958</div></div>
+        <div class="song-row"><div class="song-num">8</div><div class="song-info"><div class="title">Twist and Shout</div><div class="artist">The Beatles</div></div><div class="song-year">1963</div></div>
+        <div class="song-row"><div class="song-num">9</div><div class="song-info"><div class="title">Mustang Sally</div><div class="artist">Wilson Pickett</div></div><div class="song-year">1966</div></div>
+        <div class="song-row"><div class="song-num">10</div><div class="song-info"><div class="title">Stand By Me</div><div class="artist">Ben E. King</div></div><div class="song-year">1961</div></div>
+        <div class="song-row"><div class="song-num">11</div><div class="song-info"><div class="title">Superstition</div><div class="artist">Stevie Wonder</div></div><div class="song-year">1972</div></div>
+        <div class="song-row"><div class="song-num">12</div><div class="song-info"><div class="title">Hit the Road Jack</div><div class="artist">Ray Charles</div></div><div class="song-year">1961</div></div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-logo">Thö Bulizongs</div>
+    <br>
+    <a href="index.html" class="footer-back">← Takaisin etusivulle</a>
+  </footer>
+
+  <script>
+    function filterGenre(genre, btn) {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.genre-section').forEach(section => {
+        if (genre === 'kaikki' || section.dataset.genre === genre) {
+          section.classList.remove('hidden');
+        } else {
+          section.classList.add('hidden');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
