@@ -75,16 +75,18 @@
 
     /* HERO */
     #hero {
-      min-height: 100vh;
+      min-height: 100svh;
       background: var(--black);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 8rem 2rem 5rem;
+      padding: 5rem 2rem 4rem;
       position: relative;
       overflow: hidden;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     #hero::before {
@@ -513,6 +515,9 @@
       .event-tag { display: none; }
       .instagram-grid { grid-template-columns: repeat(2, 1fr); }
       .form-row { grid-template-columns: 1fr; }
+      #hero { padding: 4rem 1.5rem 3rem; min-height: auto; }
+      .hero-logo { margin-top: 1rem; }
+      html, body { overflow-x: hidden; max-width: 100%; }
     }
   </style>
 </head>
@@ -535,7 +540,7 @@
       <h1 class="hero-logo">Thö</h1>
       <p class="hero-logo-sub">Bulizongs</p>
       <p class="hero-tagline">Häihin, juhliin ja kaikkiin illanistujaisiin </p>
-      <p class="hero-sub">Kuusihenkinen orkesteri · Seinäjoki</p>
+
       <div class="hero-btns">
         <a href="#yhteydenotto" class="btn-primary">Tilaa keikka</a>
         <a href="#keikkakalenteri" class="btn-secondary">Tulevat keikat</a>
