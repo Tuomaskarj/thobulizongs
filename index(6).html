@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thö Bulizongs – Tanssittava orkesteri Seinäjoelta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #1c1c1c;
+      --white: #ffffff;
+      --off-white: #f7f5f2;
+      --accent: #c0392b;
+      --accent-light: #e74c3c;
+      --grey: #2e2e2e;
+      --grey-mid: #555;
+      --grey-light: #999;
+      --card-bg: #252525;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--off-white);
+      color: var(--black);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--black);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 900;
+      font-style: italic;
+      color: var(--white);
+      text-decoration: none;
+      text-shadow: 2px 2px 0px #000, 3px 3px 6px rgba(0,0,0,0.5);
+      letter-spacing: 0.04em;
+    }
+
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; align-items: center; }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      background: var(--accent) !important;
+      color: var(--white) !important;
+      padding: 0.45rem 1.1rem;
+      border-radius: 4px;
+    }
+
+    .nav-cta:hover { background: var(--accent-light) !important; }
+
+    /* HERO */
+    #hero {
+      min-height: 100svh;
+      background: var(--black);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 5rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 40px,
+        rgba(255,255,255,0.015) 40px,
+        rgba(255,255,255,0.015) 41px
+      );
+    }
+
+    .hero-content { position: relative; z-index: 2; }
+
+    .hero-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(4rem, 13vw, 10rem);
+      font-weight: 900;
+      font-style: italic;
+      color: var(--white);
+      line-height: 0.9;
+      text-shadow: 3px 3px 0px #000, 5px 5px 0px rgba(0,0,0,0.4), 8px 8px 20px rgba(0,0,0,0.6);
+      letter-spacing: -0.01em;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.2s forwards;
+    }
+
+    .hero-logo-sub {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 6vw, 4.5rem);
+      font-weight: 700;
+      font-style: italic;
+      color: var(--white);
+      text-shadow: 2px 2px 0px #000, 4px 4px 12px rgba(0,0,0,0.5);
+      opacity: 0;
+      animation: fadeUp 0.7s 0.35s forwards;
+      margin-bottom: 2rem;
+    }
+
+    .hero-tagline {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.55s forwards;
+      font-weight: 300;
+    }
+
+    .hero-sub {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.65s forwards;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.8s forwards;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--white);
+      padding: 0.85rem 2rem;
+      border: none;
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+
+    .btn-primary:hover { background: var(--accent-light); transform: translateY(-2px); }
+
+    .btn-secondary {
+      background: transparent;
+      color: rgba(255,255,255,0.75);
+      padding: 0.85rem 2rem;
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+
+    .btn-secondary:hover { border-color: rgba(255,255,255,0.6); color: var(--white); transform: translateY(-2px); }
+
+    /* SECTIONS */
+    section { padding: 5rem 2rem; }
+    .container { max-width: 1060px; margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 0.8rem;
+      color: var(--black);
+    }
+
+    .section-title.light { color: var(--white); }
+
+    .section-divider {
+      width: 48px;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ABOUT */
+    #about { background: var(--off-white); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-text p { color: #444; line-height: 1.8; margin-bottom: 1.1rem; font-size: 1rem; }
+
+    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    .stat-box {
+      background: var(--white);
+      border: 1px solid #e0ddd8;
+      padding: 1.4rem;
+      border-radius: 6px;
+      text-align: center;
+      transition: box-shadow 0.2s;
+    }
+
+    .stat-box:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--black);
+      line-height: 1;
+    }
+
+    .stat-label { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--grey-light); margin-top: 0.3rem; }
+
+    /* BAND PHOTO */
+    .band-photo-wrap {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: #e0ddd8;
+    }
+
+    .band-photo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .band-photo-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      background: #e8e5e0;
+      text-align: center;
+      position: absolute;
+      inset: 0;
+    }
+
+    /* SETTILISTA PREVIEW */
+    #settilista-preview { background: var(--white); }
+
+    .setlist-preview-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .setlist-genre-block h3 {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #e0ddd8;
+    }
+
+    .setlist-genre-block ul { list-style: none; }
+
+    .setlist-genre-block li {
+      font-size: 0.88rem;
+      color: #444;
+      padding: 0.3rem 0;
+      border-bottom: 1px solid #f0ede8;
+      line-height: 1.4;
+    }
+
+    .setlist-genre-block li:last-child { border-bottom: none; }
+
+    .setlist-genre-block li span {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--grey-light);
+    }
+
+    /* KEIKKAKALENTERI */
+    #keikkakalenteri { background: var(--black); }
+
+    .events-list { display: flex; flex-direction: column; gap: 2px; }
+
+    .event-item {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1.2rem 1.5rem;
+      background: var(--card-bg);
+      border-radius: 4px;
+      border-left: 3px solid transparent;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .event-item:hover { border-left-color: var(--accent); background: #2a2a2a; }
+
+    .event-date { text-align: center; }
+
+    .event-date .day { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: var(--white); line-height: 1; }
+
+    .event-date .month { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--grey-light); }
+
+    .event-info h3 { font-size: 1rem; font-weight: 500; color: var(--white); margin-bottom: 0.2rem; }
+
+    .event-info p { font-size: 0.82rem; color: var(--grey-light); }
+
+    .event-tag {
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.7rem;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px;
+      color: rgba(255,255,255,0.45);
+      white-space: nowrap;
+    }
+
+    /* MUSIIKKI */
+    /* REELS SLIDER */
+    #musiikki { background: var(--black); }
+    #musiikki .section-label { color: rgba(255,255,255,0.4); }
+    #musiikki .section-title { color: var(--white); }
+    #musiikki .section-divider { background: var(--accent); }
+
+    .reels-wrapper {
+      position: relative;
+    }
+
+    .reels-track {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 1rem;
+    }
+
+    .reels-track::-webkit-scrollbar { display: none; }
+
+    .reel-card {
+      flex: 0 0 280px;
+      scroll-snap-align: start;
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--card-bg);
+      aspect-ratio: 9/16;
+      cursor: pointer;
+    }
+
+    .reel-card iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      pointer-events: none;
+    }
+
+    .reel-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(160deg, #2a2a2a 0%, #1a1a1a 100%);
+      gap: 1rem;
+    }
+
+    .reel-play {
+      width: 60px; height: 60px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.3rem;
+      padding-left: 4px;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .reel-card:hover .reel-play {
+      transform: scale(1.1);
+      background: var(--accent-light);
+    }
+
+    .reel-info {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 1.5rem 1rem 1rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
+      color: var(--white);
+    }
+
+    .reel-info h3 { font-size: 0.9rem; font-weight: 500; margin-bottom: 0.2rem; }
+    .reel-info p { font-size: 0.75rem; color: rgba(255,255,255,0.55); }
+
+    .reel-placeholder-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+      text-align: center;
+      padding: 0 1rem;
+    }
+
+    .reels-nav {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .reels-btn {
+      width: 38px; height: 38px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--white);
+      cursor: pointer;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .reels-btn:hover { border-color: var(--accent); background: rgba(192,57,43,0.15); }
+
+    /* INSTAGRAM */
+    #instagram { background: var(--white); }
+
+    .instagram-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      margin-bottom: 2rem;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .insta-tile {
+      aspect-ratio: 1;
+      background: #e8e5e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      transition: opacity 0.2s;
+      cursor: pointer;
+    }
+
+    .insta-tile:hover { opacity: 0.75; }
+
+    .instagram-cta { text-align: center; }
+
+    /* YHTEYDENOTTO */
+    #yhteydenotto { background: var(--off-white); }
+
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 5rem; align-items: start; }
+
+    .contact-info h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.8rem; }
+
+    .contact-info p { color: #555; line-height: 1.75; margin-bottom: 1.8rem; font-size: 0.95rem; }
+
+    .contact-detail { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem; color: #444; font-size: 0.9rem; }
+
+    .contact-icon { font-size: 1rem; width: 28px; text-align: center; }
+
+    .contact-form { display: flex; flex-direction: column; gap: 0.9rem; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+
+    .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
+
+    .form-group label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--grey-mid); font-weight: 500; }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: var(--white);
+      border: 1px solid #ddd;
+      color: var(--black);
+      padding: 0.7rem 0.9rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      border-radius: 4px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(192,57,43,0.1);
+    }
+
+    .form-group textarea { resize: vertical; min-height: 110px; }
+
+    /* FOOTER */
+    footer { background: var(--black); padding: 2.5rem 2rem; text-align: center; }
+
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      font-style: italic;
+      color: var(--white);
+      text-shadow: 2px 2px 0 #000, 4px 4px 10px rgba(0,0,0,0.5);
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-tagline { color: rgba(255,255,255,0.35); font-size: 0.82rem; letter-spacing: 0.1em; margin-bottom: 1.5rem; }
+
+    .footer-links { display: flex; justify-content: center; gap: 1.8rem; margin-bottom: 1.8rem; flex-wrap: wrap; }
+
+    .footer-links a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.08em; transition: color 0.2s; }
+
+    .footer-links a:hover { color: rgba(255,255,255,0.85); }
+
+    .footer-copy { font-size: 0.72rem; color: rgba(255,255,255,0.18); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.2rem; }
+      .nav-links { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .event-item { grid-template-columns: 65px 1fr; }
+      .event-tag { display: none; }
+      .instagram-grid { grid-template-columns: repeat(2, 1fr); }
+      .form-row { grid-template-columns: 1fr; }
+      #hero { padding: 4rem 1.5rem 3rem; min-height: auto; }
+      .hero-logo { margin-top: 1rem; }
+      html, body { overflow-x: hidden; max-width: 100%; }
+    }
+  </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "MusicGroup",
+        "name": "Thö Bulizongs",
+        "url": "https://www.thobulizongs.fi",
+        "description": "Thö Bulizongs on kuusihenkinen harrasteorkesteri Seinäjoelta. Soitamme häissä, syntymäpäiväjuhlissa, pubeissa ja kaikissa tilaisuuksissa joihin meidät tilataan.",
+        "genre": ["Iskelmä", "Pop", "Rock", "Tanssimusiikki"],
+        "foundingLocation": {
+          "@type": "Place",
+          "name": "Seinäjoki",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Seinäjoki",
+            "addressRegion": "Etelä-Pohjanmaa",
+            "addressCountry": "FI"
+          }
+        },
+        "numberOfEmployees": {
+          "@type": "QuantitativeValue",
+          "value": 6
+        },
+        "sameAs": [
+          "https://www.instagram.com/thobulizongs/"
+        ],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "bookings",
+          "email": "info@thobulizongs.fi"
+        }
+      },
+      {
+        "@type": "LocalBusiness",
+        "name": "Thö Bulizongs",
+        "description": "Tanssittava orkesteri häihin, juhliin ja illanistujaisiin. Tilaa keikka Seinäjoelta.",
+        "url": "https://www.thobulizongs.fi",
+        "telephone": "",
+        "email": "info@thobulizongs.fi",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Seinäjoki",
+          "addressRegion": "Etelä-Pohjanmaa",
+          "addressCountry": "FI"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 62.7903,
+          "longitude": 22.8403
+        },
+        "areaServed": {
+          "@type": "State",
+          "name": "Etelä-Pohjanmaa"
+        },
+        "priceRange": "€€"
+      },
+      {
+        "@type": "Event",
+        "name": "Thö Bulizongs – Kesäjuhlat",
+        "startDate": "2025-06-14T20:00",
+        "location": {
+          "@type": "Place",
+          "name": "Tornikahvila",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Seinäjoki",
+            "addressCountry": "FI"
+          }
+        },
+        "performer": {
+          "@type": "MusicGroup",
+          "name": "Thö Bulizongs"
+        },
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode"
+      },
+      {
+        "@type": "Event",
+        "name": "Thö Bulizongs – Pub-ilta",
+        "startDate": "2025-07-05T21:00",
+        "endDate": "2025-07-06T01:00",
+        "location": {
+          "@type": "Place",
+          "name": "Seinäjoen Panimoravintola",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Seinäjoki",
+            "addressCountry": "FI"
+          }
+        },
+        "performer": {
+          "@type": "MusicGroup",
+          "name": "Thö Bulizongs"
+        },
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode"
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <nav>
+    <a href="#hero" class="nav-logo">Thö Bulizongs</a>
+    <ul class="nav-links">
+      <li><a href="#about">Bändi</a></li>
+      <li><a href="setlista.html">Settilista</a></li>
+      <li><a href="#keikkakalenteri">Keikat</a></li>
+      <li><a href="#musiikki">Musiikki</a></li>
+      <li><a href="#instagram">Instagram</a></li>
+      <li><a href="#yhteydenotto" class="nav-cta">Tilaa keikka</a></li>
+    </ul>
+  </nav>
+
+  <section id="hero">
+    <div class="hero-content">
+      <h1 class="hero-logo">Thö</h1>
+      <p class="hero-logo-sub">Bulizongs</p>
+      <p class="hero-tagline">Häihin, juhliin ja kaikkiin illanistujaisiin </p>
+
+      <div class="hero-btns">
+        <a href="#yhteydenotto" class="btn-primary">Tilaa keikka</a>
+        <a href="#keikkakalenteri" class="btn-secondary">Tulevat keikat</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text">
+          <p class="section-label">Keitä me olemme</p>
+          <h2 class="section-title">Iloinen porukka<br/>Seinäjoelta</h2>
+          <div class="section-divider"></div>
+          <p>Thö Bulizongs on kuusihenkinen harrasteorkesteri, jonka sydämessä sykkii aito rakkaus musiikkiin ja elämänmakuiseen menoon. Soitamme tuttuja kappaleita ja hyviä tulkintoja — sellaisia jotka saavat väen liikkeelle.</p>
+          <p>Seinäjoelta liikkeelle. Bändi on perustettu siksi, että elämässä pitää olla musiikkia — ja mieluiten sellaista joka naurattaa, liikuttaa ja tanssittaa.</p>
+          <p>Soitamme häissä, syntymäpäiväjuhlissa, pubeissa ja kaikissa tilaisuuksissa joihin meidät tilataan. Joka keikalla sama lupaus: väki tanssii. </p>
+        </div>
+        <div class="band-photo-wrap">
+          <img src="band-placeholder.jpg" alt="Thö Bulizongs bändikuva"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+          <div class="band-photo-placeholder">
+            <div>
+              <div style="font-size:3rem;margin-bottom:0.8rem;"></div>
+              <div style="font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;">Bändikuva tulossa</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="settilista-preview">
+    <div class="container">
+      <p class="section-label">Mitä soitamme</p>
+      <h2 class="section-title">Settilista</h2>
+      <div class="section-divider"></div>
+      <div class="setlist-preview-grid">
+        <div class="setlist-genre-block">
+          <h3> Suomalainen iskelmä</h3>
+          <ul>
+            <li>Paratiisi <span>Rauli Badding Somerjoki</span></li>
+            <li>Sinisten tähti <span>Tapani Kansa</span></li>
+            <li>On suuri sun rantas autius <span>Reijo Taipale</span></li>
+            <li>Hopeinen kuu <span>Olavi Virta</span></li>
+            <li>Satumaa <span>Reijo Taipale</span></li>
+          </ul>
+        </div>
+        <div class="setlist-genre-block">
+          <h3> Rock & Pop</h3>
+          <ul>
+            <li>Daa Daa <span>Sammy Babitzin</span></li>
+            <li>Pienen pojan elämää <span>Juice Leskinen</span></li>
+            <li>Rakkaus on lumivalkoinen <span>Agents</span></li>
+            <li>Kesäpäivä Kangasalla <span>Peräsmäki & Huttunen</span></li>
+            <li>Tähtisumua <span>Katri Helena</span></li>
+          </ul>
+        </div>
+        <div class="setlist-genre-block">
+          <h3> Kansainväliset</h3>
+          <ul>
+            <li>Can't Help Falling in Love <span>Elvis Presley</span></li>
+            <li>Brown Eyed Girl <span>Van Morrison</span></li>
+            <li>Sweet Home Chicago <span>Robert Johnson</span></li>
+            <li>Ring of Fire <span>Johnny Cash</span></li>
+            <li>Proud Mary <span>CCR</span></li>
+          </ul>
+        </div>
+      </div>
+      <p style="text-align:center;">
+        <a href="setlista.html" class="btn-primary">Katso koko settilista →</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- KEIKKAKALENTERI -->
+    <div class="container">
+      <p class="section-label" style="color:rgba(255,255,255,0.4)">Missä esiinnymme</p>
+      <h2 class="section-title">Tulevat keikat</h2>
+      <div class="section-divider"></div>
+      <div class="events-list">
+        <div class="event-item">
+          <div class="event-date"><div class="day">14</div><div class="month">Kesä</div></div>
+          <div class="event-info"><h3>Kesäjuhlat – Seinäjoki</h3><p>Tornikahvila &nbsp;·&nbsp; klo 20:00</p></div>
+          <div class="event-tag">Yksityinen</div>
+        </div>
+        <div class="event-item">
+          <div class="event-date"><div class="day">22</div><div class="month">Kesä</div></div>
+          <div class="event-info"><h3>Häät – Lapua</h3><p>Lapuan juhlatila &nbsp;·&nbsp; klo 18:00</p></div>
+          <div class="event-tag">Häät</div>
+        </div>
+        <div class="event-item">
+          <div class="event-date"><div class="day">05</div><div class="month">Heinä</div></div>
+          <div class="event-info"><h3>Pub-ilta – Seinäjoen Panimoravintola</h3><p>Panimoravintola &nbsp;·&nbsp; klo 21:00 – 01:00</p></div>
+          <div class="event-tag">Avoin</div>
+        </div>
+        <div class="event-item">
+          <div class="event-date"><div class="day">19</div><div class="month">Heinä</div></div>
+          <div class="event-info"><h3>60-vuotissyntymäpäivät – Ilmajoki</h3><p>Yksityinen juhlatila &nbsp;·&nbsp; klo 17:00</p></div>
+          <div class="event-tag">Juhlat</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="musiikki">
+    <div class="container">
+      <p class="section-label">Kuuntele ja katso</p>
+      <h2 class="section-title">Musiikkia & videoja</h2>
+      <div class="section-divider"></div>
+      <div class="music-grid">
+        <div class="video-card">
+          <div class="video-placeholder"><div class="play-icon">▶</div></div>
+          <div class="video-info"><h3>Keikkatallenne 2024</h3><p>Seinäjoki Summer Pub</p></div>
+        </div>
+        <div class="video-card">
+          <div class="video-placeholder"><div class="play-icon">▶</div></div>
+          <div class="video-info"><h3>Häätallenne</h3><p>Lapua, kesä 2024</p></div>
+        </div>
+        <div class="video-card">
+          <div class="video-placeholder"><div class="play-icon">▶</div></div>
+          <div class="video-info"><h3>Harjoitusnauhoite</h3><p>Studio session 2024</p></div>
+        </div>
+      </div>
+      <p style="margin-top:2rem;text-align:center;">
+        <a href="https://www.youtube.com/@thobulizongs" target="_blank" class="btn-primary">Katso kaikki videot YouTubessa →</a>
+      </p>
+    </div>
+  </section>
+
+  <section id="instagram">
+    <div class="container">
+      <p class="section-label">Seuraa meitä</p>
+      <h2 class="section-title">@thobulizongs</h2>
+      <div class="section-divider"></div>
+      <div class="instagram-grid">
+        <div class="insta-tile"></div>
+        <div class="insta-tile"></div>
+        <div class="insta-tile"></div>
+        <div class="insta-tile"></div>
+        <div class="insta-tile"></div>
+        <div class="insta-tile"></div>
+        <div class="insta-tile"></div>
+        <div class="insta-tile"></div>
+      </div>
+      <div class="instagram-cta">
+        <a href="https://www.instagram.com/thobulizongs/" target="_blank" class="btn-primary">Seuraa Instagramissa</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="yhteydenotto">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info">
+          <p class="section-label">Ota yhteyttä</p>
+          <h2 class="section-title">Tilaa keikka</h2>
+          <div class="section-divider"></div>
+          <h3>Tehdään juhlista unohtumattomat </h3>
+          <p>Häät, syntymäpäivät, yritysjuhlat, pubillat — otamme kaiken. Lähetä tarjouspyyntö niin palaamme asiaan pikaisesti.</p>
+          <div class="contact-detail"><span class="contact-icon">️</span><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5831363e37182c30373a2d34312237363f2b763e31">[email&#160;protected]</a></span></div>
+          <div class="contact-detail"><span class="contact-icon"></span><span>Seinäjoki, Etelä-Pohjanmaa</span></div>
+          <div class="contact-detail">
+            <span class="contact-icon"></span>
+            <a href="https://www.instagram.com/thobulizongs/" target="_blank" style="color:inherit;text-decoration:none;">@thobulizongs</a>
+          </div>
+        </div>
+        <div class="contact-form">
+          <div class="form-row">
+            <div class="form-group"><label>Nimi *</label><input type="text" placeholder="Matti Meikäläinen" id="f-name" /></div>
+            <div class="form-group"><label>Puhelinnumero</label><input type="tel" placeholder="+358 40 123 4567" /></div>
+          </div>
+          <div class="form-group"><label>Sähköposti *</label><input type="email" placeholder="matti@example.fi" id="f-email" /></div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tilaisuuden tyyppi</label>
+              <select>
+                <option value="">Valitse...</option>
+                <option>Häät</option>
+                <option>Syntymäpäivät</option>
+                <option>Pub-ilta</option>
+                <option>Yritystapahtuma</option>
+                <option>Muu tilaisuus</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Toivottu päivämäärä</label><input type="date" /></div>
+          </div>
+          <div class="form-group"><label>Lisätietoja</label><textarea placeholder="Kerro lisää tilaisuudesta, paikasta ja toiveista..."></textarea></div>
+          <button class="btn-primary" onclick="submitForm()" style="align-self:flex-start;">Lähetä tarjouspyyntö</button>
+          <div id="form-msg" style="display:none;font-size:0.88rem;margin-top:0.3rem;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-logo">Thö Bulizongs</div>
+    <p class="footer-tagline">Tanssittavaa musiikkia · Seinäjoki</p>
+    <div class="footer-links">
+      <a href="#about">Bändi</a>
+      <a href="#keikkakalenteri">Keikat</a>
+      <a href="#musiikki">Musiikki</a>
+      <a href="https://www.instagram.com/thobulizongs/" target="_blank">Instagram</a>
+      <a href="#yhteydenotto">Yhteystiedot</a>
+    </div>
+    <p class="footer-copy">&copy; 2025 Thö Bulizongs. Kaikki oikeudet pidätetään.</p>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        }
+      });
+    }
+  </script>
+</footer>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    function submitForm() {
+      const name = document.getElementById('f-name').value;
+      const email = document.getElementById('f-email').value;
+      const msg = document.getElementById('form-msg');
+      if (!name || !email) {
+        msg.style.display = 'block';
+        msg.style.color = '#c0392b';
+        msg.textContent = 'Täy
