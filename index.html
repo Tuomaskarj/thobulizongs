@@ -479,6 +479,93 @@
 
     .reels-btn:hover { border-color: var(--accent); background: rgba(192,57,43,0.15); }
 
+    /* UUTISET */
+    #uutiset { background: var(--off-white); }
+
+    .uutiset-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .uutinen-card {
+      background: var(--white);
+      border: 1px solid #e0ddd8;
+      border-radius: 6px;
+      overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+
+    .uutinen-card:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.09);
+      transform: translateY(-3px);
+    }
+
+    .uutinen-kuva {
+      aspect-ratio: 16/9;
+      background: #e8e5e0;
+      overflow: hidden;
+    }
+
+    .uutinen-kuva img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .uutinen-kuva-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #e8e5e0;
+      color: #bbb;
+      font-size: 2rem;
+    }
+
+    .uutinen-body { padding: 1.2rem; }
+
+    .uutinen-pvm {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+
+    .uutinen-otsikko {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--black);
+      margin-bottom: 0.4rem;
+      line-height: 1.3;
+    }
+
+    .uutinen-excerpt {
+      font-size: 0.82rem;
+      color: var(--grey-light);
+      line-height: 1.6;
+    }
+
+    .uutiset-loading {
+      text-align: center;
+      padding: 3rem;
+      color: var(--grey-light);
+      font-size: 0.9rem;
+      grid-column: 1/-1;
+    }
+
+    @media (max-width: 768px) {
+      .uutiset-grid { grid-template-columns: 1fr; }
+    }
+
     /* INSTAGRAM */
     #instagram { background: var(--white); }
 
@@ -702,6 +789,7 @@
       <li><a href="#about">Bändi</a></li>
       <li><a href="setlista.html">Settilista</a></li>
       <li><a href="#keikkakalenteri">Keikat</a></li>
+      <li><a href="uutiset.html">Uutiset</a></li>
       <li><a href="#musiikki">Musiikki</a></li>
       <li><a href="#instagram">Instagram</a></li>
       <li><a href="#yhteydenotto" class="nav-cta">Tilaa keikka</a></li>
@@ -844,6 +932,20 @@
     </div>
   </section>
 
+  <section id="uutiset">
+    <div class="container">
+      <p class="section-label">Ajankohtaista</p>
+      <h2 class="section-title">Uutiset</h2>
+      <div class="section-divider"></div>
+      <div class="uutiset-grid" id="uutiset-grid">
+        <div class="uutiset-loading">Ladataan uutisia...</div>
+      </div>
+      <p style="text-align:center;" id="uutiset-linkki" style="display:none;">
+        <a href="uutiset.html" class="btn-primary">Kaikki uutiset →</a>
+      </p>
+    </div>
+  </section>
+
   <section id="instagram">
     <div class="container">
       <p class="section-label">Seuraa meitä</p>
@@ -920,6 +1022,77 @@
       <a href="#yhteydenotto">Yhteystiedot</a>
     </div>
     <p class="footer-copy">&copy; 2025 Thö Bulizongs. Kaikki oikeudet pidätetään.</p>
+  <script>
+    // Hakee uutiset GitHubista
+    const REPO = 'Tuomaskarj/thobulizongs';
+    const UUTISET_API = `https://api.github.com/repos/${REPO}/contents/_uutiset`;
+
+    function parseFrontmatter(text) {
+      const match = text.match(/^---\n([\s\S]*?)\n---/);
+      if (!match) return { body: text };
+      const fm = {};
+      match[1].split('\n').forEach(line => {
+        const [key, ...val] = line.split(':');
+        if (key) fm[key.trim()] = val.join(':').trim().replace(/^"|"$/g, '');
+      });
+      fm.body = text.replace(/^---\n[\s\S]*?\n---\n/, '').trim();
+      return fm;
+    }
+
+    function formatDate(str) {
+      if (!str) return '';
+      const d = new Date(str);
+      return d.toLocaleDateString('fi-FI', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+
+    async function lataauutiset() {
+      const grid = document.getElementById('uutiset-grid');
+      try {
+        const res = await fetch(UUTISET_API);
+        if (!res.ok) throw new Error('Ei uutisia');
+        const files = await res.json();
+
+        const mdFiles = files
+          .filter(f => f.name.endsWith('.md'))
+          .sort((a, b) => b.name.localeCompare(a.name))
+          .slice(0, 3);
+
+        if (mdFiles.length === 0) {
+          grid.innerHTML = '<div class="uutiset-loading">Uutisia ei vielä ole.</div>';
+          return;
+        }
+
+        const uutiset = await Promise.all(mdFiles.map(async f => {
+          const r = await fetch(f.download_url);
+          const text = await r.text();
+          return { ...parseFrontmatter(text), slug: f.name.replace('.md', '') };
+        }));
+
+        grid.innerHTML = uutiset.map(u => `
+          <a class="uutinen-card" href="uutiset.html#${u.slug}">
+            <div class="uutinen-kuva">
+              ${u.image
+                ? `<img src="${u.image}" alt="${u.title || ''}" />`
+                : `<div class="uutinen-kuva-placeholder">♪</div>`}
+            </div>
+            <div class="uutinen-body">
+              <div class="uutinen-pvm">${formatDate(u.date)}</div>
+              <div class="uutinen-otsikko">${u.title || 'Uutinen'}</div>
+              ${u.excerpt ? `<div class="uutinen-excerpt">${u.excerpt}</div>` : ''}
+            </div>
+          </a>
+        `).join('');
+
+        document.getElementById('uutiset-linkki').style.display = 'block';
+
+      } catch(e) {
+        grid.innerHTML = '<div class="uutiset-loading">Uutisia ei vielä ole — palataan pian!</div>';
+      }
+    }
+
+    lataauutiset();
+  </script>
+
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script>
     if (window.netlifyIdentity) {
