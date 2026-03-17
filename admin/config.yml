@@ -1,1 +1,21 @@
+backend:
+  name: git-gateway
+  branch: main
 
+media_folder: "kuvat"
+public_folder: "/kuvat"
+
+locale: fi
+
+collections:
+  - name: "uutiset"
+    label: "Uutiset"
+    folder: "_uutiset"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Otsikko", name: "title", widget: "string" }
+      - { label: "Päivämäärä", name: "date", widget: "datetime" }
+      - { label: "Lyhyt kuvaus", name: "excerpt", widget: "string", required: false }
+      - { label: "Kansikuva", name: "image", widget: "image", required: false }
+      - { label: "Sisältö", name: "body", widget: "markdown" }
