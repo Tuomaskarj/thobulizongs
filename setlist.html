@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settilista – Thö Bulizongs</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #1c1c1c;
+      --white: #ffffff;
+      --off-white: #f7f5f2;
+      --accent: #c0392b;
+      --accent-light: #e74c3c;
+      --grey-mid: #555;
+      --grey-light: #999;
+      --card-bg: #252525;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--off-white);
+      color: var(--black);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 1rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--black);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 900;
+      font-style: italic;
+      color: var(--white);
+      text-decoration: none;
+      text-shadow: 2px 2px 0px #000, 3px 3px 6px rgba(0,0,0,0.5);
+    }
+
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; align-items: center; }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      background: var(--accent) !important;
+      color: var(--white) !important;
+      padding: 0.45rem 1.1rem;
+      border-radius: 4px;
+    }
+
+    /* PAGE HEADER */
+    .page-header {
+      background: var(--black);
+      padding: 4rem 2rem 3rem;
+      text-align: center;
+    }
+
+    .page-header p {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 0.6rem;
+    }
+
+    .page-header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      font-style: italic;
+      color: var(--white);
+      text-shadow: 2px 2px 0 #000, 4px 4px 12px rgba(0,0,0,0.4);
+      margin-bottom: 0.8rem;
+    }
+
+    .page-header .sub {
+      color: rgba(255,255,255,0.5);
+      font-size: 0.95rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* FILTER TABS */
+    .filter-bar {
+      background: var(--white);
+      border-bottom: 1px solid #e0ddd8;
+      padding: 0 2rem;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      position: sticky;
+      top: 58px;
+      z-index: 90;
+    }
+
+    .filter-tab {
+      padding: 1rem 1.4rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--grey-mid);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: color 0.2s, border-color 0.2s;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .filter-tab:hover { color: var(--black); }
+    .filter-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 500; }
+
+    /* CONTENT */
+    main { max-width: 900px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+
+    .genre-section { margin-bottom: 3rem; }
+
+    .genre-section.hidden { display: none; }
+
+    .genre-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .genre-icon { font-size: 1.4rem; }
+
+    .genre-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--black);
+    }
+
+    .genre-count {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--grey-light);
+      margin-left: auto;
+    }
+
+    .song-list { border: 1px solid #e8e5e0; border-radius: 6px; overflow: hidden; }
+
+    .song-row {
+      display: grid;
+      grid-template-columns: 36px 1fr auto;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.9rem 1.2rem;
+      border-bottom: 1px solid #f0ede8;
+      transition: background 0.15s;
+    }
+
+    .song-row:last-child { border-bottom: none; }
+    .song-row:hover { background: #faf8f5; }
+
+    .song-num {
+      font-size: 0.78rem;
+      color: var(--grey-light);
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .song-info .title {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: 0.15rem;
+    }
+
+    .song-info .artist {
+      font-size: 0.8rem;
+      color: var(--grey-light);
+    }
+
+    .song-year {
+      font-size: 0.75rem;
+      color: #bbb;
+      white-space: nowrap;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--black);
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 900;
+      font-style: italic;
+      color: var(--white);
+      text-shadow: 2px 2px 0 #000;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-back {
+      color: rgba(255,255,255,0.4);
+      font-size: 0.82rem;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-back:hover { color: rgba(255,255,255,0.85); }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem; }
+      .nav-links { display: none; }
+      .song-row { grid-template-columns: 28px 1fr; }
+      .song-year { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Thö Bulizongs</a>
+    <ul class="nav-links">
+      <li><a href="index.html#about">Bändi</a></li>
+      <li><a href="index.html#keikkakalenteri">Keikat</a></li>
+      <li><a href="index.html#musiikki">Musiikki</a></li>
+      <li><a href="index.html#yhteydenotto" class="nav-cta">Tilaa keikka</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <p>Mitä soitamme</p>
+    <h1>Settilista</h1>
+    <p class="sub">50 kappaletta · Häihin, juhliin ja pubeihin</p>
+  </div>
+
+  <div class="filter-bar" id="filter-bar">
+    <button class="filter-tab active" onclick="filterGenre('kaikki', this)">Kaikki</button>
+    <button class="filter-tab" onclick="filterGenre('Suomalainen iskelmä', this)">Iskelmä</button>
+    <button class="filter-tab" onclick="filterGenre('Rock & Pop', this)">Rock & Pop</button>
+    <button class="filter-tab" onclick="filterGenre('Tanssi & Viihde', this)">Tanssi & Viihde</button>
+    <button class="filter-tab" onclick="filterGenre('Kansainväliset', this)">Kansainväliset</button>
+  </div>
+
+  <main id="main-content">
+    <div class="loading">Ladataan settilistaa...</div>
+  </main>
+
+  <footer>
+    <div class="footer-logo">Thö Bulizongs</div>
+    <br>
+    <a href="index.html" class="footer-back">← Takaisin etusivulle</a>
+  </footer>
+
+  <script>
+    const REPO = 'Tuomaskarj/thobulizongs';
+    const API = `https://api.github.com/repos/${REPO}/contents/_settilista`;
+
+    let kaikki = [];
+    let aktiivinenGenre = 'kaikki';
+
+    function parseFrontmatter(text) {
+      const match = text.match(/^---\n([\s\S]*?)\n---/);
+      if (!match) return {};
+      const fm = {};
+      match[1].split('\n').forEach(line => {
+        const [key, ...val] = line.split(':');
+        if (key) fm[key.trim()] = val.join(':').trim().replace(/^"|"$/g, '');
+      });
+      return fm;
+    }
+
+    const GENRE_SLUG = {
+      'Suomalainen iskelmä': 'iskelma',
+      'Rock & Pop': 'rock',
+      'Tanssi & Viihde': 'tanssi',
+      'Kansainväliset': 'kansainvalinen'
+    };
+
+    function renderLista(kappaleet) {
+      const main = document.getElementById('main-content');
+      const suodatettu = aktiivinenGenre === 'kaikki'
+        ? kappaleet
+        : kappaleet.filter(k => k.genre === aktiivinenGenre);
+
+      const genret = [...new Set(suodatettu.map(k => k.genre))].filter(Boolean);
+
+      if (genret.length === 0) {
+        main.innerHTML = '<div class="loading">Ei kappaleita.</div>';
+        return;
+      }
+
+      main.innerHTML = genret.map(genre => {
+        const kappaleetGenressa = suodatettu.filter(k => k.genre === genre);
+        return `
+          <div class="genre-section" data-genre="${GENRE_SLUG[genre] || genre}">
+            <div class="genre-header">
+              <span class="genre-title">${genre}</span>
+              <span class="genre-count">${kappaleetGenressa.length} kappaletta</span>
+            </div>
+            <div class="song-list">
+              ${kappaleetGenressa.map((k, i) => `
+                <div class="song-row">
+                  <div class="song-num">${i + 1}</div>
+                  <div class="song-info">
+                    <div class="title">${k.title || ''}</div>
+                    <div class="artist">${k.artist || ''}</div>
+                  </div>
+                  <div class="song-year">${k.year || ''}</div>
+                </div>`).join('')}
+            </div>
+          </div>`;
+      }).join('');
+
+      // Päivitä "Kaikki"-napin laskuri
+      document.querySelector('.filter-tab').textContent = `Kaikki (${kappaleet.length})`;
+    }
+
+    function filterGenre(genre, btn) {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      aktiivinenGenre = genre;
+      renderLista(kaikki);
+    }
+
+    async function lataaSettilista() {
+      const main = document.getElementById('main-content');
+      try {
+        const res = await fetch(API);
+        if (!res.ok) throw new Error();
+        const files = await res.json();
+
+        const mdFiles = files.filter(f => f.name.endsWith('.md'));
+
+        kaikki = await Promise.all(mdFiles.map(async f => {
+          const r = await fetch(f.download_url);
+          const text = await r.text();
+          return parseFrontmatter(text);
+        }));
+
+        kaikki.sort((a, b) => (a.title || '').localeCompare(b.title || '', 'fi'));
+        renderLista(kaikki);
+
+      } catch(e) {
+        main.innerHTML = '<div class="loading">Settilistaa ei juuri nyt löydy.</div>';
+      }
+    }
+
+    lataaSettilista();
+  </script>
+</body>
+</html>
