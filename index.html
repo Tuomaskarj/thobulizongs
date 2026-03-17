@@ -883,27 +883,8 @@
       <p class="section-label" style="color:rgba(255,255,255,0.4)">Missä esiinnymme</p>
       <h2 class="section-title">Tulevat keikat</h2>
       <div class="section-divider"></div>
-      <div class="events-list">
-        <div class="event-item">
-          <div class="event-date"><div class="day">14</div><div class="month">Kesä</div></div>
-          <div class="event-info"><h3>Kesäjuhlat – Seinäjoki</h3><p>Tornikahvila &nbsp;·&nbsp; klo 20:00</p></div>
-          <div class="event-tag">Yksityinen</div>
-        </div>
-        <div class="event-item">
-          <div class="event-date"><div class="day">22</div><div class="month">Kesä</div></div>
-          <div class="event-info"><h3>Häät – Lapua</h3><p>Lapuan juhlatila &nbsp;·&nbsp; klo 18:00</p></div>
-          <div class="event-tag">Häät</div>
-        </div>
-        <div class="event-item">
-          <div class="event-date"><div class="day">05</div><div class="month">Heinä</div></div>
-          <div class="event-info"><h3>Pub-ilta – Seinäjoen Panimoravintola</h3><p>Panimoravintola &nbsp;·&nbsp; klo 21:00 – 01:00</p></div>
-          <div class="event-tag">Avoin</div>
-        </div>
-        <div class="event-item">
-          <div class="event-date"><div class="day">19</div><div class="month">Heinä</div></div>
-          <div class="event-info"><h3>60-vuotissyntymäpäivät – Ilmajoki</h3><p>Yksityinen juhlatila &nbsp;·&nbsp; klo 17:00</p></div>
-          <div class="event-tag">Juhlat</div>
-        </div>
+      <div class="events-list" id="events-list">
+        <div style="text-align:center;padding:2rem;color:var(--grey-light);font-size:0.9rem;">Ladataan keikkoja...</div>
       </div>
     </div>
   </section>
@@ -1092,6 +1073,67 @@
     }
 
     lataauutiset();
+
+    // Hakee keikat GitHubista
+    const KEIKAT_API = `https://api.github.com/repos/${REPO}/contents/_keikat`;
+
+    const KUUKAUDET = ['Tammi','Helmi','Maalis','Huhti','Touko','Kesä','Heinä','Elo','Syys','Loka','Marras','Joulu'];
+
+    async function lataaKeikat() {
+      const list = document.getElementById('events-list');
+      try {
+        const res = await fetch(KEIKAT_API);
+        if (!res.ok) throw new Error();
+        const files = await res.json();
+
+        const mdFiles = files
+          .filter(f => f.name.endsWith('.md'))
+          .sort((a, b) => a.name.localeCompare(b.name));
+
+        if (mdFiles.length === 0) {
+          list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--grey-light);font-style:italic;">Ei tulevia keikkoja juuri nyt — seuraa Instagramia!</div>';
+          return;
+        }
+
+        const keikat = await Promise.all(mdFiles.map(async f => {
+          const r = await fetch(f.download_url);
+          const text = await r.text();
+          return parseFrontmatter(text);
+        }));
+
+        // Näytä vain tulevat keikat
+        const today = new Date(); today.setHours(0,0,0,0);
+        const tulevat = keikat.filter(k => k.date && new Date(k.date) >= today);
+
+        if (tulevat.length === 0) {
+          list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--grey-light);font-style:italic;">Ei tulevia keikkoja juuri nyt — seuraa Instagramia!</div>';
+          return;
+        }
+
+        list.innerHTML = tulevat.map(k => {
+          const d = new Date(k.date);
+          const day = d.getDate();
+          const month = KUUKAUDET[d.getMonth()];
+          return `
+            <div class="event-item">
+              <div class="event-date">
+                <div class="day">${String(day).padStart(2,'0')}</div>
+                <div class="month">${month}</div>
+              </div>
+              <div class="event-info">
+                <h3>${k.title || ''} – ${k.city || ''}</h3>
+                <p>${k.venue || ''}${k.time ? ' &nbsp;·&nbsp; klo ' + k.time : ''}${k.info ? ' &nbsp;·&nbsp; ' + k.info : ''}</p>
+              </div>
+              <div class="event-tag">${k.type || ''}</div>
+            </div>`;
+        }).join('');
+
+      } catch(e) {
+        list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--grey-light);font-style:italic;">Keikkoja ladataan...</div>';
+      }
+    }
+
+    lataaKeikat();
   </script>
 
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
