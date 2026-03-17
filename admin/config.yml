@@ -20,7 +20,18 @@ collections:
       - { label: "Kansikuva", name: "image", widget: "image", required: false }
       - { label: "Sisältö", name: "body", widget: "markdown" }
 
-  - name: "keikat"
+  - name: "settilista"
+    label: "Settilista"
+    folder: "_settilista"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} – {{artist}}"
+    fields:
+      - { label: "Kappaleen nimi", name: "title", widget: "string" }
+      - { label: "Esittäjä", name: "artist", widget: "string" }
+      - { label: "Vuosi", name: "year", widget: "string", required: false }
+      - { label: "Tyylilaji", name: "genre", widget: "select", options: ["Suomalainen iskelmä", "Rock & Pop", "Tanssi & Viihde", "Kansainväliset"] }
+
     label: "Keikat"
     folder: "_keikat"
     create: true
