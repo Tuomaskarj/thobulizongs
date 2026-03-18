@@ -212,23 +212,13 @@
     </div>
   </section>
 
-  <section id="instagram">
+  <section id="palautteet">
     <div class="container">
-      <p class="section-label">Seuraa meitä</p>
-      <h2 class="section-title">@thobulizongs</h2>
+      <p class="section-label">Mitä asiakkaat sanovat</p>
+      <h2 class="section-title">Palautteet</h2>
       <div class="section-divider"></div>
-      <div class="instagram-grid">
-        <div class="insta-tile"></div>
-        <div class="insta-tile"></div>
-        <div class="insta-tile"></div>
-        <div class="insta-tile"></div>
-        <div class="insta-tile"></div>
-        <div class="insta-tile"></div>
-        <div class="insta-tile"></div>
-        <div class="insta-tile"></div>
-      </div>
-      <div class="instagram-cta">
-        <a href="https://www.instagram.com/thobulizongs/" target="_blank" class="btn-primary">Seuraa Instagramissa</a>
+      <div class="palautteet-grid" id="palautteet-grid">
+        <div class="palautteet-loading">Ladataan palautteita...</div>
       </div>
     </div>
   </section>
@@ -404,6 +394,47 @@
     }
 
     lataaEtusivuSisalto();
+
+    // Hakee asiakaspalautteet GitHubista
+    const PALAUTTEET_API = `https://api.github.com/repos/${REPO}/contents/_palautteet`;
+
+    async function laataaPalautteet() {
+      const grid = document.getElementById('palautteet-grid');
+      if (!grid) return;
+      try {
+        const res = await fetch(PALAUTTEET_API);
+        if (!res.ok) throw new Error();
+        const files = await res.json();
+        const mdFiles = files.filter(f => f.name.endsWith('.md'));
+
+        const kaikki = await Promise.all(mdFiles.map(async f => {
+          const r = await fetch(f.download_url);
+          const text = await r.text();
+          return parseFrontmatter(text);
+        }));
+
+        // Näytä vain julkiset
+        const julkiset = kaikki.filter(p => p.julkinen === 'true' || p.julkinen === true);
+
+        if (julkiset.length === 0) {
+          grid.innerHTML = '<div class="palautteet-loading">Palautteet tulossa pian.</div>';
+          return;
+        }
+
+        grid.innerHTML = julkiset.map(p => `
+          <div class="palaute-card">
+            <div class="palaute-lainaus">"</div>
+            <p class="palaute-teksti">${p.palaute || ''}</p>
+            <div class="palaute-nimi">${p.nimi || ''}</div>
+            ${p.tilaisuus ? `<div class="palaute-tilaisuus">${p.tilaisuus}</div>` : ''}
+          </div>`).join('');
+
+      } catch(e) {
+        grid.innerHTML = '<div class="palautteet-loading">Palautteet tulossa pian.</div>';
+      }
+    }
+
+    laataaPalautteet();
 
     // Hakee featured-kappaleet etusivulle
     const SETTILISTA_API = `https://api.github.com/repos/${REPO}/contents/_settilista`;
