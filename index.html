@@ -117,7 +117,7 @@
     <div class="hero-content">
       <h1 class="hero-logo">Thö</h1>
       <p class="hero-logo-sub">Bulizongs</p>
-      <p class="hero-tagline">Häihin, juhliin ja kaikkiin illanistujaisiin </p>
+      <p class="hero-tagline">Tanssittavaa musiikkia — juhliin ja kaikkiin illanistujaisiin</p>
 
       <div class="hero-btns">
         <a href="#yhteydenotto" class="btn-primary">Tilaa keikka</a>
@@ -214,8 +214,8 @@
 
   <section id="palautteet">
     <div class="container">
-      <p class="section-label">Mitä asiakkaat sanovat</p>
-      <h2 class="section-title">Palautteet</h2>
+      <p class="section-label">Mitä meistä sanotaan</p>
+      <h2 class="section-title">Meistä kerrottua</h2>
       <div class="section-divider"></div>
       <div class="palautteet-grid" id="palautteet-grid">
         <div class="palautteet-loading">Ladataan palautteita...</div>
@@ -273,17 +273,6 @@
     </div>
   </section>
 
-  <footer>
-    <div class="footer-logo">Thö Bulizongs</div>
-    <p class="footer-tagline">Tanssittavaa musiikkia · Seinäjoki</p>
-    <div class="footer-links">
-      <a href="#about">Bändi</a>
-      <a href="#keikkakalenteri">Keikat</a>
-      <a href="#musiikki">Musiikki</a>
-      <a href="https://www.instagram.com/thobulizongs/" target="_blank">Instagram</a>
-      <a href="#yhteydenotto">Yhteystiedot</a>
-    </div>
-    <p class="footer-copy">&copy; 2025 Thö Bulizongs. Kaikki oikeudet pidätetään.</p>
   <script>
     // Hakee uutiset GitHubista
     const REPO = 'Tuomaskarj/thobulizongs';
@@ -387,7 +376,7 @@
     // Hakee asiakaspalautteet GitHubista
     const PALAUTTEET_API = `https://api.github.com/repos/${REPO}/contents/_palautteet`;
 
-    async function laataaPalautteet() {
+    async function laataaMeistä kerrottua() {
       const grid = document.getElementById('palautteet-grid');
       if (!grid) return;
       try {
@@ -406,7 +395,7 @@
         const julkiset = kaikki.filter(p => p.julkinen === 'true' || p.julkinen === true);
 
         if (julkiset.length === 0) {
-          grid.innerHTML = '<div class="palautteet-loading">Palautteet tulossa pian.</div>';
+          grid.innerHTML = '<div class="palautteet-loading">Meistä kerrottua tulossa pian.</div>';
           return;
         }
 
@@ -419,11 +408,11 @@
           </div>`).join('');
 
       } catch(e) {
-        grid.innerHTML = '<div class="palautteet-loading">Palautteet tulossa pian.</div>';
+        grid.innerHTML = '<div class="palautteet-loading">Meistä kerrottua tulossa pian.</div>';
       }
     }
 
-    laataaPalautteet();
+    laataaMeistä kerrottua();
 
     // Hakee featured-kappaleet etusivulle
     const SETTILISTA_API = `https://api.github.com/repos/${REPO}/contents/_settilista`;
@@ -651,5 +640,6 @@
       });
     }
   </script>
+  <script src="footer.js"></script>
 </body>
 </html>
