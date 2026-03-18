@@ -196,8 +196,15 @@
       font-weight: 900;
       line-height: 1.15;
       margin-bottom: 0.8rem;
-      color: var(--black);
+      color: var(--white);
     }
+
+    /* Vaaleat osiot — otsikko mustaksi */
+    #about .section-title,
+    #settilista-preview .section-title,
+    #uutiset .section-title,
+    #palautteet .section-title,
+    #yhteydenotto .section-title { color: var(--black) !important; }
 
     .section-divider {
       width: 48px;
