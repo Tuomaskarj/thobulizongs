@@ -8,6 +8,16 @@ public_folder: "/kuvat"
 locale: fi
 
 collections:
+  - name: "sivut"
+    label: "Sivujen sisältö"
+    files:
+      - name: "etusivu"
+        label: "Etusivu — Keitä me olemme"
+        file: "_sisalto/etusivu.md"
+        fields:
+          - { label: "Otsikko", name: "title", widget: "string", default: "Iloinen porukka Seinäjoelta" }
+          - { label: "Teksti", name: "body", widget: "markdown" }
+
   - name: "uutiset"
     label: "Uutiset"
     folder: "_uutiset"
