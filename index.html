@@ -43,7 +43,7 @@
       {
         "@type": "LocalBusiness",
         "name": "Thö Bulizongs",
-        "description": "Tanssittava orkesteri häihin, juhliin ja illanistujaisiin. Tilaa keikka tanssitakuulla.",
+        "description": "Tanssittava orkesteri häihin, juhliin ja illanistujaisiin. Tilaa keikka Seinäjoelta.",
         "url": "https://www.thobulizongs.fi",
         "telephone": "",
         "email": "info@thobulizongs.fi",
@@ -135,11 +135,11 @@
           <div id="about-body">
             <p>Thö Bulizongs on kuusihenkinen harrastebändi, jonka sydämessä sykkii aito rakkaus musiikkiin ja elämänmakuiseen menoon. Soitamme tuttuja kappaleita ja hyviä tulkintoja vuosikymmenten varrelta, sellaisia jotka saavat juhlaväen liikkeelle.</p>
             <p>Seinäjokinen autotallibändi perustettiin rakkaudesta musiikkiin ja soittamiseen. Bändi nauttii siitä, että saa viihdyttää, naurattaa, liikuttaa ja tanssittaa väkeä erilaisissa pidoissa.</p>
-            <p>Soitamme häissä, syntymäpäiväjuhlissa, pubeissa ja kaikissa tilaisuuksissa joihin meidät tilataan. Meillä on joka keikalla sama lupaus: <i>tanssitakuu.</i></p>
+            <p>Soitamme häissä, syntymäpäiväjuhlissa, pubeissa ja kaikissa tilaisuuksissa joihin meidät tilataan. Meillä on joka keikalla sama lupaus: tanssitakuu.</p>
           </div>
         </div>
         <div class="band-photo-wrap">
-          <img src="band-placeholder.jpg" alt="Thö Bulizongs bändikuva"
+          <img id="bandi-kuva" src="kuvat/bandi.jpg" alt="Thö Bulizongs bändikuva"
             onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
           <div class="band-photo-placeholder">
             <div>
@@ -221,48 +221,63 @@
     <div class="container">
       <h2 class="section-title">Tilaa keikka</h2>
       <div class="section-divider"></div>
-      <p style="color:#555;margin-bottom:2rem;max-width:560px;">Häät, syntymäpäivät, yritysjuhlat, pubillat — otamme kaiken. Lähetä tarjouspyyntö niin palaamme asiaan pikaisesti.</p>
-      <form class="contact-form" name="tilaa-keikka" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" id="keikka-form" style="max-width:640px;">
-        <input type="hidden" name="form-name" value="tilaa-keikka" />
-        <p style="display:none;"><input name="bot-field" /></p>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Nimi *</label>
-            <input type="text" name="nimi" placeholder="Matti Meikäläinen" required />
-          </div>
-          <div class="form-group">
-            <label>Puhelinnumero</label>
-            <input type="tel" name="puhelin" placeholder="+358 40 123 4567" />
+      <div class="yhteydenotto-grid">
+        <div class="yhteydenotto-form">
+          <p style="color:#555;margin-bottom:2rem;">Häät, syntymäpäivät, yritysjuhlat, pubillat — otamme kaiken. Lähetä tarjouspyyntö niin palaamme asiaan pikaisesti.</p>
+          <form class="contact-form" name="tilaa-keikka" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" id="keikka-form">
+            <input type="hidden" name="form-name" value="tilaa-keikka" />
+            <p style="display:none;"><input name="bot-field" /></p>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Nimi *</label>
+                <input type="text" name="nimi" placeholder="Matti Meikäläinen" required />
+              </div>
+              <div class="form-group">
+                <label>Puhelinnumero</label>
+                <input type="tel" name="puhelin" placeholder="+358 40 123 4567" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Sähköposti *</label>
+              <input type="email" name="sahkoposti" placeholder="matti@example.fi" required />
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Tilaisuuden tyyppi</label>
+                <select name="tyyppi">
+                  <option value="">Valitse...</option>
+                  <option>Häät</option>
+                  <option>Syntymäpäivät</option>
+                  <option>Pub-ilta</option>
+                  <option>Yritystapahtuma</option>
+                  <option>Muu tilaisuus</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Toivottu päivämäärä</label>
+                <input type="date" name="paivamaara" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Lisätietoja</label>
+              <textarea name="lisatiedot" placeholder="Kerro lisää tilaisuudesta, paikasta ja toiveista..."></textarea>
+            </div>
+            <button type="submit" class="btn-primary" style="align-self:flex-start;">Lähetä tarjouspyyntö</button>
+            <div id="form-msg" style="display:none;font-size:0.88rem;margin-top:0.8rem;"></div>
+          </form>
+        </div>
+        <div class="yhteydenotto-kuva">
+          <!-- Vaihda src oikeaan kuvaan: kuvat/keikka.jpg -->
+          <img id="keikka-kuva" src="kuvat/keikka.jpg" alt="Thö Bulizongs keikalla"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+          <div class="yhteydenotto-kuva-placeholder">
+            <div>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.3;margin-bottom:0.8rem;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+              <div style="font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;">Kuva tulossa</div>
+            </div>
           </div>
         </div>
-        <div class="form-group">
-          <label>Sähköposti *</label>
-          <input type="email" name="sahkoposti" placeholder="matti@example.fi" required />
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Tilaisuuden tyyppi</label>
-            <select name="tyyppi">
-              <option value="">Valitse...</option>
-              <option>Häät</option>
-              <option>Syntymäpäivät</option>
-              <option>Pub-ilta</option>
-              <option>Yritystapahtuma</option>
-              <option>Muu tilaisuus</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Toivottu päivämäärä</label>
-            <input type="date" name="paivamaara" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Lisätietoja</label>
-          <textarea name="lisatiedot" placeholder="Kerro lisää tilaisuudesta, paikasta ja toiveista..."></textarea>
-        </div>
-        <button type="submit" class="btn-primary" style="align-self:flex-start;">Lähetä tarjouspyyntö</button>
-        <div id="form-msg" style="display:none;font-size:0.88rem;margin-top:0.8rem;"></div>
-      </form>
+      </div>
     </div>
   </section>
 
@@ -366,12 +381,34 @@
         if (!res.ok) return;
         const text = await res.text();
         const fm = parseFrontmatter(text);
+
         if (fm.title) {
           document.getElementById('about-title').innerHTML = fm.title;
         }
         if (fm.body) {
           document.getElementById('about-body').innerHTML = markdownToHtml(fm.body);
         }
+
+        // Bändikuva about-osioon
+        if (fm.bandi_kuva) {
+          const img = document.getElementById('bandi-kuva');
+          if (img) {
+            img.src = fm.bandi_kuva;
+            img.style.display = 'block';
+            img.nextElementSibling.style.display = 'none';
+          }
+        }
+
+        // Keikkakuva yhteydenotto-osioon
+        if (fm.keikka_kuva) {
+          const img = document.getElementById('keikka-kuva');
+          if (img) {
+            img.src = fm.keikka_kuva;
+            img.style.display = 'block';
+            img.nextElementSibling.style.display = 'none';
+          }
+        }
+
       } catch(e) { /* Käytetään oletustekstiä */ }
     }
 
