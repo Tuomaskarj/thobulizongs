@@ -9,7 +9,7 @@ locale: fi
 
 collections:
   - name: "palautteet"
-    label: "Asiakaspalautteet"
+    label: "Meistä kerrottua"
     folder: "_palautteet"
     create: true
     slug: "{{slug}}"
@@ -29,6 +29,8 @@ collections:
         fields:
           - { label: "Otsikko", name: "title", widget: "string", default: "Iloinen porukka Seinäjoelta" }
           - { label: "Teksti", name: "body", widget: "markdown" }
+          - { label: "Bändikuva (keitä me olemme -osio)", name: "bandi_kuva", widget: "image", required: false }
+          - { label: "Keikkakuva (tilaa keikka -osio)", name: "keikka_kuva", widget: "image", required: false }
 
   - name: "uutiset"
     label: "Uutiset"
