@@ -43,7 +43,7 @@
       {
         "@type": "LocalBusiness",
         "name": "Thö Bulizongs",
-        "description": "Tanssittava orkesteri häihin, juhliin ja illanistujaisiin. Tilaa keikka Seinäjoelta.",
+        "description": "Tanssittava orkesteri häihin, juhliin ja illanistujaisiin. Tilaa keikka tanssitakuulla.",
         "url": "https://www.thobulizongs.fi",
         "telephone": "",
         "email": "info@thobulizongs.fi",
@@ -133,9 +133,9 @@
           <h2 class="section-title" id="about-title">Jalan alle menevää livemusiikkia — tanssitakuulla</h2>
           <div class="section-divider"></div>
           <div id="about-body">
-            <p>Thö Bulizongs on kuusihenkinen harrasteorkesteri, jonka sydämessä sykkii aito rakkaus musiikkiin ja elämänmakuiseen menoon. Soitamme tuttuja kappaleita ja hyviä tulkintoja — sellaisia jotka saavat väen liikkeelle.</p>
-            <p>Seinäjoelta liikkeelle. Bändi on perustettu siksi, että elämässä pitää olla musiikkia — ja mieluiten sellaista joka naurattaa, liikuttaa ja tanssittaa.</p>
-            <p>Soitamme häissä, syntymäpäiväjuhlissa, pubeissa ja kaikissa tilaisuuksissa joihin meidät tilataan. Joka keikalla sama lupaus: väki tanssii.</p>
+            <p>Thö Bulizongs on kuusihenkinen harrastebändi, jonka sydämessä sykkii aito rakkaus musiikkiin ja elämänmakuiseen menoon. Soitamme tuttuja kappaleita ja hyviä tulkintoja vuosikymmenten varrelta, sellaisia jotka saavat juhlaväen liikkeelle.</p>
+            <p>Seinäjokinen autotallibändi perustettiin rakkaudesta musiikkiin ja soittamiseen. Bändi nauttii siitä, että saa viihdyttää, naurattaa, liikuttaa ja tanssittaa väkeä erilaisissa pidoissa.</p>
+            <p>Soitamme häissä, syntymäpäiväjuhlissa, pubeissa ja kaikissa tilaisuuksissa joihin meidät tilataan. Meillä on joka keikalla sama lupaus: <i>tanssitakuu.</i></p>
           </div>
         </div>
         <div class="band-photo-wrap">
@@ -377,6 +377,7 @@
 
     function markdownToHtml(md) {
       return md
+        .replace(/\\\s*$/gm, '')
         .replace(/^## (.*)/gm, '<h3>$1</h3>')
         .replace(/^# (.*)/gm, '<h3>$1</h3>')
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
