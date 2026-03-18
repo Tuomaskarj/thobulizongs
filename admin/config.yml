@@ -33,6 +33,7 @@ collections:
       - { label: "Tyylilaji", name: "genre", widget: "select", options: ["Suomalainen iskelmä", "Rock & Pop", "Tanssi & Viihde", "Kansainväliset"] }
       - { label: "Näytä etusivulla", name: "featured", widget: "boolean", default: false, required: false }
 
+  - name: "keikat"
     label: "Keikat"
     folder: "_keikat"
     create: true
@@ -46,3 +47,15 @@ collections:
       - { label: "Kaupunki", name: "city", widget: "string" }
       - { label: "Tyyppi", name: "type", widget: "select", options: ["Avoin", "Häät", "Juhlat", "Yksityinen", "Yritystapahtuma"] }
       - { label: "Lisätietoja", name: "info", widget: "string", required: false }
+
+  - name: "videot"
+    label: "Videot"
+    folder: "_videot"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}}"
+    fields:
+      - { label: "Otsikko", name: "title", widget: "string", hint: "esim. Keikkatallenne 2024" }
+      - { label: "Kuvaus", name: "description", widget: "string", hint: "esim. Seinäjoki Summer Pub", required: false }
+      - { label: "YouTube URL", name: "youtube_url", widget: "string", hint: "esim. https://www.youtube.com/watch?v=VIDEOID" }
+      - { label: "Järjestys", name: "order", widget: "number", default: 1, hint: "1 = näytetään ensimmäisenä" }
