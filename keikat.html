@@ -52,15 +52,29 @@
       const match = text.match(/^---\n([\s\S]*?)\n---/);
       if (!match) return {};
       const fm = {};
-      match[1].split('\n').forEach(line => {
-        const [key, ...val] = line.split(':');
-        if (key) fm[key.trim()] = val.join(':').trim().replace(/^"|"$/g, '');
+      const lines = match[1].split('\n');
+      let currentKey = null;
+      lines.forEach(line => {
+        if (line.match(/^[a-zA-Z]/)) {
+          const colonIdx = line.indexOf(':');
+          if (colonIdx > -1) {
+            currentKey = line.slice(0, colonIdx).trim();
+            fm[currentKey] = line.slice(colonIdx + 1).trim().replace(/^"|"$/g, '');
+          }
+        } else if (currentKey && line.match(/^\s+/)) {
+          fm[currentKey] += ' ' + line.trim();
+        }
       });
       return fm;
     }
 
+    function parseDate(str) {
+      if (!str) return null;
+      return new Date(str.slice(0, 10) + 'T12:00:00');
+    }
+
     function eventItemHTML(k, mennyt = false) {
-      const d = new Date(k.date);
+      const d = parseDate(k.date);
       const day = String(d.getDate()).padStart(2, '0');
       const month = KUUKAUDET[d.getMonth()];
       const year = d.getFullYear();
@@ -103,12 +117,12 @@
         const today = new Date(); today.setHours(0,0,0,0);
 
         const tulevat = keikat
-          .filter(k => k.date && new Date(k.date) >= today)
-          .sort((a, b) => new Date(a.date) - new Date(b.date));
+          .filter(k => k.date && parseDate(k.date) >= today)
+          .sort((a, b) => parseDate(a.date) - parseDate(b.date));
 
         const menneet = keikat
-          .filter(k => k.date && new Date(k.date) < today)
-          .sort((a, b) => new Date(b.date) - new Date(a.date));
+          .filter(k => k.date && parseDate(k.date) < today)
+          .sort((a, b) => parseDate(b.date) - parseDate(a.date));
 
         // Render tulevat
         const listTulevat = document.getElementById('list-tulevat');
