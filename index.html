@@ -131,11 +131,13 @@
       <div class="about-grid">
         <div class="about-text">
           <p class="section-label">Keitä me olemme</p>
-          <h2 class="section-title">Iloinen porukka<br/>Seinäjoelta</h2>
+          <h2 class="section-title" id="about-title">Iloinen porukka<br/>Seinäjoelta</h2>
           <div class="section-divider"></div>
-          <p>Thö Bulizongs on kuusihenkinen harrasteorkesteri, jonka sydämessä sykkii aito rakkaus musiikkiin ja elämänmakuiseen menoon. Soitamme tuttuja kappaleita ja hyviä tulkintoja — sellaisia jotka saavat väen liikkeelle.</p>
-          <p>Seinäjoelta liikkeelle. Bändi on perustettu siksi, että elämässä pitää olla musiikkia — ja mieluiten sellaista joka naurattaa, liikuttaa ja tanssittaa.</p>
-          <p>Soitamme häissä, syntymäpäiväjuhlissa, pubeissa ja kaikissa tilaisuuksissa joihin meidät tilataan. Joka keikalla sama lupaus: väki tanssii. </p>
+          <div id="about-body">
+            <p>Thö Bulizongs on kuusihenkinen harrasteorkesteri, jonka sydämessä sykkii aito rakkaus musiikkiin ja elämänmakuiseen menoon. Soitamme tuttuja kappaleita ja hyviä tulkintoja — sellaisia jotka saavat väen liikkeelle.</p>
+            <p>Seinäjoelta liikkeelle. Bändi on perustettu siksi, että elämässä pitää olla musiikkia — ja mieluiten sellaista joka naurattaa, liikuttaa ja tanssittaa.</p>
+            <p>Soitamme häissä, syntymäpäiväjuhlissa, pubeissa ja kaikissa tilaisuuksissa joihin meidät tilataan. Joka keikalla sama lupaus: väki tanssii.</p>
+          </div>
         </div>
         <div class="band-photo-wrap">
           <img src="band-placeholder.jpg" alt="Thö Bulizongs bändikuva"
@@ -372,6 +374,36 @@
     }
 
     lataauutiset();
+
+    // Hakee "Keitä me olemme" -tekstin GitHubista
+    async function lataaEtusivuSisalto() {
+      try {
+        const res = await fetch(`https://raw.githubusercontent.com/${REPO}/main/_sisalto/etusivu.md`);
+        if (!res.ok) return;
+        const text = await res.text();
+        const fm = parseFrontmatter(text);
+        if (fm.title) {
+          document.getElementById('about-title').innerHTML = fm.title;
+        }
+        if (fm.body) {
+          document.getElementById('about-body').innerHTML = markdownToHtml(fm.body);
+        }
+      } catch(e) { /* Käytetään oletustekstiä */ }
+    }
+
+    function markdownToHtml(md) {
+      return md
+        .replace(/^## (.*)/gm, '<h3>$1</h3>')
+        .replace(/^# (.*)/gm, '<h3>$1</h3>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .split('\n\n')
+        .filter(p => p.trim())
+        .map(p => p.startsWith('<h') ? p : `<p>${p.replace(/\n/g, ' ')}</p>`)
+        .join('\n');
+    }
+
+    lataaEtusivuSisalto();
 
     // Hakee featured-kappaleet etusivulle
     const SETTILISTA_API = `https://api.github.com/repos/${REPO}/contents/_settilista`;
