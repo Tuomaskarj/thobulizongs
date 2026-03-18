@@ -18,26 +18,8 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { background: var(--off-white); color: var(--black); font-family: 'DM Sans', sans-serif; }
-
-    nav {
-      position: sticky; top: 0; z-index: 100;
-      padding: 1rem 2.5rem;
-      display: flex; align-items: center; justify-content: space-between;
-      background: var(--black);
-    }
-
-    .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem; font-weight: 900; font-style: italic;
-      color: var(--white); text-decoration: none;
-      text-shadow: 2px 2px 0px #000;
-    }
-
-    .nav-links { display: flex; gap: 1.8rem; list-style: none; align-items: center; }
-    .nav-links a { color: rgba(255,255,255,0.65); text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--white); }
-    .nav-cta { background: var(--accent) !important; color: var(--white) !important; padding: 0.45rem 1.1rem; border-radius: 4px; }
+    body {
+      padding-top: 58px; background: var(--off-white); color: var(--black); font-family: 'DM Sans', sans-serif; }
 
     .page-header {
       background: var(--black);
@@ -75,7 +57,8 @@
 
     .uutinen-full-kuva img { width: 100%; height: 100%; object-fit: cover; }
 
-    .uutinen-full-body { padding: 2rem; }
+    .uutinen-full-body {
+      padding-top: 58px; padding: 2rem; }
 
     .uutinen-pvm {
       font-size: 0.72rem; letter-spacing: 0.1em;
@@ -108,24 +91,87 @@
     .footer-back:hover { color: rgba(255,255,255,0.85); }
 
     @media (max-width: 600px) {
-      nav { padding: 1rem; }
-      .nav-links { display: none; }
     }
+
+    /* NAV */
+    nav#main-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--black);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; font-weight: 900; font-style: italic;
+      color: var(--white); text-decoration: none;
+      text-shadow: 2px 2px 0px #000, 3px 3px 6px rgba(0,0,0,0.5);
+      letter-spacing: 0.04em;
+    }
+
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; align-items: center; }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      background: var(--accent) !important;
+      color: var(--white) !important;
+      padding: 0.45rem 1.1rem;
+      border-radius: 4px;
+    }
+
+    .nav-cta:hover { background: var(--accent-light) !important; }
+
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+    }
+
+    @media (max-width: 768px) {
+      nav#main-nav { padding: 1rem 1.2rem; }
+      .nav-hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%; left: 0; right: 0;
+        background: var(--black);
+        flex-direction: column;
+        padding: 1rem 1.5rem 1.5rem;
+        gap: 1rem;
+        border-top: 1px solid rgba(255,255,255,0.08);
+      }
+      .nav-links.open { display: flex; }
+    }
+
   </style>
 </head>
 <body>
+  <script src="nav.js"></script>
 
-  <nav>
-    <a href="index.html" class="nav-logo">Thö Bulizongs</a>
-    <ul class="nav-links">
-      <li><a href="index.html">Etusivu</a></li>
-      <li><a href="bandi.html">Bändi</a></li>
-      <li><a href="keikat.html">Keikat</a></li>
-      <li><a href="setlista.html">Settilista</a></li>
-      <li><a href="uutiset.html">Uutiset</a></li>
-      <li><a href="index.html#yhteydenotto" class="nav-cta">Tilaa keikka</a></li>
-    </ul>
-  </nav>
 
   <div class="page-header">
     <p>Ajankohtaista</p>
