@@ -3,133 +3,643 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bändi – Thö Bulizongs</title>
+  <title>Thö Bulizongs – Tanssittava orkesteri Seinäjoelta</title>
+  <link rel="alternate" type="application/rss+xml" title="Thö Bulizongs – Uutiset" href="/feed.xml" />
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "MusicGroup",
+        "name": "Thö Bulizongs",
+        "url": "https://www.thobulizongs.fi",
+        "description": "Thö Bulizongs on kuusihenkinen harrasteorkesteri Seinäjoelta. Soitamme häissä, syntymäpäiväjuhlissa, pubeissa ja kaikissa tilaisuuksissa joihin meidät tilataan.",
+        "genre": ["Iskelmä", "Pop", "Rock", "Tanssimusiikki"],
+        "foundingLocation": {
+          "@type": "Place",
+          "name": "Seinäjoki",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Seinäjoki",
+            "addressRegion": "Etelä-Pohjanmaa",
+            "addressCountry": "FI"
+          }
+        },
+        "numberOfEmployees": {
+          "@type": "QuantitativeValue",
+          "value": 6
+        },
+        "sameAs": [
+          "https://www.instagram.com/thobulizongs/"
+        ],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "bookings",
+          "email": "info@thobulizongs.fi"
+        }
+      },
+      {
+        "@type": "LocalBusiness",
+        "name": "Thö Bulizongs",
+        "description": "Tanssittava orkesteri häihin, juhliin ja illanistujaisiin. Tilaa keikka Seinäjoelta.",
+        "url": "https://www.thobulizongs.fi",
+        "telephone": "",
+        "email": "info@thobulizongs.fi",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Seinäjoki",
+          "addressRegion": "Etelä-Pohjanmaa",
+          "addressCountry": "FI"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 62.7903,
+          "longitude": 22.8403
+        },
+        "areaServed": {
+          "@type": "State",
+          "name": "Etelä-Pohjanmaa"
+        },
+        "priceRange": "€€"
+      },
+      {
+        "@type": "Event",
+        "name": "Thö Bulizongs – Kesäjuhlat",
+        "startDate": "2025-06-14T20:00",
+        "location": {
+          "@type": "Place",
+          "name": "Tornikahvila",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Seinäjoki",
+            "addressCountry": "FI"
+          }
+        },
+        "performer": {
+          "@type": "MusicGroup",
+          "name": "Thö Bulizongs"
+        },
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode"
+      },
+      {
+        "@type": "Event",
+        "name": "Thö Bulizongs – Pub-ilta",
+        "startDate": "2025-07-05T21:00",
+        "endDate": "2025-07-06T01:00",
+        "location": {
+          "@type": "Place",
+          "name": "Seinäjoen Panimoravintola",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Seinäjoki",
+            "addressCountry": "FI"
+          }
+        },
+        "performer": {
+          "@type": "MusicGroup",
+          "name": "Thö Bulizongs"
+        },
+        "eventStatus": "https://schema.org/EventScheduled",
+        "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode"
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
   <script src="nav.js"></script>
 
 
-  <div class="page-header">
-    <p>Tutustuu meihin</p>
-    <h1>Bändi</h1>
-  </div>
+  <section id="hero">
+    <div class="hero-content">
+      <h1 class="hero-logo">Thö</h1>
+      <p class="hero-logo-sub">Bulizongs</p>
+      <p class="hero-tagline">Tanssittavaa musiikkia — juhliin ja kaikkiin illanistujaisiin</p>
 
-  <!-- HISTORIA -->
-  <section id="historia">
+      <div class="hero-btns">
+        <a href="#yhteydenotto" class="btn-primary">Tilaa keikka</a>
+        <a href="#keikkakalenteri" class="btn-secondary">Tulevat keikat</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
     <div class="container">
-      <div class="historia-grid">
-
-        <div class="historia-kuva">
-          <!-- Vaihda src oikeaan kuvaan: <img src="kuvat/bandi.jpg" alt="Thö Bulizongs"> -->
-          <img src="kuvat/bandi.jpg" alt="Thö Bulizongs"
-            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-          <div class="historia-kuva-placeholder">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-            Bändikuva tulossa
-          </div>
-        </div>
-
-        <div class="historia-teksti">
-          <p class="section-label">Meidän tarina</p>
-          <h2 class="section-title">Historia</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p class="section-label">Keitä me olemme</p>
+          <h2 class="section-title" id="about-title">Iloinen porukka<br/>Seinäjoelta</h2>
           <div class="section-divider"></div>
-          <!-- Teksti päivitetään tänne tai Decap CMS:n kautta -->
-          <p>Thö Bulizongs syntyi joukosta seinäjokisia muusikkoja, joita yhdisti yksi asia: rakkaus hyvään musiikkiin ja elämänmakuiseen menoon.</p>
-          <p>Bändi on soittanut lukuisissa häissä, syntymäpäiväjuhlissa, pubeissa ja yksityistilaisuuksissa ympäri Etelä-Pohjanmaata. Joka keikalla sama filosofia — väki tanssii ennen kuin ilta on ohi.</p>
-          <p>Nimi "Thö Bulizongs" kiteyttää bändin hengen: se on rento, se ei ota itseään liian vakavasti, mutta soittotaito on toinen juttu.</p>
+          <div id="about-body">
+            <p>Thö Bulizongs on kuusihenkinen harrasteorkesteri, jonka sydämessä sykkii aito rakkaus musiikkiin ja elämänmakuiseen menoon. Soitamme tuttuja kappaleita ja hyviä tulkintoja — sellaisia jotka saavat väen liikkeelle.</p>
+            <p>Seinäjoelta liikkeelle. Bändi on perustettu siksi, että elämässä pitää olla musiikkia — ja mieluiten sellaista joka naurattaa, liikuttaa ja tanssittaa.</p>
+            <p>Soitamme häissä, syntymäpäiväjuhlissa, pubeissa ja kaikissa tilaisuuksissa joihin meidät tilataan. Joka keikalla sama lupaus: väki tanssii.</p>
+          </div>
         </div>
-
+        <div class="band-photo-wrap">
+          <img src="band-placeholder.jpg" alt="Thö Bulizongs bändikuva"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+          <div class="band-photo-placeholder">
+            <div>
+              <div style="font-size:3rem;margin-bottom:0.8rem;"></div>
+              <div style="font-size:0.85rem;letter-spacing:0.1em;text-transform:uppercase;color:#aaa;">Bändikuva tulossa</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- JÄSENET -->
-  <section id="jasenet">
+  <section id="settilista-preview">
     <div class="container">
-      <p class="section-label">Tutustuu porukkaan</p>
-      <h2 class="section-title">Jäsenet</h2>
+      <p class="section-label">Mitä soitamme</p>
+      <h2 class="section-title">Settilista</h2>
       <div class="section-divider"></div>
+      <div class="setlist-preview-grid" id="setlist-preview-grid">
+        <div class="uutiset-loading">Ladataan settilistaa...</div>
+      </div>
+      <p style="text-align:center;">
+        <a href="setlista.html" class="btn-primary">Katso koko settilista →</a>
+      </p>
+    </div>
+  </section>
 
-      <div class="jasenet-grid">
+  <section id="keikkakalenteri" class="section-dark">
+    <div class="container">
+      <p class="section-label">Missä esiinnymme</p>
+      <h2 class="section-title">Tulevat keikat</h2>
+      <div class="section-divider"></div>
+      <div class="events-list" id="events-list">
+        <div style="text-align:center;padding:2rem;color:var(--grey-light);font-size:0.9rem;">Ladataan keikkoja...</div>
+      </div>
+      <p style="text-align:center;margin-top:1.5rem;">
+        <a href="keikat.html" style="color:rgba(255,255,255,0.5);font-size:0.85rem;text-decoration:none;letter-spacing:0.08em;border-bottom:1px solid rgba(255,255,255,0.2);padding-bottom:2px;">Katso kaikki keikat →</a>
+      </p>
+    </div>
+  </section>
 
-        <div class="jasen-card">
-          <div class="jasen-kuva">
-            <img src="kuvat/asko.jpg" alt="Asko Ristimäki"
-              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-            <div class="jasen-kuva-placeholder" style="display:none;">♪</div>
-          </div>
-          <div class="jasen-nimi">Asko "Akkeri" Ristimäki</div>
-          <div class="jasen-soitin">Lyömäsoitintaiteilija</div>
+  <section id="musiikki" class="section-dark">
+    <div class="container">
+      <p class="section-label">Kuuntele ja katso</p>
+      <h2 class="section-title">Musiikkia & videoja</h2>
+      <div class="section-divider"></div>
+      <div class="music-grid" id="music-grid">
+        <div class="video-card">
+          <div class="video-placeholder"><div class="play-icon">▶</div></div>
+          <div class="video-info"><h3>Ladataan...</h3><p></p></div>
         </div>
+      </div>
+      <p style="margin-top:2rem;text-align:center;">
+        <a href="https://www.youtube.com/@thobulizongs" target="_blank" class="btn-primary">Katso kaikki videot YouTubessa →</a>
+      </p>
+    </div>
+  </section>
 
-        <div class="jasen-card">
-          <div class="jasen-kuva">
-            <img src="kuvat/viivi.jpg" alt="Viivi"
-              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-            <div class="jasen-kuva-placeholder" style="display:none;">♪</div>
-          </div>
-          <div class="jasen-nimi">Viivi</div>
-          <div class="jasen-soitin">Basso</div>
-        </div>
+  <section id="uutiset">
+    <div class="container">
+      <p class="section-label">Ajankohtaista</p>
+      <h2 class="section-title">Uutiset</h2>
+      <div class="section-divider"></div>
+      <div class="uutiset-grid" id="uutiset-grid">
+        <div class="uutiset-loading">Ladataan uutisia...</div>
+      </div>
+      <p style="text-align:center;" id="uutiset-linkki" style="display:none;">
+        <a href="uutiset.html" class="btn-primary">Kaikki uutiset →</a>
+      </p>
+    </div>
+  </section>
 
-        <div class="jasen-card">
-          <div class="jasen-kuva">
-            <img src="kuvat/mustis.jpg" alt="Mustis"
-              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-            <div class="jasen-kuva-placeholder" style="display:none;">♪</div>
-          </div>
-          <div class="jasen-nimi">Mustis</div>
-          <div class="jasen-soitin">Koskettimet</div>
-        </div>
-
-        <div class="jasen-card">
-          <div class="jasen-kuva">
-            <img src="kuvat/jarmo.jpg" alt="Jarmo Haukilahti"
-              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-            <div class="jasen-kuva-placeholder" style="display:none;">♪</div>
-          </div>
-          <div class="jasen-nimi">Jarmo "Hauki" Haukilahti</div>
-          <div class="jasen-soitin">Kitara / Taustalaulu</div>
-        </div>
-
-        <div class="jasen-card">
-          <div class="jasen-kuva">
-            <img src="kuvat/timo.jpg" alt="Timo Ristimäki"
-              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-            <div class="jasen-kuva-placeholder" style="display:none;">♪</div>
-          </div>
-          <div class="jasen-nimi">Timo Ristimäki</div>
-          <div class="jasen-soitin">Laulu</div>
-        </div>
-
-        <div class="jasen-card">
-          <div class="jasen-kuva">
-            <img src="kuvat/mika.jpg" alt="Mika"
-              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-            <div class="jasen-kuva-placeholder" style="display:none;">♪</div>
-          </div>
-          <div class="jasen-nimi">Mika</div>
-          <div class="jasen-soitin">Kitara</div>
-        </div>
-
+  <section id="palautteet">
+    <div class="container">
+      <p class="section-label">Mitä meistä sanotaan</p>
+      <h2 class="section-title">Meistä kerrottua</h2>
+      <div class="section-divider"></div>
+      <div class="palautteet-grid" id="palautteet-grid">
+        <div class="palautteet-loading">Ladataan palautteita...</div>
       </div>
     </div>
   </section>
 
-  <footer>
-    <div class="footer-logo">Thö Bulizongs</div>
-    <p class="footer-tagline">Tanssittavaa musiikkia · Seinäjoki</p>
-    <div class="footer-links">
-      <a href="index.html">Etusivu</a>
-      <a href="index.html#keikkakalenteri">Keikat</a>
-      <a href="setlista.html">Settilista</a>
-      <a href="uutiset.html">Uutiset</a>
-      <a href="index.html#yhteydenotto">Yhteystiedot</a>
+  <section id="yhteydenotto">
+    <div class="container">
+      <p class="section-label">Ota yhteyttä</p>
+      <h2 class="section-title">Tilaa keikka</h2>
+      <div class="section-divider"></div>
+      <p style="color:#555;margin-bottom:2rem;max-width:560px;">Häät, syntymäpäivät, yritysjuhlat, pubillat — otamme kaiken. Lähetä tarjouspyyntö niin palaamme asiaan pikaisesti.</p>
+      <form class="contact-form" name="tilaa-keikka" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" id="keikka-form" style="max-width:640px;">
+        <input type="hidden" name="form-name" value="tilaa-keikka" />
+        <p style="display:none;"><input name="bot-field" /></p>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nimi *</label>
+            <input type="text" name="nimi" placeholder="Matti Meikäläinen" required />
+          </div>
+          <div class="form-group">
+            <label>Puhelinnumero</label>
+            <input type="tel" name="puhelin" placeholder="+358 40 123 4567" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Sähköposti *</label>
+          <input type="email" name="sahkoposti" placeholder="matti@example.fi" required />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Tilaisuuden tyyppi</label>
+            <select name="tyyppi">
+              <option value="">Valitse...</option>
+              <option>Häät</option>
+              <option>Syntymäpäivät</option>
+              <option>Pub-ilta</option>
+              <option>Yritystapahtuma</option>
+              <option>Muu tilaisuus</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Toivottu päivämäärä</label>
+            <input type="date" name="paivamaara" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Lisätietoja</label>
+          <textarea name="lisatiedot" placeholder="Kerro lisää tilaisuudesta, paikasta ja toiveista..."></textarea>
+        </div>
+        <button type="submit" class="btn-primary" style="align-self:flex-start;">Lähetä tarjouspyyntö</button>
+        <div id="form-msg" style="display:none;font-size:0.88rem;margin-top:0.8rem;"></div>
+      </form>
     </div>
-    <p class="footer-copy">&copy; 2025 Thö Bulizongs. Kaikki oikeudet pidätetään.</p>
-  </footer>
+  </section>
 
+  <script>
+    // Hakee uutiset GitHubista
+    const REPO = 'Tuomaskarj/thobulizongs';
+    const UUTISET_API = `https://api.github.com/repos/${REPO}/contents/_uutiset`;
+
+    function parseFrontmatter(text) {
+      const match = text.match(/^---\n([\s\S]*?)\n---/);
+      if (!match) return { body: text };
+      const fm = {};
+      match[1].split('\n').forEach(line => {
+        const [key, ...val] = line.split(':');
+        if (key) fm[key.trim()] = val.join(':').trim().replace(/^"|"$/g, '');
+      });
+      fm.body = text.replace(/^---\n[\s\S]*?\n---\n/, '').trim();
+      return fm;
+    }
+
+    function formatDate(str) {
+      if (!str) return '';
+      const d = new Date(str);
+      return d.toLocaleDateString('fi-FI', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+
+    async function lataauutiset() {
+      const grid = document.getElementById('uutiset-grid');
+      try {
+        const res = await fetch(UUTISET_API);
+        if (!res.ok) throw new Error('Ei uutisia');
+        const files = await res.json();
+
+        const mdFiles = files
+          .filter(f => f.name.endsWith('.md'))
+          .sort((a, b) => b.name.localeCompare(a.name))
+          .slice(0, 3);
+
+        if (mdFiles.length === 0) {
+          grid.innerHTML = '<div class="uutiset-loading">Uutisia ei vielä ole.</div>';
+          return;
+        }
+
+        const uutiset = await Promise.all(mdFiles.map(async f => {
+          const r = await fetch(f.download_url);
+          const text = await r.text();
+          return { ...parseFrontmatter(text), slug: f.name.replace('.md', '') };
+        }));
+
+        grid.innerHTML = uutiset.map(u => `
+          <a class="uutinen-card" href="uutiset.html#${u.slug}">
+            <div class="uutinen-kuva">
+              ${u.image
+                ? `<img src="${u.image}" alt="${u.title || ''}" />`
+                : `<div class="uutinen-kuva-placeholder">♪</div>`}
+            </div>
+            <div class="uutinen-body">
+              <div class="uutinen-pvm">${formatDate(u.date)}</div>
+              <div class="uutinen-otsikko">${u.title || 'Uutinen'}</div>
+              ${u.excerpt ? `<div class="uutinen-excerpt">${u.excerpt}</div>` : ''}
+            </div>
+          </a>
+        `).join('');
+
+        document.getElementById('uutiset-linkki').style.display = 'block';
+
+      } catch(e) {
+        grid.innerHTML = '<div class="uutiset-loading">Uutisia ei vielä ole — palataan pian!</div>';
+      }
+    }
+
+    lataauutiset();
+
+    // Hakee "Keitä me olemme" -tekstin GitHubista
+    async function lataaEtusivuSisalto() {
+      try {
+        const res = await fetch(`https://raw.githubusercontent.com/${REPO}/main/_sisalto/etusivu.md`);
+        if (!res.ok) return;
+        const text = await res.text();
+        const fm = parseFrontmatter(text);
+        if (fm.title) {
+          document.getElementById('about-title').innerHTML = fm.title;
+        }
+        if (fm.body) {
+          document.getElementById('about-body').innerHTML = markdownToHtml(fm.body);
+        }
+      } catch(e) { /* Käytetään oletustekstiä */ }
+    }
+
+    function markdownToHtml(md) {
+      return md
+        .replace(/^## (.*)/gm, '<h3>$1</h3>')
+        .replace(/^# (.*)/gm, '<h3>$1</h3>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .split('\n\n')
+        .filter(p => p.trim())
+        .map(p => p.startsWith('<h') ? p : `<p>${p.replace(/\n/g, ' ')}</p>`)
+        .join('\n');
+    }
+
+    lataaEtusivuSisalto();
+
+    // Hakee asiakaspalautteet GitHubista
+    const PALAUTTEET_API = `https://api.github.com/repos/${REPO}/contents/_palautteet`;
+
+    async function laataaMeistä kerrottua() {
+      const grid = document.getElementById('palautteet-grid');
+      if (!grid) return;
+      try {
+        const res = await fetch(PALAUTTEET_API);
+        if (!res.ok) throw new Error();
+        const files = await res.json();
+        const mdFiles = files.filter(f => f.name.endsWith('.md'));
+
+        const kaikki = await Promise.all(mdFiles.map(async f => {
+          const r = await fetch(f.download_url);
+          const text = await r.text();
+          return parseFrontmatter(text);
+        }));
+
+        // Näytä vain julkiset
+        const julkiset = kaikki.filter(p => p.julkinen === 'true' || p.julkinen === true);
+
+        if (julkiset.length === 0) {
+          grid.innerHTML = '<div class="palautteet-loading">Meistä kerrottua tulossa pian.</div>';
+          return;
+        }
+
+        grid.innerHTML = julkiset.map(p => `
+          <div class="palaute-card">
+            <div class="palaute-lainaus">"</div>
+            <p class="palaute-teksti">${p.palaute || ''}</p>
+            <div class="palaute-nimi">${p.nimi || ''}</div>
+            ${p.tilaisuus ? `<div class="palaute-tilaisuus">${p.tilaisuus}</div>` : ''}
+          </div>`).join('');
+
+      } catch(e) {
+        grid.innerHTML = '<div class="palautteet-loading">Meistä kerrottua tulossa pian.</div>';
+      }
+    }
+
+    laataaMeistä kerrottua();
+
+    // Hakee featured-kappaleet etusivulle
+    const SETTILISTA_API = `https://api.github.com/repos/${REPO}/contents/_settilista`;
+
+    async function lataaSettilistaPreview() {
+      const grid = document.getElementById('setlist-preview-grid');
+      if (!grid) return;
+      try {
+        const res = await fetch(SETTILISTA_API);
+        if (!res.ok) throw new Error();
+        const files = await res.json();
+        const mdFiles = files.filter(f => f.name.endsWith('.md'));
+
+        const kappaleet = await Promise.all(mdFiles.map(async f => {
+          const r = await fetch(f.download_url);
+          const text = await r.text();
+          return parseFrontmatter(text);
+        }));
+
+        // Suodata featured-kappaleet
+        const featured = kappaleet.filter(k => k.featured === 'true' || k.featured === true);
+
+        if (featured.length === 0) {
+          grid.innerHTML = '<div class="uutiset-loading">Settilista päivitetään pian.</div>';
+          return;
+        }
+
+        // Ryhmittele genren mukaan
+        const genret = {};
+        featured.forEach(k => {
+          const g = k.genre || 'Muut';
+          if (!genret[g]) genret[g] = [];
+          genret[g].push(k);
+        });
+
+        grid.innerHTML = Object.entries(genret).map(([genre, lista]) => `
+          <div class="setlist-genre-block">
+            <h3>${genre}</h3>
+            <ul>
+              ${lista.map(k => `<li>${k.title} <span>${k.artist}</span></li>`).join('')}
+            </ul>
+          </div>`).join('');
+
+      } catch(e) {
+        // Jos settilista on tyhjä, piilota koko osio
+        const section = document.getElementById('settilista-preview');
+        if (section) section.style.display = 'none';
+      }
+    }
+
+    lataaSettilistaPreview();
+
+    // Hakee videot GitHubista
+    const VIDEOT_API = `https://api.github.com/repos/${REPO}/contents/_videot`;
+
+    function youtubeEmbed(url) {
+      const match = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+      return match ? match[1] : null;
+    }
+
+    async function lataaVideot() {
+      const grid = document.getElementById('music-grid');
+      if (!grid) return;
+      try {
+        const res = await fetch(VIDEOT_API);
+        if (!res.ok) throw new Error();
+        const files = await res.json();
+        const mdFiles = files.filter(f => f.name.endsWith('.md'));
+
+        const videot = await Promise.all(mdFiles.map(async f => {
+          const r = await fetch(f.download_url);
+          const text = await r.text();
+          return parseFrontmatter(text);
+        }));
+
+        const jarjestetty = videot
+          .sort((a, b) => (parseInt(a.order) || 99) - (parseInt(b.order) || 99))
+          .slice(0, 3);
+
+        if (jarjestetty.length === 0) {
+          grid.innerHTML = `
+            <div class="video-card"><div class="video-placeholder"><div class="play-icon">▶</div></div><div class="video-info"><h3>Videot tulossa</h3><p>Lisää videoita hallintapaneelista</p></div></div>`;
+          return;
+        }
+
+        grid.innerHTML = jarjestetty.map(v => {
+          const videoId = youtubeEmbed(v.youtube_url || '');
+          return `
+            <div class="video-card">
+              <div class="video-placeholder">
+                ${videoId
+                  ? `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen title="${v.title || ''}"></iframe>`
+                  : `<div class="play-icon">▶</div>`}
+              </div>
+              <div class="video-info">
+                <h3>${v.title || 'Video'}</h3>
+                <p>${v.description || ''}</p>
+              </div>
+            </div>`;
+        }).join('');
+
+      } catch(e) {
+        // Näytä placeholder jos ei videoita
+        grid.innerHTML = `
+          <div class="video-card"><div class="video-placeholder"><div class="play-icon">▶</div></div><div class="video-info"><h3>Keikkatallenne</h3><p>Tulossa pian</p></div></div>
+          <div class="video-card"><div class="video-placeholder"><div class="play-icon">▶</div></div><div class="video-info"><h3>Häätallenne</h3><p>Tulossa pian</p></div></div>
+          <div class="video-card"><div class="video-placeholder"><div class="play-icon">▶</div></div><div class="video-info"><h3>Studio session</h3><p>Tulossa pian</p></div></div>`;
+      }
+    }
+
+    lataaVideot();
+
+    // Hakee keikat GitHubista
+    const KEIKAT_API = `https://api.github.com/repos/${REPO}/contents/_keikat`;
+
+    const KUUKAUDET = ['Tammi','Helmi','Maalis','Huhti','Touko','Kesä','Heinä','Elo','Syys','Loka','Marras','Joulu'];
+
+    async function lataaKeikat() {
+      const list = document.getElementById('events-list');
+      try {
+        const res = await fetch(KEIKAT_API);
+        if (!res.ok) throw new Error();
+        const files = await res.json();
+
+        const mdFiles = files
+          .filter(f => f.name.endsWith('.md'))
+          .sort((a, b) => a.name.localeCompare(b.name));
+
+        if (mdFiles.length === 0) {
+          list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--grey-light);font-style:italic;">Ei tulevia keikkoja juuri nyt — <a href="#yhteydenotto" style="color:var(--white);text-decoration:underline;">varaa meidät esiintymään täältä</a></div>';
+          return;
+        }
+
+        const keikat = await Promise.all(mdFiles.map(async f => {
+          const r = await fetch(f.download_url);
+          const text = await r.text();
+          return parseFrontmatter(text);
+        }));
+
+        // Näytä vain tulevat keikat
+        const today = new Date(); today.setHours(0,0,0,0);
+        const tulevat = keikat.filter(k => k.date && new Date(k.date) >= today);
+
+        if (tulevat.length === 0) {
+          list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--grey-light);font-style:italic;">Ei tulevia keikkoja juuri nyt — <a href="#yhteydenotto" style="color:var(--white);text-decoration:underline;">varaa meidät esiintymään täältä</a></div>';
+          return;
+        }
+
+        list.innerHTML = tulevat.map(k => {
+          const d = new Date(k.date);
+          const day = d.getDate();
+          const month = KUUKAUDET[d.getMonth()];
+          return `
+            <div class="event-item">
+              <div class="event-date">
+                <div class="day">${String(day).padStart(2,'0')}</div>
+                <div class="month">${month}</div>
+              </div>
+              <div class="event-info">
+                <h3>${k.title || ''} – ${k.city || ''}</h3>
+                <p>${k.venue || ''}${k.time ? ' &nbsp;·&nbsp; klo ' + k.time : ''}${k.info ? ' &nbsp;·&nbsp; ' + k.info : ''}</p>
+              </div>
+              <div class="event-tag">${k.type || ''}</div>
+            </div>`;
+        }).join('');
+
+      } catch(e) {
+        list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--grey-light);font-style:italic;">Ei tulevia keikkoja juuri nyt — <a href="#yhteydenotto" style="color:var(--white);text-decoration:underline;">varaa meidät esiintymään täältä</a></div>';
+      }
+    }
+
+    lataaKeikat();
+  </script>
+
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        }
+      });
+    }
+  </script>
+
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        }
+      });
+    }
+
+    // Netlify Forms AJAX-lähetys
+    const form = document.getElementById('keikka-form');
+    if (form) {
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const msg = document.getElementById('form-msg');
+        const btn = form.querySelector('button[type="submit"]');
+        btn.textContent = 'Lähetetään...';
+        btn.disabled = true;
+        try {
+          const data = new FormData(form);
+          await fetch('/', { method: 'POST', body: new URLSearchParams(data).toString(), headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
+          msg.style.display = 'block';
+          msg.style.color = '#fff';
+          msg.textContent = 'Kiitos! Otamme yhteyttä pian.';
+          form.reset();
+          btn.textContent = 'Lähetä tarjouspyyntö';
+          btn.disabled = false;
+        } catch(e) {
+          msg.style.display = 'block';
+          msg.style.color = '#f88';
+          msg.textContent = 'Jokin meni pieleen. Kokeile uudelleen tai lähetä sähköpostia suoraan.';
+          btn.textContent = 'Lähetä tarjouspyyntö';
+          btn.disabled = false;
+        }
+      });
+    }
+  </script>
+  <script src="footer.js"></script>
 </body>
 </html>
