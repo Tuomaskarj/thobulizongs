@@ -247,16 +247,27 @@
             <a href="https://www.instagram.com/thobulizongs/" target="_blank" style="color:inherit;text-decoration:none;">@thobulizongs</a>
           </div>
         </div>
-        <div class="contact-form">
+        <form class="contact-form" name="tilaa-keikka" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" id="keikka-form">
+          <input type="hidden" name="form-name" value="tilaa-keikka" />
+          <p style="display:none;"><input name="bot-field" /></p>
           <div class="form-row">
-            <div class="form-group"><label>Nimi *</label><input type="text" placeholder="Matti Meikäläinen" id="f-name" /></div>
-            <div class="form-group"><label>Puhelinnumero</label><input type="tel" placeholder="+358 40 123 4567" /></div>
+            <div class="form-group">
+              <label>Nimi *</label>
+              <input type="text" name="nimi" placeholder="Matti Meikäläinen" required />
+            </div>
+            <div class="form-group">
+              <label>Puhelinnumero</label>
+              <input type="tel" name="puhelin" placeholder="+358 40 123 4567" />
+            </div>
           </div>
-          <div class="form-group"><label>Sähköposti *</label><input type="email" placeholder="matti@example.fi" id="f-email" /></div>
+          <div class="form-group">
+            <label>Sähköposti *</label>
+            <input type="email" name="sahkoposti" placeholder="matti@example.fi" required />
+          </div>
           <div class="form-row">
             <div class="form-group">
               <label>Tilaisuuden tyyppi</label>
-              <select>
+              <select name="tyyppi">
                 <option value="">Valitse...</option>
                 <option>Häät</option>
                 <option>Syntymäpäivät</option>
@@ -265,12 +276,18 @@
                 <option>Muu tilaisuus</option>
               </select>
             </div>
-            <div class="form-group"><label>Toivottu päivämäärä</label><input type="date" /></div>
+            <div class="form-group">
+              <label>Toivottu päivämäärä</label>
+              <input type="date" name="paivamaara" />
+            </div>
           </div>
-          <div class="form-group"><label>Lisätietoja</label><textarea placeholder="Kerro lisää tilaisuudesta, paikasta ja toiveista..."></textarea></div>
-          <button class="btn-primary" onclick="submitForm()" style="align-self:flex-start;">Lähetä tarjouspyyntö</button>
-          <div id="form-msg" style="display:none;font-size:0.88rem;margin-top:0.3rem;"></div>
-        </div>
+          <div class="form-group">
+            <label>Lisätietoja</label>
+            <textarea name="lisatiedot" placeholder="Kerro lisää tilaisuudesta, paikasta ja toiveista..."></textarea>
+          </div>
+          <button type="submit" class="btn-primary" style="align-self:flex-start;">Lähetä tarjouspyyntö</button>
+          <div id="form-msg" style="display:none;font-size:0.88rem;margin-top:0.8rem;"></div>
+        </form>
       </div>
     </div>
   </section>
@@ -541,14 +558,46 @@
       });
     }
   </script>
-</footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    function submitForm() {
-      const name = document.getElementById('f-name').value;
-      const email = document.getElementById('f-email').value;
-      const msg = document.getElementById('form-msg');
-      if (!name || !email) {
-        msg.style.display = 'block';
-        msg.style.color = '#c0392b';
-        msg.textContent = 'Täy
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        }
+      });
+    }
+
+    // Netlify Forms AJAX-lähetys
+    const form = document.getElementById('keikka-form');
+    if (form) {
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const msg = document.getElementById('form-msg');
+        const btn = form.querySelector('button[type="submit"]');
+        btn.textContent = 'Lähetetään...';
+        btn.disabled = true;
+        try {
+          const data = new FormData(form);
+          await fetch('/', { method: 'POST', body: new URLSearchParams(data).toString(), headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
+          msg.style.display = 'block';
+          msg.style.color = '#fff';
+          msg.textContent = 'Kiitos! Otamme yhteyttä pian.';
+          form.reset();
+          btn.textContent = 'Lähetä tarjouspyyntö';
+          btn.disabled = false;
+        } catch(e) {
+          msg.style.display = 'block';
+          msg.style.color = '#f88';
+          msg.textContent = 'Jokin meni pieleen. Kokeile uudelleen tai lähetä sähköpostia suoraan.';
+          btn.textContent = 'Lähetä tarjouspyyntö';
+          btn.disabled = false;
+        }
+      });
+    }
+  </script>
+</body>
+</html>
