@@ -9,5 +9,3 @@ liikkeelle.
 Seinäjokelainen autotallibändi perustettiin rakkaudesta musiikkiin ja soittamiseen. Bändi nauttii siitä, että saa viihdyttää, naurattaa, liikuttaa ja tanssittaa väkeä erilaisissa pidoissa.
 
 Soitamme häissä, syntymäpäiväjuhlissa, pubeissa ja kaikissa tilaisuuksissa joihin meidät tilataan. Meillä on joka keikalla sama lupaus: *tanssitakuu*.
-
-\
