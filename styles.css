@@ -330,7 +330,15 @@
     /* REELS SLIDER */
     #musiikki { background: var(--black); }
 
-    .music-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
+    .music-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+    }
+
+    @media (max-width: 768px) {
+      .music-grid { grid-template-columns: 1fr; }
+    }
 
     .video-card {
       background: #111;
