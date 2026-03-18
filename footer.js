@@ -2,6 +2,8 @@
 // Muuta tätä tiedostoa → muutos näkyy kaikilla sivuilla
 
 (function() {
+  const vuosi = new Date().getFullYear();
+
   const html = `
     <footer>
       <div class="footer-logo">Thö Bulizongs</div>
@@ -14,9 +16,7 @@
         <a href="uutiset.html">Uutiset</a>
         <a href="index.html#yhteydenotto">Yhteystiedot</a>
       </div>
-      <p class="footer-copy">
-        <script>document.write("&copy; " + new Date().getFullYear() + " Thö Bulizongs")</script>
-      </p>
+      <p class="footer-copy">© ${vuosi} Thö Bulizongs</p>
     </footer>
   `;
 
