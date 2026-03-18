@@ -187,8 +187,6 @@
       margin-bottom: 2.5rem;
     }
 
-    .section-dark .section-divider { background: var(--white); }
-
     /* ABOUT */
     #about { background: var(--off-white); }
 
