@@ -320,6 +320,46 @@
     #musiikki .section-title { color: var(--white); }
     #musiikki .section-divider { background: var(--white); }
 
+    .music-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
+
+    .video-card {
+      background: #111;
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 6px;
+      overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .video-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.4); transform: translateY(-3px); }
+
+    .video-placeholder {
+      aspect-ratio: 16/9;
+      background: #1a1a1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .video-placeholder iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+
+    .play-icon {
+      width: 52px; height: 52px;
+      background: var(--white);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--black);
+      font-size: 1rem;
+      padding-left: 3px;
+    }
+
+    .video-info { padding: 1rem 1.2rem; }
+    .video-info h3 { font-weight: 500; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--white); }
+    .video-info p { font-size: 0.8rem; color: var(--grey-light); }
+
     .reels-wrapper {
       position: relative;
     }
@@ -405,7 +445,12 @@
       padding: 0 1rem;
     }
 
-    .reels-
+    .reels-nav {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
 
     .reels-btn {
       width: 38px; height: 38px;
