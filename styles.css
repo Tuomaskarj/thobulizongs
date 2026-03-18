@@ -1785,3 +1785,49 @@
 .genre-title { color: var(--black) !important; }
 .genre-count { color: var(--grey-light) !important; }
 .song-list { background: var(--white) !important; border: 1px solid #e8e5e0 !important; }
+
+
+/* YHTEYDENOTTO — form + kuva */
+.yhteydenotto-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.yhteydenotto-kuva {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  background: #e0ddd8;
+  top: 2rem;
+}
+
+.yhteydenotto-kuva img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.yhteydenotto-kuva-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e8e5e0;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .yhteydenotto-grid {
+    grid-template-columns: 1fr;
+  }
+  .yhteydenotto-kuva {
+    aspect-ratio: 16/9;
+    top: 0;
+    order: -1;
+  }
+}
