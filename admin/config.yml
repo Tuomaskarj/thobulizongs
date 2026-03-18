@@ -8,6 +8,18 @@ public_folder: "/kuvat"
 locale: fi
 
 collections:
+  - name: "palautteet"
+    label: "Asiakaspalautteet"
+    folder: "_palautteet"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{nimi}} – {{tilaisuus}}"
+    fields:
+      - { label: "Asiakkaan nimi", name: "nimi", widget: "string" }
+      - { label: "Tilaisuus", name: "tilaisuus", widget: "string", hint: "esim. Häät, Syntymäpäivät", required: false }
+      - { label: "Palaute", name: "palaute", widget: "text" }
+      - { label: "Julkinen", name: "julkinen", widget: "boolean", default: false, hint: "Näkyy sivustolla vain jos julkinen" }
+
   - name: "sivut"
     label: "Sivujen sisältö"
     files:
