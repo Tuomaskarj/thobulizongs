@@ -1741,3 +1741,47 @@
 /* Uutiset-sivu */
 .uutinen-otsikko { color: var(--black) !important; }
 .uutinen-teksti { color: #444 !important; }
+
+
+/* ════════════════════════════════════════
+   LOPULLISET VÄRIKORJAUKSET
+════════════════════════════════════════ */
+
+/* Etusivu: Tulevat keikat — musta teksti vaalealla taustalla */
+#keikkakalenteri .event-item {
+  background: #111 !important;
+}
+#keikkakalenteri .event-info h3 { color: var(--white) !important; }
+#keikkakalenteri .event-info p  { color: var(--grey-light) !important; }
+#keikkakalenteri .event-date .day { color: var(--white) !important; }
+#keikkakalenteri .event-date .month { color: var(--grey-light) !important; }
+#keikkakalenteri .event-item:hover { background: #1a1a1a !important; border-left-color: var(--white) !important; }
+
+/* Keikat-sivu: event-itemit vaalealla taustalla */
+#tab-tulevat .event-item,
+#tab-menneet .event-item {
+  background: var(--white) !important;
+  border: 1px solid #e0ddd8 !important;
+}
+#tab-tulevat .event-info h3,
+#tab-menneet .event-info h3 { color: var(--black) !important; }
+#tab-tulevat .event-info p,
+#tab-menneet .event-info p  { color: var(--grey-mid) !important; }
+#tab-tulevat .event-date .day,
+#tab-menneet .event-date .day { color: var(--black) !important; }
+#tab-tulevat .event-item:hover,
+#tab-menneet .event-item:hover { background: #f7f5f2 !important; border-left-color: var(--black) !important; }
+
+/* Bändi-sivu: jäsen-soitin */
+.jasen-soitin { color: var(--grey-mid) !important; }
+
+/* Settilista-sivu: song-row vaalealla taustalla */
+.song-row { background: var(--white) !important; }
+.song-row:hover { background: #f7f5f2 !important; }
+.song-info .title { color: var(--black) !important; }
+.song-info .artist { color: var(--grey-light) !important; }
+.song-num { color: var(--grey-light) !important; }
+.song-year { color: #bbb !important; }
+.genre-title { color: var(--black) !important; }
+.genre-count { color: var(--grey-light) !important; }
+.song-list { background: var(--white) !important; border: 1px solid #e8e5e0 !important; }
