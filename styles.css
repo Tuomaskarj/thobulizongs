@@ -1597,3 +1597,62 @@
       }
       .nav-links.open { display: flex; }
     }
+
+/* ════════════════════════════════════════
+   MOBIILIKORJAUKSET — kaikki sivut
+════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+
+  /* Settilista-preview etusivulla */
+  .setlist-preview-grid { grid-template-columns: 1fr !important; }
+
+  /* Jäsenet 2 saraketta mobiilissa */
+  .jasenet-grid { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* Uutiset 1 sarake */
+  .uutiset-grid { grid-template-columns: 1fr !important; }
+
+  /* Palautteet 1 sarake */
+  .palautteet-grid { grid-template-columns: 1fr !important; }
+
+  /* Videot 1 sarake */
+  .music-grid { grid-template-columns: 1fr !important; }
+
+  /* Reels — pienemmät kortit mobiilissa */
+  .reel-card { flex: 0 0 220px; }
+
+  /* Hero padding pienempi */
+  #hero { padding: 4rem 1.5rem 3rem; }
+
+  /* Section padding pienempi */
+  section { padding: 3rem 1.2rem; }
+
+  /* Lomakkeen rivit yhdeksi */
+  .form-row { grid-template-columns: 1fr !important; }
+
+  /* Keikkarivit ilman tagia */
+  .event-item { grid-template-columns: 65px 1fr !important; }
+  .event-tag { display: none; }
+
+  /* Historia-grid */
+  .historia-grid { grid-template-columns: 1fr !important; gap: 2rem; }
+
+  /* Page header pienempi */
+  .page-header { padding: 3rem 1.5rem 2rem; }
+
+  /* Footer linkit pienemmällä välillä */
+  .footer-links { gap: 1rem; }
+
+  /* Container täyteen leveyteen */
+  .container { padding: 0 0.5rem; }
+}
+
+@media (max-width: 480px) {
+  /* Jäsenet 2 saraketta myös pienellä */
+  .jasenet-grid { grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* Hero fontti */
+  .hero-btns { flex-direction: column; align-items: center; }
+  .btn-primary, .btn-secondary { width: 100%; text-align: center; }
+}
