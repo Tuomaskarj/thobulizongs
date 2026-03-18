@@ -24,7 +24,7 @@
 
     body {
       padding-top: 0;
-      background: var(--off-white);
+      background: var(--black);
       color: var(--black);
       font-family: 'DM Sans', sans-serif;
       font-weight: 400;
@@ -33,7 +33,7 @@
 
     /* HERO */
     #hero {
-      min-height: 100svh;
+      min-height: 82svh;
       background: var(--black);
       display: flex;
       flex-direction: column;
@@ -90,20 +90,10 @@
     .hero-tagline {
       font-size: clamp(1rem, 2.5vw, 1.2rem);
       color: rgba(255,255,255,0.75);
-      margin-bottom: 0.5rem;
+      margin-bottom: 1.2rem;
       opacity: 0;
       animation: fadeUp 0.7s 0.55s forwards;
       font-weight: 300;
-    }
-
-    .hero-sub {
-      font-size: 0.85rem;
-      color: rgba(255,255,255,0.4);
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      margin-bottom: 2.5rem;
-      opacity: 0;
-      animation: fadeUp 0.7s 0.65s forwards;
     }
 
     .hero-btns {
@@ -485,11 +475,13 @@
     .uutinen-
 
     .uutinen-pvm {
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.72rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--accent);
       margin-bottom: 0.4rem;
+      font-weight: 500;
     }
 
     .uutinen-otsikko {
@@ -502,7 +494,9 @@
     }
 
     .uutinen-excerpt {
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.82rem;
+      font-weight: 300;
       color: var(--grey-light);
       line-height: 1.6;
     }
@@ -1398,9 +1392,10 @@
     .uutinen-full-
 
     .uutinen-pvm {
+      font-family: 'DM Sans', sans-serif;
       font-size: 0.72rem; letter-spacing: 0.1em;
       text-transform: uppercase; color: var(--accent);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.5rem; font-weight: 500;
     }
 
     .uutinen-otsikko {
@@ -1410,6 +1405,7 @@
     }
 
     .uutinen-teksti {
+      font-family: 'DM Sans', sans-serif;
       color: #444; line-height: 1.8; font-size: 0.97rem;
     }
 
