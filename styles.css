@@ -1683,3 +1683,61 @@
   .hero-btns { flex-direction: column; align-items: center; }
   .btn-primary, .btn-secondary { width: 100%; text-align: center; }
 }
+
+
+/* ════════════════════════════════════════
+   ALASIVUJEN TEKSTIVÄRIKORJAUKSET
+   Vaaleat osiot alasivuilla — musta teksti
+════════════════════════════════════════ */
+
+/* Bändi-sivu */
+#historia,
+#jasenet { color: var(--black); }
+
+#historia .section-title,
+#jasenet .section-title { color: var(--black) !important; }
+
+#historia p { color: #444; }
+
+.jasen-nimi { color: var(--black) !important; }
+
+.historia-teksti p { color: #444; }
+
+/* Keikat-sivu — vaaleat osiot */
+.tab-bar { color: var(--black); }
+.tab-btn { color: var(--grey-mid) !important; }
+.tab-btn:hover { color: var(--black) !important; }
+.tab-btn.active { color: var(--black) !important; }
+
+#tab-tulevat section,
+#tab-menneet section { color: var(--black); }
+
+.event-item.vaalea h3 { color: var(--black) !important; }
+.event-item.vaalea p  { color: var(--grey-mid) !important; }
+
+/* Keikat-sivun event-itemit ovat vaalealla taustalla */
+#tab-tulevat .event-info h3,
+#tab-menneet .event-info h3 { color: var(--black) !important; }
+
+#tab-tulevat .event-info p,
+#tab-menneet .event-info p { color: var(--grey-mid) !important; }
+
+#tab-tulevat .event-date .day,
+#tab-menneet .event-date .day { color: var(--black) !important; }
+
+.year-heading { color: var(--grey-mid) !important; }
+
+/* Settilista-sivu */
+.genre-title { color: var(--black) !important; }
+.genre-count { color: var(--grey-light) !important; }
+.song-list { color: var(--black); }
+.song-info .title { color: var(--black) !important; }
+.song-info .artist { color: var(--grey-light) !important; }
+.song-year { color: var(--grey-light) !important; }
+.song-num { color: var(--grey-light) !important; }
+.filter-tab { color: var(--grey-mid) !important; }
+.filter-tab.active { color: var(--black) !important; }
+
+/* Uutiset-sivu */
+.uutinen-otsikko { color: var(--black) !important; }
+.uutinen-teksti { color: #444 !important; }
