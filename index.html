@@ -184,18 +184,10 @@
       <p class="section-label">Kuuntele ja katso</p>
       <h2 class="section-title">Musiikkia & videoja</h2>
       <div class="section-divider"></div>
-      <div class="music-grid">
+      <div class="music-grid" id="music-grid">
         <div class="video-card">
           <div class="video-placeholder"><div class="play-icon">▶</div></div>
-          <div class="video-info"><h3>Keikkatallenne 2024</h3><p>Seinäjoki Summer Pub</p></div>
-        </div>
-        <div class="video-card">
-          <div class="video-placeholder"><div class="play-icon">▶</div></div>
-          <div class="video-info"><h3>Häätallenne</h3><p>Lapua, kesä 2024</p></div>
-        </div>
-        <div class="video-card">
-          <div class="video-placeholder"><div class="play-icon">▶</div></div>
-          <div class="video-info"><h3>Harjoitusnauhoite</h3><p>Studio session 2024</p></div>
+          <div class="video-info"><h3>Ladataan...</h3><p></p></div>
         </div>
       </div>
       <p style="margin-top:2rem;text-align:center;">
@@ -415,6 +407,66 @@
 
     lataaSettilistaPreview();
 
+    // Hakee videot GitHubista
+    const VIDEOT_API = `https://api.github.com/repos/${REPO}/contents/_videot`;
+
+    function youtubeEmbed(url) {
+      const match = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+      return match ? match[1] : null;
+    }
+
+    async function lataaVideot() {
+      const grid = document.getElementById('music-grid');
+      if (!grid) return;
+      try {
+        const res = await fetch(VIDEOT_API);
+        if (!res.ok) throw new Error();
+        const files = await res.json();
+        const mdFiles = files.filter(f => f.name.endsWith('.md'));
+
+        const videot = await Promise.all(mdFiles.map(async f => {
+          const r = await fetch(f.download_url);
+          const text = await r.text();
+          return parseFrontmatter(text);
+        }));
+
+        const jarjestetty = videot
+          .sort((a, b) => (parseInt(a.order) || 99) - (parseInt(b.order) || 99))
+          .slice(0, 3);
+
+        if (jarjestetty.length === 0) {
+          grid.innerHTML = `
+            <div class="video-card"><div class="video-placeholder"><div class="play-icon">▶</div></div><div class="video-info"><h3>Videot tulossa</h3><p>Lisää videoita hallintapaneelista</p></div></div>`;
+          return;
+        }
+
+        grid.innerHTML = jarjestetty.map(v => {
+          const videoId = youtubeEmbed(v.youtube_url || '');
+          return `
+            <div class="video-card">
+              <div class="video-placeholder">
+                ${videoId
+                  ? `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen title="${v.title || ''}"></iframe>`
+                  : `<div class="play-icon">▶</div>`}
+              </div>
+              <div class="video-info">
+                <h3>${v.title || 'Video'}</h3>
+                <p>${v.description || ''}</p>
+              </div>
+            </div>`;
+        }).join('');
+
+      } catch(e) {
+        // Näytä placeholder jos ei videoita
+        grid.innerHTML = `
+          <div class="video-card"><div class="video-placeholder"><div class="play-icon">▶</div></div><div class="video-info"><h3>Keikkatallenne</h3><p>Tulossa pian</p></div></div>
+          <div class="video-card"><div class="video-placeholder"><div class="play-icon">▶</div></div><div class="video-info"><h3>Häätallenne</h3><p>Tulossa pian</p></div></div>
+          <div class="video-card"><div class="video-placeholder"><div class="play-icon">▶</div></div><div class="video-info"><h3>Studio session</h3><p>Tulossa pian</p></div></div>`;
+      }
+    }
+
+    lataaVideot();
+
     // Hakee keikat GitHubista
     const KEIKAT_API = `https://api.github.com/repos/${REPO}/contents/_keikat`;
 
@@ -432,7 +484,7 @@
           .sort((a, b) => a.name.localeCompare(b.name));
 
         if (mdFiles.length === 0) {
-          list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--grey-light);font-style:italic;">Ei tulevia keikkoja juuri nyt — seuraa Instagramia!</div>';
+          list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--grey-light);font-style:italic;">Ei tulevia keikkoja juuri nyt — <a href="#yhteydenotto" style="color:var(--white);text-decoration:underline;">varaa meidät esiintymään täältä</a></div>';
           return;
         }
 
@@ -447,7 +499,7 @@
         const tulevat = keikat.filter(k => k.date && new Date(k.date) >= today);
 
         if (tulevat.length === 0) {
-          list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--grey-light);font-style:italic;">Ei tulevia keikkoja juuri nyt — seuraa Instagramia!</div>';
+          list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--grey-light);font-style:italic;">Ei tulevia keikkoja juuri nyt — <a href="#yhteydenotto" style="color:var(--white);text-decoration:underline;">varaa meidät esiintymään täältä</a></div>';
           return;
         }
 
