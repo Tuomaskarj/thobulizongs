@@ -31,6 +31,25 @@
       overflow-x: hidden;
     }
 
+
+/* ════════════════════════════════════════
+   VÄRISYSTEEMI — tummat vs vaaleat osiot
+   Lisää section-dark luokka tummille osioille HTML:ssä
+   → kaikki tekstit siinä osiossa muuttuvat automaattisesti valkoisiksi
+════════════════════════════════════════ */
+
+.section-dark { background: var(--black); }
+
+.section-dark .section-label  { color: rgba(255,255,255,0.45); }
+.section-dark .section-title  { color: var(--white); }
+.section-dark .section-divider { background: var(--white); }
+.section-dark p               { color: rgba(255,255,255,0.7); }
+.section-dark h3              { color: var(--white); }
+.section-dark .event-info h3  { color: var(--white); }
+.section-dark .event-info p   { color: var(--grey-light); }
+.section-dark .video-info h3  { color: var(--white); }
+.section-dark .video-info p   { color: var(--grey-light); }
+
     /* HERO */
     #hero {
       min-height: 82svh;
@@ -160,8 +179,6 @@
       color: var(--black);
     }
 
-    .section-title.light { color: var(--white); }
-
     .section-divider {
       width: 48px;
       height: 3px;
@@ -275,9 +292,6 @@
     /* KEIKKAKALENTERI */
     /* KEIKKAKALENTERI - tumma osio, tekstit valkoisina */
     #keikkakalenteri { background: var(--black); }
-    #keikkakalenteri .section-label { color: rgba(255,255,255,0.45); }
-    #keikkakalenteri .section-title { color: var(--white); }
-    #keikkakalenteri .section-divider { background: var(--white); }
 
     .events-list { display: flex; flex-direction: column; gap: 2px; }
 
@@ -300,7 +314,6 @@
     .event-date .month { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--grey-light); }
 
     .event-info h3 { font-size: 1rem; font-weight: 500; color: var(--white); margin-bottom: 0.2rem; }
-    .event-info p { font-size: 0.82rem; color: var(--grey-light); }
 
     .event-tag {
       font-size: 0.68rem;
@@ -316,9 +329,6 @@
     /* MUSIIKKI - tumma osio, tekstit valkoisina */
     /* REELS SLIDER */
     #musiikki { background: var(--black); }
-    #musiikki .section-label { color: rgba(255,255,255,0.45); }
-    #musiikki .section-title { color: var(--white); }
-    #musiikki .section-divider { background: var(--white); }
 
     .music-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; }
 
@@ -519,6 +529,8 @@
     }
 
     .uutinen-
+
+    .uutinen-body { padding: 1.5rem 1.8rem 1.8rem; }
 
     .uutinen-pvm {
       font-family: 'DM Sans', sans-serif;
@@ -1044,8 +1056,6 @@
     .event-date .day { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: var(--black); line-height: 1; }
     .event-date .month { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--grey-light); }
     .event-date .year { font-size: 0.65rem; color: var(--grey-light); margin-top: 1px; }
-
-    .event-info h3 { font-size: 1rem; font-weight: 500; color: var(--black); margin-bottom: 0.2rem; }
     .event-info p { font-size: 0.82rem; color: var(--grey-light); }
 
     .event-tag {
