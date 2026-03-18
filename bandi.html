@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bändi – Thö Bulizongs</title>
+  <title>Uutiset – Thö Bulizongs</title>
   <link rel="stylesheet" href="styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 </head>
@@ -12,124 +12,103 @@
 
 
   <div class="page-header">
-    <p>Tutustuu meihin</p>
-    <h1>Bändi</h1>
+    <p>Ajankohtaista</p>
+    <h1>Uutiset</h1>
   </div>
 
-  <!-- HISTORIA -->
-  <section id="historia">
-    <div class="container">
-      <div class="historia-grid">
-
-        <div class="historia-kuva">
-          <!-- Vaihda src oikeaan kuvaan: <img src="kuvat/bandi.jpg" alt="Thö Bulizongs"> -->
-          <img src="kuvat/bandi.jpg" alt="Thö Bulizongs"
-            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-          <div class="historia-kuva-placeholder">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-            Bändikuva tulossa
-          </div>
-        </div>
-
-        <div class="historia-teksti">
-          <p class="section-label">Meidän tarina</p>
-          <h2 class="section-title">Historia</h2>
-          <div class="section-divider"></div>
-          <!-- Teksti päivitetään tänne tai Decap CMS:n kautta -->
-          <p>Thö Bulizongs syntyi joukosta seinäjokisia muusikkoja, joita yhdisti yksi asia: rakkaus hyvään musiikkiin ja elämänmakuiseen menoon.</p>
-          <p>Bändi on soittanut lukuisissa häissä, syntymäpäiväjuhlissa, pubeissa ja yksityistilaisuuksissa ympäri Etelä-Pohjanmaata. Joka keikalla sama filosofia — väki tanssii ennen kuin ilta on ohi.</p>
-          <p>Nimi "Thö Bulizongs" kiteyttää bändin hengen: se on rento, se ei ota itseään liian vakavasti, mutta soittotaito on toinen juttu.</p>
-        </div>
-
-      </div>
+  <main>
+    <div class="uutiset-lista" id="uutiset-lista">
+      <div class="loading">Ladataan uutisia...</div>
     </div>
-  </section>
-
-  <!-- JÄSENET -->
-  <section id="jasenet">
-    <div class="container">
-      <p class="section-label">Tutustuu porukkaan</p>
-      <h2 class="section-title">Jäsenet</h2>
-      <div class="section-divider"></div>
-
-      <div class="jasenet-grid">
-
-        <div class="jasen-card">
-          <div class="jasen-kuva">
-            <img src="kuvat/asko.jpg" alt="Asko Ristimäki"
-              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-            <div class="jasen-kuva-placeholder" style="display:none;">♪</div>
-          </div>
-          <div class="jasen-nimi">Asko "Akkeri" Ristimäki</div>
-          <div class="jasen-soitin">Lyömäsoitintaiteilija</div>
-        </div>
-
-        <div class="jasen-card">
-          <div class="jasen-kuva">
-            <img src="kuvat/viivi.jpg" alt="Viivi"
-              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-            <div class="jasen-kuva-placeholder" style="display:none;">♪</div>
-          </div>
-          <div class="jasen-nimi">Viivi</div>
-          <div class="jasen-soitin">Basso</div>
-        </div>
-
-        <div class="jasen-card">
-          <div class="jasen-kuva">
-            <img src="kuvat/mustis.jpg" alt="Mustis"
-              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-            <div class="jasen-kuva-placeholder" style="display:none;">♪</div>
-          </div>
-          <div class="jasen-nimi">Mustis</div>
-          <div class="jasen-soitin">Koskettimet</div>
-        </div>
-
-        <div class="jasen-card">
-          <div class="jasen-kuva">
-            <img src="kuvat/jarmo.jpg" alt="Jarmo Haukilahti"
-              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-            <div class="jasen-kuva-placeholder" style="display:none;">♪</div>
-          </div>
-          <div class="jasen-nimi">Jarmo "Hauki" Haukilahti</div>
-          <div class="jasen-soitin">Kitara / Taustalaulu</div>
-        </div>
-
-        <div class="jasen-card">
-          <div class="jasen-kuva">
-            <img src="kuvat/timo.jpg" alt="Timo Ristimäki"
-              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-            <div class="jasen-kuva-placeholder" style="display:none;">♪</div>
-          </div>
-          <div class="jasen-nimi">Timo Ristimäki</div>
-          <div class="jasen-soitin">Laulu</div>
-        </div>
-
-        <div class="jasen-card">
-          <div class="jasen-kuva">
-            <img src="kuvat/mika.jpg" alt="Mika"
-              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-            <div class="jasen-kuva-placeholder" style="display:none;">♪</div>
-          </div>
-          <div class="jasen-nimi">Mika</div>
-          <div class="jasen-soitin">Kitara</div>
-        </div>
-
-      </div>
-    </div>
-  </section>
+  </main>
 
   <footer>
     <div class="footer-logo">Thö Bulizongs</div>
-    <p class="footer-tagline">Tanssittavaa musiikkia · Seinäjoki</p>
-    <div class="footer-links">
-      <a href="index.html">Etusivu</a>
-      <a href="index.html#keikkakalenteri">Keikat</a>
-      <a href="setlista.html">Settilista</a>
-      <a href="uutiset.html">Uutiset</a>
-      <a href="index.html#yhteydenotto">Yhteystiedot</a>
-    </div>
-    <p class="footer-copy">&copy; 2025 Thö Bulizongs. Kaikki oikeudet pidätetään.</p>
+    <br>
+    <a href="index.html" class="footer-back">← Takaisin etusivulle</a>
   </footer>
+
+  <script>
+    const REPO = 'Tuomaskarj/thobulizongs';
+    const API = `https://api.github.com/repos/${REPO}/contents/_uutiset`;
+
+    function parseFrontmatter(text) {
+      const match = text.match(/^---\n([\s\S]*?)\n---/);
+      if (!match) return { body: text };
+      const fm = {};
+      match[1].split('\n').forEach(line => {
+        const [key, ...val] = line.split(':');
+        if (key) fm[key.trim()] = val.join(':').trim().replace(/^"|"$/g, '');
+      });
+      fm.body = text.replace(/^---\n[\s\S]*?\n---\n/, '').trim();
+      return fm;
+    }
+
+    function formatDate(str) {
+      if (!str) return '';
+      return new Date(str).toLocaleDateString('fi-FI', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+
+    // Yksinkertainen markdown → HTML
+    function markdownToHtml(md) {
+      return md
+        .replace(/^## (.*)/gm, '<h2>$1</h2>')
+        .replace(/^# (.*)/gm, '<h2>$1</h2>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/\n\n/g, '</p><p>')
+        .replace(/^/, '<p>')
+        .replace(/$/, '</p>');
+    }
+
+    async function lataaKaikki() {
+      const lista = document.getElementById('uutiset-lista');
+      try {
+        const res = await fetch(API);
+        if (!res.ok) throw new Error();
+        const files = await res.json();
+
+        const mdFiles = files
+          .filter(f => f.name.endsWith('.md'))
+          .sort((a, b) => b.name.localeCompare(a.name));
+
+        if (mdFiles.length === 0) {
+          lista.innerHTML = '<div class="loading">Uutisia ei vielä ole.</div>';
+          return;
+        }
+
+        const uutiset = await Promise.all(mdFiles.map(async f => {
+          const r = await fetch(f.download_url);
+          const text = await r.text();
+          return { ...parseFrontmatter(text), slug: f.name.replace('.md', '') };
+        }));
+
+        lista.innerHTML = uutiset.map(u => `
+          <article class="uutinen-full" id="${u.slug}">
+            ${u.image ? `<div class="uutinen-full-kuva"><img src="${u.image}" alt="${u.title || ''}" /></div>` : ''}
+            <div class="uutinen-full-body">
+              <div class="uutinen-pvm">${formatDate(u.date)}</div>
+              <h2 class="uutinen-otsikko">${u.title || 'Uutinen'}</h2>
+              <div class="uutinen-teksti">${markdownToHtml(u.body)}</div>
+            </div>
+          </article>
+        `).join('');
+
+        // Scroll to anchor if present
+        if (window.location.hash) {
+          setTimeout(() => {
+            const el = document.querySelector(window.location.hash);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }, 300);
+        }
+
+      } catch(e) {
+        lista.innerHTML = '<div class="loading">Uutisia ei juuri nyt löydy — palataan pian!</div>';
+      }
+    }
+
+    lataaKaikki();
+  </script>
 
 </body>
 </html>
