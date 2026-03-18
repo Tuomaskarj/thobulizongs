@@ -272,21 +272,44 @@
     const UUTISET_API = `https://api.github.com/repos/${REPO}/contents/_uutiset`;
 
     function parseFrontmatter(text) {
-      const match = text.match(/^---\n([\s\S]*?)\n---/);
-      if (!match) return { body: text };
       const fm = {};
-      match[1].split('\n').forEach(line => {
-        const [key, ...val] = line.split(':');
-        if (key) fm[key.trim()] = val.join(':').trim().replace(/^"|"$/g, '');
-      });
+      const lines = text.split('\n');
+      let currentKey = null;
+      let inFrontmatter = false;
+
+      for (const line of lines) {
+        if (line.trim() === '---') {
+          inFrontmatter = !inFrontmatter;
+          continue;
+        }
+        // Lue kenttä joko frontmatter-lohkossa tai suoraan tiedoston alussa
+        if (line.match(/^[a-zA-Z]/)) {
+          const colonIdx = line.indexOf(':');
+          if (colonIdx > -1) {
+            currentKey = line.slice(0, colonIdx).trim();
+            fm[currentKey] = line.slice(colonIdx + 1).trim().replace(/^"|"$/g, '');
+          }
+        } else if (currentKey && line.match(/^\s+/)) {
+          fm[currentKey] += ' ' + line.trim();
+        }
+      }
+
       fm.body = text.replace(/^---\n[\s\S]*?\n---\n/, '').trim();
       return fm;
     }
 
     function formatDate(str) {
       if (!str) return '';
-      const d = new Date(str);
+      // Otetaan vain päivämääräosa aikavyöhykkeestä riippumatta
+      const dateOnly = str.slice(0, 10);
+      const d = new Date(dateOnly + 'T12:00:00');
       return d.toLocaleDateString('fi-FI', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+
+    function parseDate(str) {
+      if (!str) return null;
+      const dateOnly = str.slice(0, 10);
+      return new Date(dateOnly + 'T12:00:00');
     }
 
     async function lataauutiset() {
@@ -547,7 +570,8 @@
 
         // Näytä vain tulevat keikat
         const today = new Date(); today.setHours(0,0,0,0);
-        const tulevat = keikat.filter(k => k.date && new Date(k.date) >= today);
+        const tulevat = keikat.filter(k => k.date && parseDate(k.date) >= today);
+        const menneet = keikat.filter(k => k.date && parseDate(k.date) < today);
 
         if (tulevat.length === 0) {
           list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--grey-light);font-style:italic;">Ei tulevia keikkoja juuri nyt — <a href="#yhteydenotto" style="color:var(--white);text-decoration:underline;">varaa meidät esiintymään täältä</a></div>';
