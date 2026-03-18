@@ -23,56 +23,13 @@
     html { scroll-behavior: smooth; }
 
     body {
+      padding-top: 0;
       background: var(--off-white);
       color: var(--black);
       font-family: 'DM Sans', sans-serif;
       font-weight: 400;
       overflow-x: hidden;
     }
-
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 1rem 2.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: var(--black);
-    }
-
-    .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
-      font-weight: 900;
-      font-style: italic;
-      color: var(--white);
-      text-decoration: none;
-      text-shadow: 2px 2px 0px #000, 3px 3px 6px rgba(0,0,0,0.5);
-      letter-spacing: 0.04em;
-    }
-
-    .nav-links { display: flex; gap: 1.8rem; list-style: none; align-items: center; }
-
-    .nav-links a {
-      color: rgba(255,255,255,0.65);
-      text-decoration: none;
-      font-size: 0.85rem;
-      letter-spacing: 0.08em;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: var(--white); }
-
-    .nav-cta {
-      background: var(--accent) !important;
-      color: var(--white) !important;
-      padding: 0.45rem 1.1rem;
-      border-radius: 4px;
-    }
-
-    .nav-cta:hover { background: var(--accent-light) !important; }
 
     /* HERO */
     #hero {
@@ -457,12 +414,7 @@
       padding: 0 1rem;
     }
 
-    .reels-nav {
-      display: flex;
-      justify-content: flex-end;
-      gap: 0.5rem;
-      margin-top: 1rem;
-    }
+    .reels-
 
     .reels-btn {
       width: 38px; height: 38px;
@@ -530,7 +482,8 @@
       font-size: 2rem;
     }
 
-    .uutinen-body { padding: 1.2rem; }
+    .uutinen-body {
+      padding-top: 0; padding: 1.2rem; }
 
     .uutinen-pvm {
       font-size: 0.72rem;
@@ -667,8 +620,6 @@
     }
 
     @media (max-width: 768px) {
-      nav { padding: 1rem 1.2rem; }
-      .nav-links { display: none; }
       .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .event-item { grid-template-columns: 65px 1fr; }
@@ -677,8 +628,84 @@
       .form-row { grid-template-columns: 1fr; }
       #hero { padding: 4rem 1.5rem 3rem; min-height: auto; }
       .hero-logo { margin-top: 1rem; }
-      html, body { overflow-x: hidden; max-width: 100%; }
+      html, body {
+      padding-top: 0; overflow-x: hidden; max-width: 100%; }
     }
+
+    /* NAV */
+    nav#main-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--black);
+    }
+
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; font-weight: 900; font-style: italic;
+      color: var(--white); text-decoration: none;
+      text-shadow: 2px 2px 0px #000, 3px 3px 6px rgba(0,0,0,0.5);
+      letter-spacing: 0.04em;
+    }
+
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; align-items: center; }
+
+    .nav-links a {
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+      background: var(--accent) !important;
+      color: var(--white) !important;
+      padding: 0.45rem 1.1rem;
+      border-radius: 4px;
+    }
+
+    .nav-cta:hover { background: var(--accent-light) !important; }
+
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+    }
+
+    @media (max-width: 768px) {
+      nav#main-nav { padding: 1rem 1.2rem; }
+      .nav-hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%; left: 0; right: 0;
+        background: var(--black);
+        flex-direction: column;
+        padding: 1rem 1.5rem 1.5rem;
+        gap: 1rem;
+        border-top: 1px solid rgba(255,255,255,0.08);
+      }
+      .nav-links.open { display: flex; }
+    }
+
   </style>
   <script type="application/ld+json">
   {
@@ -783,18 +810,8 @@
   </script>
 </head>
 <body>
+  <script src="nav.js"></script>
 
-  <nav>
-    <a href="#hero" class="nav-logo">Thö Bulizongs</a>
-    <ul class="nav-links">
-      <li><a href="#hero">Etusivu</a></li>
-      <li><a href="bandi.html">Bändi</a></li>
-      <li><a href="keikat.html">Keikat</a></li>
-      <li><a href="setlista.html">Settilista</a></li>
-      <li><a href="uutiset.html">Uutiset</a></li>
-      <li><a href="#yhteydenotto" class="nav-cta">Tilaa keikka</a></li>
-    </ul>
-  </nav>
 
   <section id="hero">
     <div class="hero-content">
