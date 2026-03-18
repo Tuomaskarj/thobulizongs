@@ -11,8 +11,8 @@
       --black: #000000;
       --white: #ffffff;
       --off-white: #f7f5f2;
-      --accent: #c0392b;
-      --accent-light: #e74c3c;
+      --accent: #ffffff;
+      --accent-light: #e0e0e0;
       --grey: #2e2e2e;
       --grey-mid: #555;
       --grey-light: #999;
@@ -106,8 +106,8 @@
     }
 
     .btn-primary {
-      background: var(--accent);
-      color: var(--white);
+      background: var(--white);
+      color: var(--black);
       padding: 0.85rem 2rem;
       border: none;
       border-radius: 4px;
@@ -273,7 +273,11 @@
     }
 
     /* KEIKKAKALENTERI */
+    /* KEIKKAKALENTERI - tumma osio, tekstit valkoisina */
     #keikkakalenteri { background: var(--black); }
+    #keikkakalenteri .section-label { color: rgba(255,255,255,0.45); }
+    #keikkakalenteri .section-title { color: var(--white); }
+    #keikkakalenteri .section-divider { background: var(--white); }
 
     .events-list { display: flex; flex-direction: column; gap: 2px; }
 
@@ -283,22 +287,19 @@
       align-items: center;
       gap: 1.5rem;
       padding: 1.2rem 1.5rem;
-      background: var(--card-bg);
+      background: #111;
       border-radius: 4px;
       border-left: 3px solid transparent;
       transition: border-color 0.2s, background 0.2s;
     }
 
-    .event-item:hover { border-left-color: var(--accent); background: #2a2a2a; }
+    .event-item:hover { border-left-color: var(--white); background: #1a1a1a; }
 
     .event-date { text-align: center; }
-
     .event-date .day { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: var(--white); line-height: 1; }
-
     .event-date .month { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--grey-light); }
 
     .event-info h3 { font-size: 1rem; font-weight: 500; color: var(--white); margin-bottom: 0.2rem; }
-
     .event-info p { font-size: 0.82rem; color: var(--grey-light); }
 
     .event-tag {
@@ -312,12 +313,12 @@
       white-space: nowrap;
     }
 
-    /* MUSIIKKI */
+    /* MUSIIKKI - tumma osio, tekstit valkoisina */
     /* REELS SLIDER */
     #musiikki { background: var(--black); }
-    #musiikki 
-    #musiikki 
-    #musiikki 
+    #musiikki .section-label { color: rgba(255,255,255,0.45); }
+    #musiikki .section-title { color: var(--white); }
+    #musiikki .section-divider { background: var(--white); }
 
     .reels-wrapper {
       position: relative;
@@ -657,8 +658,8 @@
     .nav-links a:hover { color: var(--white); }
 
     .nav-cta {
-      background: var(--accent) !important;
-      color: var(--white) !important;
+      background: var(--white) !important;
+      color: var(--black) !important;
       padding: 0.45rem 1.1rem;
       border-radius: 4px;
     }
@@ -872,8 +873,8 @@
     .nav-links a:hover { color: var(--white); }
 
     .nav-cta {
-      background: var(--accent) !important;
-      color: var(--white) !important;
+      background: var(--white) !important;
+      color: var(--black) !important;
       padding: 0.45rem 1.1rem;
       border-radius: 4px;
     }
@@ -1075,8 +1076,8 @@
     .nav-links a:hover { color: var(--white); }
 
     .nav-cta {
-      background: var(--accent) !important;
-      color: var(--white) !important;
+      background: var(--white) !important;
+      color: var(--black) !important;
       padding: 0.45rem 1.1rem;
       border-radius: 4px;
     }
@@ -1308,8 +1309,8 @@
     .nav-links a:hover { color: var(--white); }
 
     .nav-cta {
-      background: var(--accent) !important;
-      color: var(--white) !important;
+      background: var(--white) !important;
+      color: var(--black) !important;
       padding: 0.45rem 1.1rem;
       border-radius: 4px;
     }
@@ -1459,8 +1460,8 @@
     .nav-links a:hover { color: var(--white); }
 
     .nav-cta {
-      background: var(--accent) !important;
-      color: var(--white) !important;
+      background: var(--white) !important;
+      color: var(--black) !important;
       padding: 0.45rem 1.1rem;
       border-radius: 4px;
     }
