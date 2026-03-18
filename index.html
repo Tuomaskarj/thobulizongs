@@ -783,6 +783,7 @@
   </script>
 </head>
 <body>
+  <script src="nav.js"></script>
 
   <nav>
     <a href="#hero" class="nav-logo">Thö Bulizongs</a>
@@ -801,7 +802,7 @@
     <div class="hero-content">
       <h1 class="hero-logo">Thö</h1>
       <p class="hero-logo-sub">Bulizongs</p>
-      <p class="hero-tagline">Häihin, juhliin ja kaikkiin illanistujaisiin </p>
+      <p class="hero-tagline">Tanssittavaa musiikkia — juhliin ja kaikkiin illanistujaisiin</p>
 
       <div class="hero-btns">
         <a href="#yhteydenotto" class="btn-primary">Tilaa keikka</a>
@@ -814,12 +815,13 @@
     <div class="container">
       <div class="about-grid">
         <div class="about-text">
-          <p class="section-label">Keitä me olemme</p>
-          <h2 class="section-title">Iloinen porukka<br/>Seinäjoelta</h2>
+          <h2 class="section-title" id="about-title">Jalan alle menevää livemusiikkia — tanssitakuulla</h2>
           <div class="section-divider"></div>
-          <p>Thö Bulizongs on kuusihenkinen harrasteorkesteri, jonka sydämessä sykkii aito rakkaus musiikkiin ja elämänmakuiseen menoon. Soitamme tuttuja kappaleita ja hyviä tulkintoja — sellaisia jotka saavat väen liikkeelle.</p>
-          <p>Seinäjoelta liikkeelle. Bändi on perustettu siksi, että elämässä pitää olla musiikkia — ja mieluiten sellaista joka naurattaa, liikuttaa ja tanssittaa.</p>
-          <p>Soitamme häissä, syntymäpäiväjuhlissa, pubeissa ja kaikissa tilaisuuksissa joihin meidät tilataan. Joka keikalla sama lupaus: väki tanssii. </p>
+          <div id="about-body">
+            <p>Thö Bulizongs on kuusihenkinen harrasteorkesteri, jonka sydämessä sykkii aito rakkaus musiikkiin ja elämänmakuiseen menoon. Soitamme tuttuja kappaleita ja hyviä tulkintoja — sellaisia jotka saavat väen liikkeelle.</p>
+            <p>Seinäjoelta liikkeelle. Bändi on perustettu siksi, että elämässä pitää olla musiikkia — ja mieluiten sellaista joka naurattaa, liikuttaa ja tanssittaa.</p>
+            <p>Soitamme häissä, syntymäpäiväjuhlissa, pubeissa ja kaikissa tilaisuuksissa joihin meidät tilataan. Joka keikalla sama lupaus: väki tanssii.</p>
+          </div>
         </div>
         <div class="band-photo-wrap">
           <img src="band-placeholder.jpg" alt="Thö Bulizongs bändikuva"
@@ -837,40 +839,10 @@
 
   <section id="settilista-preview">
     <div class="container">
-      <p class="section-label">Mitä soitamme</p>
       <h2 class="section-title">Settilista</h2>
       <div class="section-divider"></div>
-      <div class="setlist-preview-grid">
-        <div class="setlist-genre-block">
-          <h3> Suomalainen iskelmä</h3>
-          <ul>
-            <li>Paratiisi <span>Rauli Badding Somerjoki</span></li>
-            <li>Sinisten tähti <span>Tapani Kansa</span></li>
-            <li>On suuri sun rantas autius <span>Reijo Taipale</span></li>
-            <li>Hopeinen kuu <span>Olavi Virta</span></li>
-            <li>Satumaa <span>Reijo Taipale</span></li>
-          </ul>
-        </div>
-        <div class="setlist-genre-block">
-          <h3> Rock & Pop</h3>
-          <ul>
-            <li>Daa Daa <span>Sammy Babitzin</span></li>
-            <li>Pienen pojan elämää <span>Juice Leskinen</span></li>
-            <li>Rakkaus on lumivalkoinen <span>Agents</span></li>
-            <li>Kesäpäivä Kangasalla <span>Peräsmäki & Huttunen</span></li>
-            <li>Tähtisumua <span>Katri Helena</span></li>
-          </ul>
-        </div>
-        <div class="setlist-genre-block">
-          <h3> Kansainväliset</h3>
-          <ul>
-            <li>Can't Help Falling in Love <span>Elvis Presley</span></li>
-            <li>Brown Eyed Girl <span>Van Morrison</span></li>
-            <li>Sweet Home Chicago <span>Robert Johnson</span></li>
-            <li>Ring of Fire <span>Johnny Cash</span></li>
-            <li>Proud Mary <span>CCR</span></li>
-          </ul>
-        </div>
+      <div class="setlist-preview-grid" id="setlist-preview-grid">
+        <div class="uutiset-loading">Ladataan settilistaa...</div>
       </div>
       <p style="text-align:center;">
         <a href="setlista.html" class="btn-primary">Katso koko settilista →</a>
@@ -878,53 +850,27 @@
     </div>
   </section>
 
-  <!-- KEIKKAKALENTERI -->
+  <section id="keikkakalenteri" class="section-dark">
     <div class="container">
-      <p class="section-label" style="color:rgba(255,255,255,0.4)">Missä esiinnymme</p>
       <h2 class="section-title">Tulevat keikat</h2>
       <div class="section-divider"></div>
-      <div class="events-list">
-        <div class="event-item">
-          <div class="event-date"><div class="day">14</div><div class="month">Kesä</div></div>
-          <div class="event-info"><h3>Kesäjuhlat – Seinäjoki</h3><p>Tornikahvila &nbsp;·&nbsp; klo 20:00</p></div>
-          <div class="event-tag">Yksityinen</div>
-        </div>
-        <div class="event-item">
-          <div class="event-date"><div class="day">22</div><div class="month">Kesä</div></div>
-          <div class="event-info"><h3>Häät – Lapua</h3><p>Lapuan juhlatila &nbsp;·&nbsp; klo 18:00</p></div>
-          <div class="event-tag">Häät</div>
-        </div>
-        <div class="event-item">
-          <div class="event-date"><div class="day">05</div><div class="month">Heinä</div></div>
-          <div class="event-info"><h3>Pub-ilta – Seinäjoen Panimoravintola</h3><p>Panimoravintola &nbsp;·&nbsp; klo 21:00 – 01:00</p></div>
-          <div class="event-tag">Avoin</div>
-        </div>
-        <div class="event-item">
-          <div class="event-date"><div class="day">19</div><div class="month">Heinä</div></div>
-          <div class="event-info"><h3>60-vuotissyntymäpäivät – Ilmajoki</h3><p>Yksityinen juhlatila &nbsp;·&nbsp; klo 17:00</p></div>
-          <div class="event-tag">Juhlat</div>
-        </div>
+      <div class="events-list" id="events-list">
+        <div style="text-align:center;padding:2rem;color:var(--grey-light);font-size:0.9rem;">Ladataan keikkoja...</div>
       </div>
+      <p style="text-align:center;margin-top:1.5rem;">
+        <a href="keikat.html" style="color:rgba(255,255,255,0.5);font-size:0.85rem;text-decoration:none;letter-spacing:0.08em;border-bottom:1px solid rgba(255,255,255,0.2);padding-bottom:2px;">Katso kaikki keikat →</a>
+      </p>
     </div>
   </section>
 
-  <section id="musiikki">
+  <section id="musiikki" class="section-dark">
     <div class="container">
-      <p class="section-label">Kuuntele ja katso</p>
       <h2 class="section-title">Musiikkia & videoja</h2>
       <div class="section-divider"></div>
-      <div class="music-grid">
+      <div class="music-grid" id="music-grid">
         <div class="video-card">
           <div class="video-placeholder"><div class="play-icon">▶</div></div>
-          <div class="video-info"><h3>Keikkatallenne 2024</h3><p>Seinäjoki Summer Pub</p></div>
-        </div>
-        <div class="video-card">
-          <div class="video-placeholder"><div class="play-icon">▶</div></div>
-          <div class="video-info"><h3>Häätallenne</h3><p>Lapua, kesä 2024</p></div>
-        </div>
-        <div class="video-card">
-          <div class="video-placeholder"><div class="play-icon">▶</div></div>
-          <div class="video-info"><h3>Harjoitusnauhoite</h3><p>Studio session 2024</p></div>
+          <div class="video-info"><h3>Ladataan...</h3><p></p></div>
         </div>
       </div>
       <p style="margin-top:2rem;text-align:center;">
@@ -949,66 +895,73 @@
 
   <section id="instagram">
     <div class="container">
-      <p class="section-label">Seuraa meitä</p>
-      <h2 class="section-title">@thobulizongs</h2>
+      <h2 class="section-title">Uutiset</h2>
       <div class="section-divider"></div>
-      <div class="instagram-grid">
-        <div class="insta-tile"></div>
-        <div class="insta-tile"></div>
-        <div class="insta-tile"></div>
-        <div class="insta-tile"></div>
-        <div class="insta-tile"></div>
-        <div class="insta-tile"></div>
-        <div class="insta-tile"></div>
-        <div class="insta-tile"></div>
+      <div class="uutiset-grid" id="uutiset-grid">
+        <div class="uutiset-loading">Ladataan uutisia...</div>
       </div>
-      <div class="instagram-cta">
-        <a href="https://www.instagram.com/thobulizongs/" target="_blank" class="btn-primary">Seuraa Instagramissa</a>
+      <p style="text-align:center;" id="uutiset-linkki" style="display:none;">
+        <a href="uutiset.html" class="btn-primary">Kaikki uutiset →</a>
+      </p>
+    </div>
+  </section>
+
+  <section id="palautteet">
+    <div class="container">
+      <h2 class="section-title">Meistä kerrottua</h2>
+      <div class="section-divider"></div>
+      <div class="palautteet-grid" id="palautteet-grid">
+        <div class="palautteet-loading">Ladataan palautteita...</div>
       </div>
     </div>
   </section>
 
   <section id="yhteydenotto">
     <div class="container">
-      <div class="contact-grid">
-        <div class="contact-info">
-          <p class="section-label">Ota yhteyttä</p>
-          <h2 class="section-title">Tilaa keikka</h2>
-          <div class="section-divider"></div>
-          <h3>Tehdään juhlista unohtumattomat </h3>
-          <p>Häät, syntymäpäivät, yritysjuhlat, pubillat — otamme kaiken. Lähetä tarjouspyyntö niin palaamme asiaan pikaisesti.</p>
-          <div class="contact-detail"><span class="contact-icon">️</span><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5831363e37182c30373a2d34312237363f2b763e31">[email&#160;protected]</a></span></div>
-          <div class="contact-detail"><span class="contact-icon"></span><span>Seinäjoki, Etelä-Pohjanmaa</span></div>
-          <div class="contact-detail">
-            <span class="contact-icon"></span>
-            <a href="https://www.instagram.com/thobulizongs/" target="_blank" style="color:inherit;text-decoration:none;">@thobulizongs</a>
+      <h2 class="section-title">Tilaa keikka</h2>
+      <div class="section-divider"></div>
+      <p style="color:#555;margin-bottom:2rem;max-width:560px;">Häät, syntymäpäivät, yritysjuhlat, pubillat — otamme kaiken. Lähetä tarjouspyyntö niin palaamme asiaan pikaisesti.</p>
+      <form class="contact-form" name="tilaa-keikka" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" id="keikka-form" style="max-width:640px;">
+        <input type="hidden" name="form-name" value="tilaa-keikka" />
+        <p style="display:none;"><input name="bot-field" /></p>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nimi *</label>
+            <input type="text" name="nimi" placeholder="Matti Meikäläinen" required />
+          </div>
+          <div class="form-group">
+            <label>Puhelinnumero</label>
+            <input type="tel" name="puhelin" placeholder="+358 40 123 4567" />
           </div>
         </div>
-        <div class="contact-form">
-          <div class="form-row">
-            <div class="form-group"><label>Nimi *</label><input type="text" placeholder="Matti Meikäläinen" id="f-name" /></div>
-            <div class="form-group"><label>Puhelinnumero</label><input type="tel" placeholder="+358 40 123 4567" /></div>
-          </div>
-          <div class="form-group"><label>Sähköposti *</label><input type="email" placeholder="matti@example.fi" id="f-email" /></div>
-          <div class="form-row">
-            <div class="form-group">
-              <label>Tilaisuuden tyyppi</label>
-              <select>
-                <option value="">Valitse...</option>
-                <option>Häät</option>
-                <option>Syntymäpäivät</option>
-                <option>Pub-ilta</option>
-                <option>Yritystapahtuma</option>
-                <option>Muu tilaisuus</option>
-              </select>
-            </div>
-            <div class="form-group"><label>Toivottu päivämäärä</label><input type="date" /></div>
-          </div>
-          <div class="form-group"><label>Lisätietoja</label><textarea placeholder="Kerro lisää tilaisuudesta, paikasta ja toiveista..."></textarea></div>
-          <button class="btn-primary" onclick="submitForm()" style="align-self:flex-start;">Lähetä tarjouspyyntö</button>
-          <div id="form-msg" style="display:none;font-size:0.88rem;margin-top:0.3rem;"></div>
+        <div class="form-group">
+          <label>Sähköposti *</label>
+          <input type="email" name="sahkoposti" placeholder="matti@example.fi" required />
         </div>
-      </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Tilaisuuden tyyppi</label>
+            <select name="tyyppi">
+              <option value="">Valitse...</option>
+              <option>Häät</option>
+              <option>Syntymäpäivät</option>
+              <option>Pub-ilta</option>
+              <option>Yritystapahtuma</option>
+              <option>Muu tilaisuus</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Toivottu päivämäärä</label>
+            <input type="date" name="paivamaara" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Lisätietoja</label>
+          <textarea name="lisatiedot" placeholder="Kerro lisää tilaisuudesta, paikasta ja toiveista..."></textarea>
+        </div>
+        <button type="submit" class="btn-primary" style="align-self:flex-start;">Lähetä tarjouspyyntö</button>
+        <div id="form-msg" style="display:none;font-size:0.88rem;margin-top:0.8rem;"></div>
+      </form>
     </div>
   </section>
 
@@ -1106,14 +1059,47 @@
       });
     }
   </script>
-</footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-    function submitForm() {
-      const name = document.getElementById('f-name').value;
-      const email = document.getElementById('f-email').value;
-      const msg = document.getElementById('form-msg');
-      if (!name || !email) {
-        msg.style.display = 'block';
-        msg.style.color = '#c0392b';
-        msg.textContent = 'Täy
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
+        }
+      });
+    }
+
+    // Netlify Forms AJAX-lähetys
+    const form = document.getElementById('keikka-form');
+    if (form) {
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const msg = document.getElementById('form-msg');
+        const btn = form.querySelector('button[type="submit"]');
+        btn.textContent = 'Lähetetään...';
+        btn.disabled = true;
+        try {
+          const data = new FormData(form);
+          await fetch('/', { method: 'POST', body: new URLSearchParams(data).toString(), headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
+          msg.style.display = 'block';
+          msg.style.color = '#fff';
+          msg.textContent = 'Kiitos! Otamme yhteyttä pian.';
+          form.reset();
+          btn.textContent = 'Lähetä tarjouspyyntö';
+          btn.disabled = false;
+        } catch(e) {
+          msg.style.display = 'block';
+          msg.style.color = '#f88';
+          msg.textContent = 'Jokin meni pieleen. Kokeile uudelleen tai lähetä sähköpostia suoraan.';
+          btn.textContent = 'Lähetä tarjouspyyntö';
+          btn.disabled = false;
+        }
+      });
+    }
+  </script>
+  <script src="footer.js"></script>
+</body>
+</html>

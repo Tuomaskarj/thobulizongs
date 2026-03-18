@@ -1,0 +1,99 @@
+name: Generoi RSS-feedi
+
+on:
+  push:
+    paths:
+      - '_uutiset/**'
+  workflow_dispatch:
+
+jobs:
+  build-feed:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generoi feed.xml
+        run: |
+          python3 << 'EOF'
+          import os, re, glob
+          from datetime import datetime
+
+          SITE_URL = "https://www.thobulizongs.fi"
+          SITE_TITLE = "Thö Bulizongs – Uutiset"
+          SITE_DESC = "Ajankohtaista Thö Bulizongs -orkesterilta"
+
+          def parse_frontmatter(text):
+              match = re.match(r'^---\n(.*?)\n---\n', text, re.DOTALL)
+              if not match:
+                  return {}, text
+              fm = {}
+              for line in match.group(1).split('\n'):
+                  if ':' in line:
+                      key, *val = line.split(':')
+                      fm[key.strip()] = ':'.join(val).strip().strip('"')
+              body = text[match.end():].strip()
+              return fm, body
+
+          def md_to_text(md):
+              md = re.sub(r'^#{1,6}\s+', '', md, flags=re.MULTILINE)
+              md = re.sub(r'\*\*(.*?)\*\*', r'\1', md)
+              md = re.sub(r'\*(.*?)\*', r'\1', md)
+              return md.strip()
+
+          def format_rfc822(date_str):
+              try:
+                  d = datetime.fromisoformat(date_str[:10])
+                  return d.strftime('%a, %d %b %Y 12:00:00 +0000')
+              except:
+                  return datetime.now().strftime('%a, %d %b %Y 12:00:00 +0000')
+
+          files = sorted(glob.glob('_uutiset/*.md'), reverse=True)
+
+          items = []
+          for f in files:
+              with open(f, 'r', encoding='utf-8') as fh:
+                  text = fh.read()
+              fm, body = parse_frontmatter(text)
+              slug = os.path.basename(f).replace('.md', '')
+              title = fm.get('title', 'Uutinen').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+              excerpt = fm.get('excerpt', md_to_text(body)[:200]).replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+              date = format_rfc822(fm.get('date', ''))
+              link = f"{SITE_URL}/uutiset.html#{slug}"
+              items.append(f"""    <item>
+              <title>{title}</title>
+              <link>{link}</link>
+              <description>{excerpt}</description>
+              <pubDate>{date}</pubDate>
+              <guid>{link}</guid>
+            </item>""")
+
+          feed = f"""<?xml version="1.0" encoding="UTF-8"?>
+          <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+            <channel>
+              <title>{SITE_TITLE}</title>
+              <link>{SITE_URL}</link>
+              <description>{SITE_DESC}</description>
+              <language>fi</language>
+              <atom:link href="{SITE_URL}/feed.xml" rel="self" type="application/rss+xml" />
+              <lastBuildDate>{datetime.now().strftime('%a, %d %b %Y %H:%M:%S +0000')}</lastBuildDate>
+          {chr(10).join(items)}
+            </channel>
+          </rss>"""
+
+          with open('feed.xml', 'w', encoding='utf-8') as fh:
+              fh.write(feed)
+
+          print(f"feed.xml generoitu, {len(items)} uutista")
+          EOF
+
+      - name: Commit feed.xml
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add feed.xml
+          git diff --staged --quiet || git commit -m "Päivitetty feed.xml"
+          git push

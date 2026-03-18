@@ -8,6 +8,28 @@ public_folder: "/kuvat"
 locale: fi
 
 collections:
+  - name: "palautteet"
+    label: "Asiakaspalautteet"
+    folder: "_palautteet"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{nimi}} – {{tilaisuus}}"
+    fields:
+      - { label: "Asiakkaan nimi", name: "nimi", widget: "string" }
+      - { label: "Tilaisuus", name: "tilaisuus", widget: "string", hint: "esim. Häät, Syntymäpäivät", required: false }
+      - { label: "Palaute", name: "palaute", widget: "text" }
+      - { label: "Julkinen", name: "julkinen", widget: "boolean", default: false, hint: "Näkyy sivustolla vain jos julkinen" }
+
+  - name: "sivut"
+    label: "Sivujen sisältö"
+    files:
+      - name: "etusivu"
+        label: "Etusivu — Keitä me olemme"
+        file: "_sisalto/etusivu.md"
+        fields:
+          - { label: "Otsikko", name: "title", widget: "string", default: "Iloinen porukka Seinäjoelta" }
+          - { label: "Teksti", name: "body", widget: "markdown" }
+
   - name: "uutiset"
     label: "Uutiset"
     folder: "_uutiset"
@@ -19,3 +41,43 @@ collections:
       - { label: "Lyhyt kuvaus", name: "excerpt", widget: "string", required: false }
       - { label: "Kansikuva", name: "image", widget: "image", required: false }
       - { label: "Sisältö", name: "body", widget: "markdown" }
+
+  - name: "settilista"
+    label: "Settilista"
+    folder: "_settilista"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} – {{artist}}"
+    fields:
+      - { label: "Kappaleen nimi", name: "title", widget: "string" }
+      - { label: "Esittäjä", name: "artist", widget: "string" }
+      - { label: "Vuosi", name: "year", widget: "string", required: false }
+      - { label: "Tyylilaji", name: "genre", widget: "select", options: ["Suomalainen iskelmä", "Rock & Pop", "Tanssi & Viihde", "Kansainväliset"] }
+      - { label: "Näytä etusivulla", name: "featured", widget: "boolean", default: false, required: false }
+
+  - name: "keikat"
+    label: "Keikat"
+    folder: "_keikat"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    summary: "{{title}} – {{date}}"
+    fields:
+      - { label: "Tapahtuman nimi", name: "title", widget: "string" }
+      - { label: "Päivämäärä", name: "date", widget: "datetime", time_format: false }
+      - { label: "Kellonaika", name: "time", widget: "string", hint: "esim. 20:00", required: false }
+      - { label: "Paikka", name: "venue", widget: "string", hint: "esim. Tornikahvila" }
+      - { label: "Kaupunki", name: "city", widget: "string" }
+      - { label: "Tyyppi", name: "type", widget: "select", options: ["Avoin", "Häät", "Juhlat", "Yksityinen", "Yritystapahtuma"] }
+      - { label: "Lisätietoja", name: "info", widget: "string", required: false }
+
+  - name: "videot"
+    label: "Videot"
+    folder: "_videot"
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}}"
+    fields:
+      - { label: "Otsikko", name: "title", widget: "string", hint: "esim. Keikkatallenne 2024" }
+      - { label: "Kuvaus", name: "description", widget: "string", hint: "esim. Seinäjoki Summer Pub", required: false }
+      - { label: "YouTube URL", name: "youtube_url", widget: "string", hint: "esim. https://www.youtube.com/watch?v=VIDEOID" }
+      - { label: "Järjestys", name: "order", widget: "number", default: 1, hint: "1 = näytetään ensimmäisenä" }
