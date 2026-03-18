@@ -165,16 +165,16 @@
     </div>
   </section>
 
-  <!-- KEIKKAKALENTERI -->
+  <section id="keikkakalenteri" class="section-dark">
     <div class="container">
-      <p class="section-label" style="color:rgba(255,255,255,0.4)">Missä esiinnymme</p>
+      <p class="section-label">Missä esiinnymme</p>
       <h2 class="section-title">Tulevat keikat</h2>
       <div class="section-divider"></div>
       <div class="events-list" id="events-list">
         <div style="text-align:center;padding:2rem;color:var(--grey-light);font-size:0.9rem;">Ladataan keikkoja...</div>
       </div>
       <p style="text-align:center;margin-top:1.5rem;">
-        <a href="keikat.html" style="color:rgba(255,255,255,0.5);font-size:0.85rem;text-decoration:none;letter-spacing:0.08em;border-bottom:1px solid rgba(255,255,255,0.2);padding-bottom:2px;transition:color 0.2s;" onmouseover="this.style.color='white'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">Katso kaikki keikat →</a>
+        <a href="keikat.html" style="color:rgba(255,255,255,0.5);font-size:0.85rem;text-decoration:none;letter-spacing:0.08em;border-bottom:1px solid rgba(255,255,255,0.2);padding-bottom:2px;">Katso kaikki keikat →</a>
       </p>
     </div>
   </section>
@@ -522,7 +522,7 @@
         }).join('');
 
       } catch(e) {
-        list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--grey-light);font-style:italic;">Keikkoja ladataan...</div>';
+        list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--grey-light);font-style:italic;">Ei tulevia keikkoja juuri nyt — <a href="#yhteydenotto" style="color:var(--white);text-decoration:underline;">varaa meidät esiintymään täältä</a></div>';
       }
     }
 
