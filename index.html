@@ -117,7 +117,7 @@
     <div class="hero-content">
       <h1 class="hero-logo">Thö</h1>
       <p class="hero-logo-sub">Bulizongs</p>
-      <p class="hero-tagline">Tanssitakuu - Juhliin, häihin ja kaikkiin illanistujaisiin </p>
+      <p class="hero-tagline">Häihin, juhliin ja kaikkiin illanistujaisiin </p>
 
       <div class="hero-btns">
         <a href="#yhteydenotto" class="btn-primary">Tilaa keikka</a>
@@ -156,37 +156,8 @@
       <p class="section-label">Mitä soitamme</p>
       <h2 class="section-title">Settilista</h2>
       <div class="section-divider"></div>
-      <div class="setlist-preview-grid">
-        <div class="setlist-genre-block">
-          <h3> Suomalainen iskelmä</h3>
-          <ul>
-            <li>Paratiisi <span>Rauli Badding Somerjoki</span></li>
-            <li>Sinisten tähti <span>Tapani Kansa</span></li>
-            <li>On suuri sun rantas autius <span>Reijo Taipale</span></li>
-            <li>Hopeinen kuu <span>Olavi Virta</span></li>
-            <li>Satumaa <span>Reijo Taipale</span></li>
-          </ul>
-        </div>
-        <div class="setlist-genre-block">
-          <h3> Rock & Pop</h3>
-          <ul>
-            <li>Daa Daa <span>Sammy Babitzin</span></li>
-            <li>Pienen pojan elämää <span>Juice Leskinen</span></li>
-            <li>Rakkaus on lumivalkoinen <span>Agents</span></li>
-            <li>Kesäpäivä Kangasalla <span>Peräsmäki & Huttunen</span></li>
-            <li>Tähtisumua <span>Katri Helena</span></li>
-          </ul>
-        </div>
-        <div class="setlist-genre-block">
-          <h3> Kansainväliset</h3>
-          <ul>
-            <li>Can't Help Falling in Love <span>Elvis Presley</span></li>
-            <li>Brown Eyed Girl <span>Van Morrison</span></li>
-            <li>Sweet Home Chicago <span>Robert Johnson</span></li>
-            <li>Ring of Fire <span>Johnny Cash</span></li>
-            <li>Proud Mary <span>CCR</span></li>
-          </ul>
-        </div>
+      <div class="setlist-preview-grid" id="setlist-preview-grid">
+        <div class="uutiset-loading">Ladataan settilistaa...</div>
       </div>
       <p style="text-align:center;">
         <a href="setlista.html" class="btn-primary">Katso koko settilista →</a>
@@ -392,6 +363,57 @@
     }
 
     lataauutiset();
+
+    // Hakee featured-kappaleet etusivulle
+    const SETTILISTA_API = `https://api.github.com/repos/${REPO}/contents/_settilista`;
+
+    async function lataaSettilistaPreview() {
+      const grid = document.getElementById('setlist-preview-grid');
+      if (!grid) return;
+      try {
+        const res = await fetch(SETTILISTA_API);
+        if (!res.ok) throw new Error();
+        const files = await res.json();
+        const mdFiles = files.filter(f => f.name.endsWith('.md'));
+
+        const kappaleet = await Promise.all(mdFiles.map(async f => {
+          const r = await fetch(f.download_url);
+          const text = await r.text();
+          return parseFrontmatter(text);
+        }));
+
+        // Suodata featured-kappaleet
+        const featured = kappaleet.filter(k => k.featured === 'true' || k.featured === true);
+
+        if (featured.length === 0) {
+          grid.innerHTML = '<div class="uutiset-loading">Settilista päivitetään pian.</div>';
+          return;
+        }
+
+        // Ryhmittele genren mukaan
+        const genret = {};
+        featured.forEach(k => {
+          const g = k.genre || 'Muut';
+          if (!genret[g]) genret[g] = [];
+          genret[g].push(k);
+        });
+
+        grid.innerHTML = Object.entries(genret).map(([genre, lista]) => `
+          <div class="setlist-genre-block">
+            <h3>${genre}</h3>
+            <ul>
+              ${lista.map(k => `<li>${k.title} <span>${k.artist}</span></li>`).join('')}
+            </ul>
+          </div>`).join('');
+
+      } catch(e) {
+        // Jos settilista on tyhjä, piilota koko osio
+        const section = document.getElementById('settilista-preview');
+        if (section) section.style.display = 'none';
+      }
+    }
+
+    lataaSettilistaPreview();
 
     // Hakee keikat GitHubista
     const KEIKAT_API = `https://api.github.com/repos/${REPO}/contents/_keikat`;
