@@ -25,7 +25,7 @@
     body {
       padding-top: 0;
       background: var(--black);
-      color: var(--black);
+      color: var(--white);
       font-family: 'DM Sans', sans-serif;
       font-weight: 400;
       overflow-x: hidden;
@@ -49,6 +49,26 @@
 .section-dark .event-info p   { color: var(--grey-light); }
 .section-dark .video-info h3  { color: var(--white); }
 .section-dark .video-info p   { color: var(--grey-light); }
+
+/* Vaaleat osiot — musta teksti */
+.section-light,
+#about, #settilista-preview, #uutiset, #palautteet, #yhteydenotto {
+  background: var(--off-white);
+  color: var(--black);
+}
+
+.section-light .section-title,
+#about .section-title,
+#settilista-preview .section-title,
+#uutiset .section-title,
+#palautteet .section-title,
+#yhteydenotto .section-title { color: var(--black); }
+
+.section-light p,
+#about p, #uutiset p, #palautteet p, #yhteydenotto p { color: #444; }
+
+.section-light h3,
+#about h3, #yhteydenotto h3 { color: var(--black); }
 
     /* HERO */
     #hero {
