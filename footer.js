@@ -20,5 +20,15 @@
     </footer>
   `;
 
-  document.write(html);
+  // Lisätään footer bodyn loppuun.
+  // Ei document.write() — se ei toimi defer-skriptissä ja hidastaa sivua.
+  function asenna() {
+    document.body.insertAdjacentHTML('beforeend', html);
+  }
+
+  if (document.body) {
+    asenna();
+  } else {
+    document.addEventListener('DOMContentLoaded', asenna);
+  }
 })();

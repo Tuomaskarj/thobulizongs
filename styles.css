@@ -1680,8 +1680,8 @@
   .jasenet-grid { grid-template-columns: repeat(2, 1fr) !important; }
 
   /* Hero fontti */
-  .hero-btns { flex-direction: column; align-items: center; }
-  .btn-primary, .btn-secondary { width: 100%; text-align: center; }
+  .hero-btns { flex-direction: row; justify-content: center; flex-wrap: wrap; gap: 0.8rem; }
+  .hero-btns .btn-primary, .hero-btns .btn-secondary { width: auto; text-align: center; padding: 0.75rem 1.6rem; font-size: 0.85rem; }
 }
 
 

@@ -1,18 +1,12 @@
 [build]
   publish = "."
+  # Kokoaa CMS-sisällön data.json- ja feed.xml-tiedostoiksi joka julkaisussa
+  command = "python3 scripts/build.py"
 
-# Salainen admin-osoite — vaihda /takaovi haluamaksesi
-[[redirects]]
-  from = "/takaovi"
-  to = "/admin/index.html"
-  status = 200
-
-[[redirects]]
-  from = "/takaovi/*"
-  to = "/admin/index.html"
-  status = 200
-
-# Estä suora /admin-pääsy — ohjaa etusivulle
+# Hallintapaneeli on kansiossa takaovi/, joten se palvellaan sellaisenaan
+# ilman uudelleenohjausta — myös takaovi/config.yml.
+#
+# Estetään /admin, jota botit kokeilevat ensimmäisenä.
 [[redirects]]
   from = "/admin"
   to = "/"

@@ -5,8 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Thö Bulizongs – Tanssittava orkesteri Seinäjoelta</title>
   <link rel="alternate" type="application/rss+xml" title="Thö Bulizongs – Uutiset" href="/feed.xml" />
+  <link rel="preload" href="styles.css" as="style" />
   <link rel="stylesheet" href="styles.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" /></noscript>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -110,7 +115,7 @@
   </script>
 </head>
 <body>
-  <script src="nav.js"></script>
+  <script src="nav.js" defer></script>
 
 
   <section id="hero">
@@ -282,390 +287,188 @@
   </section>
 
   <script>
-    // Hakee uutiset GitHubista
-    const REPO = 'Tuomaskarj/thobulizongs';
-    const UUTISET_API = `https://api.github.com/repos/${REPO}/contents/_uutiset`;
+    const KUUKAUDET = ['Tammi','Helmi','Maalis','Huhti','Touko','Kesä','Heinä','Elo','Syys','Loka','Marras','Joulu'];
 
-    function parseFrontmatter(text) {
-      const fm = {};
-      const lines = text.split('\n');
-      let currentKey = null;
-      let inFrontmatter = false;
-
-      for (const line of lines) {
-        if (line.trim() === '---') {
-          inFrontmatter = !inFrontmatter;
-          continue;
-        }
-        // Lue kenttä joko frontmatter-lohkossa tai suoraan tiedoston alussa
-        if (line.match(/^[a-zA-Z]/)) {
-          const colonIdx = line.indexOf(':');
-          if (colonIdx > -1) {
-            currentKey = line.slice(0, colonIdx).trim();
-            fm[currentKey] = line.slice(colonIdx + 1).trim().replace(/^"|"$/g, '');
-          }
-        } else if (currentKey && line.match(/^\s+/)) {
-          fm[currentKey] += ' ' + line.trim();
-        }
-      }
-
-      fm.body = text.replace(/^---\n[\s\S]*?\n---\n/, '').trim();
-      return fm;
+    function parseDate(str) {
+      if (!str) return null;
+      return new Date(str.slice(0, 10) + 'T12:00:00');
     }
 
     function formatDate(str) {
       if (!str) return '';
-      // Otetaan vain päivämääräosa aikavyöhykkeestä riippumatta
-      const dateOnly = str.slice(0, 10);
-      const d = new Date(dateOnly + 'T12:00:00');
+      const d = parseDate(str);
       return d.toLocaleDateString('fi-FI', { day: 'numeric', month: 'long', year: 'numeric' });
     }
 
-    function parseDate(str) {
-      if (!str) return null;
-      const dateOnly = str.slice(0, 10);
-      return new Date(dateOnly + 'T12:00:00');
-    }
-
-    async function lataauutiset() {
-      const grid = document.getElementById('uutiset-grid');
-      try {
-        const res = await fetch(UUTISET_API);
-        if (!res.ok) throw new Error('Ei uutisia');
-        const files = await res.json();
-
-        const mdFiles = files
-          .filter(f => f.name.endsWith('.md'))
-          .sort((a, b) => b.name.localeCompare(a.name))
-          .slice(0, 3);
-
-        if (mdFiles.length === 0) {
-          grid.innerHTML = '<div class="uutiset-loading">Uutisia ei vielä ole.</div>';
-          return;
-        }
-
-        const uutiset = await Promise.all(mdFiles.map(async f => {
-          const r = await fetch(f.download_url);
-          const text = await r.text();
-          return { ...parseFrontmatter(text), slug: f.name.replace('.md', '') };
-        }));
-
-        grid.innerHTML = uutiset.map(u => `
-          <a class="uutinen-card" href="uutiset.html#${u.slug}">
-            <div class="uutinen-kuva">
-              ${u.image
-                ? `<img src="${u.image}" alt="${u.title || ''}" />`
-                : `<div class="uutinen-kuva-placeholder">♪</div>`}
-            </div>
-            <div class="uutinen-body">
-              <div class="uutinen-pvm">${formatDate(u.date)}</div>
-              <div class="uutinen-otsikko">${u.title || 'Uutinen'}</div>
-              ${u.excerpt ? `<div class="uutinen-excerpt">${u.excerpt}</div>` : ''}
-            </div>
-          </a>
-        `).join('');
-
-        document.getElementById('uutiset-linkki').style.display = 'block';
-
-      } catch(e) {
-        grid.innerHTML = '<div class="uutiset-loading">Uutisia ei vielä ole — palataan pian!</div>';
-      }
-    }
-
-    lataauutiset();
-
-    // Hakee "Keitä me olemme" -tekstin GitHubista
-    async function lataaEtusivuSisalto() {
-      try {
-        const res = await fetch(`https://raw.githubusercontent.com/${REPO}/main/_sisalto/etusivu.md`);
-        if (!res.ok) return;
-        const text = await res.text();
-        const fm = parseFrontmatter(text);
-
-        if (fm.title) {
-          document.getElementById('about-title').innerHTML = fm.title;
-        }
-        if (fm.body) {
-          document.getElementById('about-body').innerHTML = markdownToHtml(fm.body);
-        }
-
-        // Bändikuva about-osioon
-        if (fm.bandi_kuva) {
-          const img = document.getElementById('bandi-kuva');
-          if (img) {
-            img.src = fm.bandi_kuva;
-            img.style.display = 'block';
-            img.nextElementSibling.style.display = 'none';
-          }
-        }
-
-        // Keikkakuva yhteydenotto-osioon
-        if (fm.keikka_kuva) {
-          const img = document.getElementById('keikka-kuva');
-          if (img) {
-            img.src = fm.keikka_kuva;
-            img.style.display = 'block';
-            img.nextElementSibling.style.display = 'none';
-          }
-        }
-
-      } catch(e) { /* Käytetään oletustekstiä */ }
-    }
-
     function markdownToHtml(md) {
+      if (!md) return '';
       return md
         .replace(/\\\s*$/gm, '')
         .replace(/^## (.*)/gm, '<h3>$1</h3>')
         .replace(/^# (.*)/gm, '<h3>$1</h3>')
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        .split('\n\n')
-        .filter(p => p.trim())
+        .split('\n\n').filter(p => p.trim())
         .map(p => p.startsWith('<h') ? p : `<p>${p.replace(/\n/g, ' ')}</p>`)
         .join('\n');
     }
 
-    lataaEtusivuSisalto();
-
-    // Hakee asiakaspalautteet GitHubista
-    const PALAUTTEET_API = `https://api.github.com/repos/${REPO}/contents/_palautteet`;
-
-    async function laataaPalautteet() {
-      const grid = document.getElementById('palautteet-grid');
-      if (!grid) return;
-      try {
-        const res = await fetch(PALAUTTEET_API);
-        if (!res.ok) throw new Error();
-        const files = await res.json();
-        const mdFiles = files.filter(f => f.name.endsWith('.md'));
-
-        const kaikki = await Promise.all(mdFiles.map(async f => {
-          const r = await fetch(f.download_url);
-          const text = await r.text();
-          return parseFrontmatter(text);
-        }));
-
-        // Näytä vain julkiset
-        const julkiset = kaikki.filter(p => p.julkinen === 'true' || p.julkinen === true);
-
-        if (julkiset.length === 0) {
-          grid.innerHTML = '<div class="palautteet-loading">Meistä kerrottua tulossa pian.</div>';
-          return;
-        }
-
-        grid.innerHTML = julkiset.map(p => `
-          <div class="palaute-card">
-            <div class="palaute-lainaus">"</div>
-            <p class="palaute-teksti">${p.palaute || ''}</p>
-            <div class="palaute-nimi">${p.nimi || ''}</div>
-            ${p.tilaisuus ? `<div class="palaute-tilaisuus">${p.tilaisuus}</div>` : ''}
-          </div>`).join('');
-
-      } catch(e) {
-        grid.innerHTML = '<div class="palautteet-loading">Meistä kerrottua tulossa pian.</div>';
-      }
-    }
-
-    laataaPalautteet();
-
-    // Hakee featured-kappaleet etusivulle
-    const SETTILISTA_API = `https://api.github.com/repos/${REPO}/contents/_settilista`;
-
-    async function lataaSettilistaPreview() {
-      const grid = document.getElementById('setlist-preview-grid');
-      if (!grid) return;
-      try {
-        const res = await fetch(SETTILISTA_API);
-        if (!res.ok) throw new Error();
-        const files = await res.json();
-        const mdFiles = files.filter(f => f.name.endsWith('.md'));
-
-        const kappaleet = await Promise.all(mdFiles.map(async f => {
-          const r = await fetch(f.download_url);
-          const text = await r.text();
-          return parseFrontmatter(text);
-        }));
-
-        // Suodata featured-kappaleet
-        const featured = kappaleet.filter(k => k.featured === 'true' || k.featured === true);
-
-        if (featured.length === 0) {
-          grid.innerHTML = '<div class="uutiset-loading">Settilista päivitetään pian.</div>';
-          return;
-        }
-
-        // Ryhmittele genren mukaan
-        const genret = {};
-        featured.forEach(k => {
-          const g = k.genre || 'Muut';
-          if (!genret[g]) genret[g] = [];
-          genret[g].push(k);
-        });
-
-        grid.innerHTML = Object.entries(genret).map(([genre, lista]) => `
-          <div class="setlist-genre-block">
-            <h3>${genre}</h3>
-            <ul>
-              ${lista.map(k => `<li>${k.title} <span>${k.artist}</span></li>`).join('')}
-            </ul>
-          </div>`).join('');
-
-      } catch(e) {
-        // Jos settilista on tyhjä, piilota koko osio
-        const section = document.getElementById('settilista-preview');
-        if (section) section.style.display = 'none';
-      }
-    }
-
-    lataaSettilistaPreview();
-
-    // Hakee videot GitHubista
-    const VIDEOT_API = `https://api.github.com/repos/${REPO}/contents/_videot`;
-
     function youtubeEmbed(url) {
+      if (!url) return null;
       const match = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
       return match ? match[1] : null;
     }
 
-    async function lataaVideot() {
-      const grid = document.getElementById('music-grid');
-      if (!grid) return;
+    async function lataaKaikki() {
       try {
-        const res = await fetch(VIDEOT_API);
+        const res = await fetch('/data.json?v=' + Date.now());
         if (!res.ok) throw new Error();
-        const files = await res.json();
-        const mdFiles = files.filter(f => f.name.endsWith('.md'));
+        const data = await res.json();
 
-        const videot = await Promise.all(mdFiles.map(async f => {
-          const r = await fetch(f.download_url);
-          const text = await r.text();
-          return parseFrontmatter(text);
-        }));
-
-        const jarjestetty = videot
-          .sort((a, b) => (parseInt(a.order) || 99) - (parseInt(b.order) || 99))
-          .slice(0, 3);
-
-        if (jarjestetty.length === 0) {
-          grid.innerHTML = `
-            <div class="video-card"><div class="video-placeholder"><div class="play-icon">▶</div></div><div class="video-info"><h3>Videot tulossa</h3><p>Lisää videoita hallintapaneelista</p></div></div>`;
-          return;
+        // SISÄLTÖ
+        if (data.sisalto) {
+          const s = data.sisalto;
+          if (s.title) document.getElementById('about-title').innerHTML = s.title;
+          if (s.body) document.getElementById('about-body').innerHTML = markdownToHtml(s.body);
+          if (s.bandi_kuva) {
+            const img = document.getElementById('bandi-kuva');
+            if (img) { img.src = s.bandi_kuva; img.style.display = 'block'; img.nextElementSibling.style.display = 'none'; }
+          }
+          if (s.keikka_kuva) {
+            const img = document.getElementById('keikka-kuva');
+            if (img) { img.src = s.keikka_kuva; img.style.display = 'block'; img.nextElementSibling.style.display = 'none'; }
+          }
         }
 
-        grid.innerHTML = jarjestetty.map(v => {
-          const videoId = youtubeEmbed(v.youtube_url || '');
-          return `
-            <div class="video-card">
-              <div class="video-placeholder">
-                ${videoId
-                  ? `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen title="${v.title || ''}"></iframe>`
-                  : `<div class="play-icon">▶</div>`}
+        // UUTISET
+        const uutisetGrid = document.getElementById('uutiset-grid');
+        if (uutisetGrid && data.uutiset?.length > 0) {
+          uutisetGrid.innerHTML = data.uutiset.slice(0, 3).map(u => `
+            <a class="uutinen-card" href="uutiset.html#${u.slug}">
+              <div class="uutinen-kuva">
+                ${u.image ? `<img src="${u.image}" alt="${u.title||''}" />` : `<div class="uutinen-kuva-placeholder">♪</div>`}
               </div>
-              <div class="video-info">
-                <h3>${v.title || 'Video'}</h3>
-                <p>${v.description || ''}</p>
+              <div class="uutinen-body">
+                <div class="uutinen-pvm">${formatDate(u.date)}</div>
+                <div class="uutinen-otsikko">${u.title||'Uutinen'}</div>
+                ${u.excerpt ? `<div class="uutinen-excerpt">${u.excerpt}</div>` : ''}
               </div>
-            </div>`;
-        }).join('');
+            </a>`).join('');
+          document.getElementById('uutiset-linkki').style.display = 'block';
+        } else if (uutisetGrid) {
+          uutisetGrid.innerHTML = '<div class="uutiset-loading">Uutisia ei vielä ole.</div>';
+        }
+
+        // KEIKAT
+        const eventsList = document.getElementById('events-list');
+        if (eventsList) {
+          const today = new Date(); today.setHours(0,0,0,0);
+          const tulevat = (data.keikat||[])
+            .filter(k => k.date && parseDate(k.date) >= today)
+            .sort((a,b) => parseDate(a.date) - parseDate(b.date));
+          if (tulevat.length === 0) {
+            eventsList.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--grey-light);font-style:italic;">Ei tulevia keikkoja juuri nyt — <a href="#yhteydenotto" style="color:var(--white);text-decoration:underline;">varaa meidät esiintymään täältä</a></div>';
+          } else {
+            eventsList.innerHTML = '<div class="events-list">' + tulevat.map(k => {
+              const d = parseDate(k.date);
+              return `<div class="event-item">
+                <div class="event-date">
+                  <div class="day">${String(d.getDate()).padStart(2,'0')}</div>
+                  <div class="month">${KUUKAUDET[d.getMonth()]}</div>
+                </div>
+                <div class="event-info">
+                  <h3>${k.title||''} – ${k.city||''}</h3>
+                  <p>${k.venue||''}${k.time?' &nbsp;·&nbsp; klo '+k.time:''}${k.info?' &nbsp;·&nbsp; '+k.info:''}</p>
+                </div>
+                <div class="event-tag">${k.type||''}</div>
+              </div>`;
+            }).join('') + '</div>';
+          }
+        }
+
+        // SETTILISTA PREVIEW
+        const setlistGrid = document.getElementById('setlist-preview-grid');
+        if (setlistGrid) {
+          const featured = (data.settilista||[]).filter(k => k.featured === 'true' || k.featured === true);
+          if (featured.length === 0) {
+            setlistGrid.innerHTML = '<div class="uutiset-loading">Settilista päivitetään pian.</div>';
+          } else {
+            const genret = {};
+            featured.forEach(k => {
+              const g = k.genre||'Muut';
+              if (!genret[g]) genret[g] = [];
+              genret[g].push(k);
+            });
+            setlistGrid.innerHTML = Object.entries(genret).map(([genre, lista]) => `
+              <div class="setlist-genre-block">
+                <h3>${genre}</h3>
+                <ul>${lista.map(k => `<li>${k.title} <span>${k.artist}</span></li>`).join('')}</ul>
+              </div>`).join('');
+          }
+        }
+
+        // PALAUTTEET
+        const palautteetGrid = document.getElementById('palautteet-grid');
+        if (palautteetGrid) {
+          const julkiset = (data.palautteet||[]).filter(p => p.julkinen === 'true' || p.julkinen === true);
+          if (julkiset.length === 0) {
+            palautteetGrid.innerHTML = '<div class="palautteet-loading">Meistä kerrottua tulossa pian.</div>';
+          } else {
+            palautteetGrid.innerHTML = julkiset.map(p => `
+              <div class="palaute-card">
+                <div class="palaute-lainaus">"</div>
+                <p class="palaute-teksti">${p.palaute||''}</p>
+                <div class="palaute-nimi">${p.nimi||''}</div>
+                ${p.tilaisuus?`<div class="palaute-tilaisuus">${p.tilaisuus}</div>`:''}
+              </div>`).join('');
+          }
+        }
+
+        // VIDEOT
+        const musicGrid = document.getElementById('music-grid');
+        if (musicGrid) {
+          const videot = (data.videot||[])
+            .sort((a,b) => (parseInt(a.order)||99) - (parseInt(b.order)||99))
+            .slice(0, 3);
+          if (videot.length === 0) {
+            musicGrid.innerHTML = `
+              <div class="video-card"><div class="video-placeholder"><div class="play-icon">▶</div></div><div class="video-info"><h3>Keikkatallenne</h3><p>Tulossa pian</p></div></div>
+              <div class="video-card"><div class="video-placeholder"><div class="play-icon">▶</div></div><div class="video-info"><h3>Häätallenne</h3><p>Tulossa pian</p></div></div>
+              <div class="video-card"><div class="video-placeholder"><div class="play-icon">▶</div></div><div class="video-info"><h3>Studio session</h3><p>Tulossa pian</p></div></div>`;
+          } else {
+            musicGrid.innerHTML = videot.map(v => {
+              const videoId = youtubeEmbed(v.youtube_url||'');
+              return `<div class="video-card">
+                <div class="video-placeholder">
+                  ${videoId ? `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen title="${v.title||''}"></iframe>` : `<div class="play-icon">▶</div>`}
+                </div>
+                <div class="video-info"><h3>${v.title||'Video'}</h3><p>${v.description||''}</p></div>
+              </div>`;
+            }).join('');
+          }
+        }
 
       } catch(e) {
-        // Näytä placeholder jos ei videoita
-        grid.innerHTML = `
-          <div class="video-card"><div class="video-placeholder"><div class="play-icon">▶</div></div><div class="video-info"><h3>Keikkatallenne</h3><p>Tulossa pian</p></div></div>
-          <div class="video-card"><div class="video-placeholder"><div class="play-icon">▶</div></div><div class="video-info"><h3>Häätallenne</h3><p>Tulossa pian</p></div></div>
-          <div class="video-card"><div class="video-placeholder"><div class="play-icon">▶</div></div><div class="video-info"><h3>Studio session</h3><p>Tulossa pian</p></div></div>`;
+        console.error('data.json lataus epäonnistui:', e);
       }
     }
 
-    lataaVideot();
+    lataaKaikki();
+  </script>
 
-    // Hakee keikat GitHubista
-    const KEIKAT_API = `https://api.github.com/repos/${REPO}/contents/_keikat`;
-
-    const KUUKAUDET = ['Tammi','Helmi','Maalis','Huhti','Touko','Kesä','Heinä','Elo','Syys','Loka','Marras','Joulu'];
-
-    async function lataaKeikat() {
-      const list = document.getElementById('events-list');
-      try {
-        const res = await fetch(KEIKAT_API);
-        if (!res.ok) throw new Error();
-        const files = await res.json();
-
-        const mdFiles = files
-          .filter(f => f.name.endsWith('.md'))
-          .sort((a, b) => a.name.localeCompare(b.name));
-
-        if (mdFiles.length === 0) {
-          list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--grey-light);font-style:italic;">Ei tulevia keikkoja juuri nyt — <a href="#yhteydenotto" style="color:var(--white);text-decoration:underline;">varaa meidät esiintymään täältä</a></div>';
-          return;
-        }
-
-        const keikat = await Promise.all(mdFiles.map(async f => {
-          const r = await fetch(f.download_url);
-          const text = await r.text();
-          return parseFrontmatter(text);
-        }));
-
-        // Näytä vain tulevat keikat
-        const today = new Date(); today.setHours(0,0,0,0);
-        const tulevat = keikat.filter(k => k.date && parseDate(k.date) >= today);
-        const menneet = keikat.filter(k => k.date && parseDate(k.date) < today);
-
-        if (tulevat.length === 0) {
-          list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--grey-light);font-style:italic;">Ei tulevia keikkoja juuri nyt — <a href="#yhteydenotto" style="color:var(--white);text-decoration:underline;">varaa meidät esiintymään täältä</a></div>';
-          return;
-        }
-
-        list.innerHTML = tulevat.map(k => {
-          const d = new Date(k.date);
-          const day = d.getDate();
-          const month = KUUKAUDET[d.getMonth()];
-          return `
-            <div class="event-item">
-              <div class="event-date">
-                <div class="day">${String(day).padStart(2,'0')}</div>
-                <div class="month">${month}</div>
-              </div>
-              <div class="event-info">
-                <h3>${k.title || ''} – ${k.city || ''}</h3>
-                <p>${k.venue || ''}${k.time ? ' &nbsp;·&nbsp; klo ' + k.time : ''}${k.info ? ' &nbsp;·&nbsp; ' + k.info : ''}</p>
-              </div>
-              <div class="event-tag">${k.type || ''}</div>
-            </div>`;
-        }).join('');
-
-      } catch(e) {
-        list.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--grey-light);font-style:italic;">Ei tulevia keikkoja juuri nyt — <a href="#yhteydenotto" style="color:var(--white);text-decoration:underline;">varaa meidät esiintymään täältä</a></div>';
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" defer></script>
+  <script defer>
+    window.addEventListener('load', function() {
+      if (window.netlifyIdentity) {
+        window.netlifyIdentity.on("init", user => {
+          if (!user) {
+            window.netlifyIdentity.on("login", () => {
+              document.location.href = "/takaovi/";
+            });
+          }
+        });
       }
-    }
-
-    lataaKeikat();
-  </script>
-
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", user => {
-        if (!user) {
-          window.netlifyIdentity.on("login", () => {
-            document.location.href = "/admin/";
-          });
-        }
-      });
-    }
-  </script>
-
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-  <script>
-    if (window.netlifyIdentity) {
-      window.netlifyIdentity.on("init", user => {
-        if (!user) {
-          window.netlifyIdentity.on("login", () => {
-            document.location.href = "/admin/";
-          });
-        }
-      });
-    }
+    });
 
     // Netlify Forms AJAX-lähetys
     const form = document.getElementById('keikka-form');
@@ -677,8 +480,8 @@
         btn.textContent = 'Lähetetään...';
         btn.disabled = true;
         try {
-          const data = new FormData(form);
-          await fetch('/', { method: 'POST', body: new URLSearchParams(data).toString(), headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
+          const formData = new FormData(form);
+          await fetch('/', { method: 'POST', body: new URLSearchParams(formData).toString(), headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
           msg.style.display = 'block';
           msg.style.color = '#fff';
           msg.textContent = 'Kiitos! Otamme yhteyttä pian.';
@@ -688,13 +491,13 @@
         } catch(e) {
           msg.style.display = 'block';
           msg.style.color = '#f88';
-          msg.textContent = 'Jokin meni pieleen. Kokeile uudelleen tai lähetä sähköpostia suoraan.';
+          msg.textContent = 'Jokin meni pieleen. Kokeile uudelleen.';
           btn.textContent = 'Lähetä tarjouspyyntö';
           btn.disabled = false;
         }
       });
     }
   </script>
-  <script src="footer.js"></script>
+  <script src="footer.js" defer></script>
 </body>
 </html>

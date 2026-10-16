@@ -5,8 +5,8 @@
   // Tunnista onko etusivu vai alisivu
   const onEtusivu = window.location.pathname === '/' || window.location.pathname.endsWith('index.html');
 
-  const etusivu   = onEtusivu ? '#hero'         : 'index.html';
-  const yhteys    = onEtusivu ? '#yhteydenotto'  : 'index.html#yhteydenotto';
+  const etusivu = onEtusivu ? '#hero'          : 'index.html';
+  const yhteys  = onEtusivu ? '#yhteydenotto'  : 'index.html#yhteydenotto';
 
   const html = `
     <nav id="main-nav">
@@ -25,25 +25,35 @@
     </nav>
   `;
 
-  // Kirjoita nav sivulle
-  document.write(html);
-
-  // Merkitse aktiivinen sivu
-  document.addEventListener('DOMContentLoaded', function() {
-    const path = window.location.pathname.split('/').pop() || 'index.html';
+  function merkitseAktiivinen() {
+    const sivu = window.location.pathname.split('/').pop() || 'index.html';
+    if (sivu === 'index.html') return;
     document.querySelectorAll('.nav-links a').forEach(a => {
       const href = a.getAttribute('href');
-      if (href && href.includes(path) && path !== 'index.html') {
+      if (href && href.includes(sivu)) {
         a.style.color = '#fff';
-        a.style.borderBottom = '2px solid #c0392b';
+        a.style.borderBottom = '2px solid #fff';
         a.style.paddingBottom = '2px';
       }
     });
-  });
+  }
+
+  // Lisätään navigaatio bodyn alkuun.
+  // Ei document.write() — se ei toimi defer-skriptissä ja hidastaa sivua.
+  function asenna() {
+    document.body.insertAdjacentHTML('afterbegin', html);
+    merkitseAktiivinen();
+  }
+
+  if (document.body) {
+    asenna();
+  } else {
+    document.addEventListener('DOMContentLoaded', asenna);
+  }
 })();
 
-// Mobiilivalikko
+// Mobiilivalikko — globaali, koska nav käyttää onclick-attribuuttia
 function toggleMenu() {
   const links = document.querySelector('.nav-links');
-  links.classList.toggle('open');
+  if (links) links.classList.toggle('open');
 }
