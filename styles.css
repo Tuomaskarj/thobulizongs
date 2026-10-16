@@ -11,15 +11,16 @@
       --black: #000000;
       --white: #ffffff;
       --off-white: #f7f5f2;
-      --accent: #ffffff;
+      --accent: #ffffff;        /* korostus TUMMALLA taustalla */
+      --accent-dark: #141414;   /* korostus VAALEALLA taustalla */
       --accent-light: #e0e0e0;
+      --grey-on-light: #707070; /* vaimennettu teksti vaalealla, 4.5:1 */
       --grey: #2e2e2e;
       --grey-mid: #555;
       --grey-light: #999;
       --card-bg: #252525;
     }
 
-    
     
 
     body {
@@ -31,7 +32,6 @@
       overflow-x: hidden;
     }
 
-
 /* ════════════════════════════════════════
    VÄRISYSTEEMI — tummat vs vaaleat osiot
    Lisää section-dark luokka tummille osioille HTML:ssä
@@ -40,7 +40,7 @@
 
 .section-dark { background: var(--black); }
 
-.section-dark .section-label  { color: rgba(255,255,255,0.45); }
+.section-dark .section-label  { color: rgba(255,255,255,0.6); }
 .section-dark .section-title  { color: var(--white); }
 .section-dark .section-divider { background: var(--white); }
 .section-dark p               { color: rgba(255,255,255,0.7); }
@@ -159,8 +159,6 @@
       display: inline-block;
     }
 
-    .btn-primary:hover { background: var(--accent-light); transform: translateY(-2px); }
-
     .btn-secondary {
       background: transparent;
       color: rgba(255,255,255,0.75);
@@ -178,8 +176,6 @@
     .btn-secondary:hover { border-color: rgba(255,255,255,0.6); color: var(--white); transform: translateY(-2px); }
 
     /* SECTIONS */
-    
-    
 
     .section-label {
       font-size: 0.72rem;
@@ -226,29 +222,6 @@
 
     .about-text p { color: #444; line-height: 1.8; margin-bottom: 1.1rem; font-size: 1rem; }
 
-    .about-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-
-    .stat-box {
-      background: var(--white);
-      border: 1px solid #e0ddd8;
-      padding: 1.4rem;
-      border-radius: 6px;
-      text-align: center;
-      transition: box-shadow 0.2s;
-    }
-
-    .stat-box:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
-
-    .stat-number {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.2rem;
-      font-weight: 900;
-      color: var(--black);
-      line-height: 1;
-    }
-
-    .stat-label { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--grey-light); margin-top: 0.3rem; }
-
     /* BAND PHOTO */
     .band-photo-wrap {
       position: relative;
@@ -291,7 +264,7 @@
       font-size: 0.72rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: var(--accent-dark);
       font-weight: 500;
       margin-bottom: 0.8rem;
       padding-bottom: 0.5rem;
@@ -313,7 +286,7 @@
     .setlist-genre-block li span {
       display: block;
       font-size: 0.75rem;
-      color: var(--grey-light);
+      color: var(--grey-on-light);
     }
 
     /* KEIKKAKALENTERI */
@@ -335,10 +308,7 @@
     }
 
     .event-item:hover { border-left-color: var(--white); background: #1a1a1a; }
-
-    .event-date { text-align: center; }
     .event-date .day { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; color: var(--white); line-height: 1; }
-    .event-date .month { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--grey-light); }
 
     .event-info h3 { font-size: 1rem; font-weight: 500; color: var(--white); margin-bottom: 0.2rem; }
 
@@ -405,114 +375,6 @@
     .video-info h3 { font-weight: 500; font-size: 0.95rem; margin-bottom: 0.2rem; color: var(--white); }
     .video-info p { font-size: 0.8rem; color: var(--grey-light); }
 
-    .reels-wrapper {
-      position: relative;
-    }
-
-    .reels-track {
-      display: flex;
-      gap: 1rem;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      padding-bottom: 1rem;
-    }
-
-    .reels-track::-webkit-scrollbar { display: none; }
-
-    .reel-card {
-      flex: 0 0 280px;
-      scroll-snap-align: start;
-      position: relative;
-      border-radius: 12px;
-      overflow: hidden;
-      background: var(--card-bg);
-      aspect-ratio: 9/16;
-      cursor: pointer;
-    }
-
-    .reel-card iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-      pointer-events: none;
-    }
-
-    .reel-placeholder {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(160deg, #2a2a2a 0%, #1a1a1a 100%);
-      gap: 1rem;
-    }
-
-    .reel-play {
-      width: 60px; height: 60px;
-      background: var(--accent);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 1.3rem;
-      padding-left: 4px;
-      transition: transform 0.2s, background 0.2s;
-    }
-
-    .reel-card:hover .reel-play {
-      transform: scale(1.1);
-      background: var(--accent-light);
-    }
-
-    .reel-info {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      padding: 1.5rem 1rem 1rem;
-      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%);
-      color: var(--white);
-    }
-
-    .reel-info h3 { font-size: 0.9rem; font-weight: 500; margin-bottom: 0.2rem; }
-    .reel-info p { font-size: 0.75rem; color: rgba(255,255,255,0.55); }
-
-    .reel-placeholder-label {
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.3);
-      text-align: center;
-      padding: 0 1rem;
-    }
-
-    .reels-nav {
-      display: flex;
-      justify-content: flex-end;
-      gap: 0.5rem;
-      margin-top: 1rem;
-    }
-
-    .reels-btn {
-      width: 38px; height: 38px;
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 50%;
-      background: transparent;
-      color: var(--white);
-      cursor: pointer;
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: border-color 0.2s, background 0.2s;
-    }
-
-    .reels-btn:hover { border-color: var(--accent); background: rgba(192,57,43,0.15); }
-
     /* UUTISET */
     #uutiset { background: var(--off-white); }
 
@@ -559,7 +421,7 @@
       align-items: center;
       justify-content: center;
       background: #e8e5e0;
-      color: #bbb;
+      color: #676767;
       font-size: 2rem;
     }
 
@@ -572,12 +434,12 @@
       font-size: 0.72rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: var(--accent-dark);
       margin-bottom: 0.4rem;
       font-weight: 500;
     }
 
-    .uutinen-otsikko {
+    .uutinen-card .uutinen-otsikko {
       font-family: 'Playfair Display', serif;
       font-size: 1rem;
       font-weight: 700;
@@ -652,7 +514,7 @@
       font-size: 0.75rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--grey-light);
+      color: var(--grey-on-light);
       margin-top: 0.2rem;
     }
 
@@ -669,16 +531,6 @@
 
     /* YHTEYDENOTTO */
     #yhteydenotto { background: var(--off-white); }
-
-    .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 5rem; align-items: start; }
-
-    .contact-info h3 { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.8rem; }
-
-    .contact-info p { color: #555; line-height: 1.75; margin-bottom: 1.8rem; font-size: 0.95rem; }
-
-    .contact-detail { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.8rem; color: #444; font-size: 0.9rem; }
-
-    .contact-icon { font-size: 1rem; width: 28px; text-align: center; }
 
     .contact-form { display: flex; flex-direction: column; gap: 0.9rem; }
 
@@ -705,14 +557,13 @@
     .form-group input:focus,
     .form-group select:focus,
     .form-group textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(192,57,43,0.1);
+      border-color: var(--accent-dark);
+      box-shadow: 0 0 0 3px rgba(0,0,0,0.12);
     }
 
     .form-group textarea { resize: vertical; min-height: 110px; }
 
     /* FOOTER */
-    
 
     .footer-logo {
       font-family: 'Playfair Display', serif;
@@ -728,12 +579,6 @@
 
     
 
-    
-
-    
-
-    
-
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -741,102 +586,13 @@
 
     @media (max-width: 768px) {
       .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .event-item { grid-template-columns: 65px 1fr; }
       .event-tag { display: none; }
-      .instagram-grid { grid-template-columns: repeat(2, 1fr); }
       .form-row { grid-template-columns: 1fr; }
       #hero { padding: 4rem 1.5rem 3rem; min-height: auto; }
       .hero-logo { margin-top: 1rem; }
       html, 
     }
-
-    /* NAV */
-    nav#main-nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 1rem 2.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: var(--black);
-    }
-
-    .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem; font-weight: 900; font-style: italic;
-      color: var(--white); text-decoration: none;
-      text-shadow: 2px 2px 0px #000, 3px 3px 6px rgba(0,0,0,0.5);
-      letter-spacing: 0.04em;
-    }
-
-    .nav-links { display: flex; gap: 1.8rem; list-style: none; align-items: center; }
-
-    .nav-links a {
-      color: rgba(255,255,255,0.65);
-      text-decoration: none;
-      font-size: 0.85rem;
-      letter-spacing: 0.08em;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: var(--white); }
-
-    .nav-cta {
-      background: var(--white) !important;
-      color: var(--black) !important;
-      padding: 0.45rem 1.1rem;
-      border-radius: 4px;
-    }
-
-    .nav-cta:hover { background: var(--accent-light) !important; }
-
-    .nav-hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 4px;
-    }
-
-    .nav-hamburger span {
-      display: block;
-      width: 24px; height: 2px;
-      background: var(--white);
-      border-radius: 2px;
-    }
-
-    @media (max-width: 768px) {
-      nav#main-nav { padding: 1rem 1.2rem; }
-      .nav-hamburger { display: flex; }
-      .nav-links {
-        display: none;
-        position: absolute;
-        top: 100%; left: 0; right: 0;
-        background: var(--black);
-        flex-direction: column;
-        padding: 1rem 1.5rem 1.5rem;
-        gap: 1rem;
-        border-top: 1px solid rgba(255,255,255,0.08);
-      }
-      .nav-links.open { display: flex; }
-    }
-
-    
-    
-    
-
-    /* PAGE HEADER */
-    .page-header {
-      background: var(--black);
-      padding: 4rem 2rem 3rem;
-      text-align: center;
-    }
-
-    .page-header p { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 0.6rem; }
 
     .page-header h1 {
       font-family: 'Playfair Display', serif;
@@ -849,10 +605,6 @@
     /* SECTIONS */
     section { padding: 5rem 2rem; }
     .container { max-width: 1060px; margin: 0 auto; }
-
-    
-
-    
 
     
 
@@ -883,7 +635,7 @@
       position: absolute; inset: 0;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      background: #e8e5e0; color: #aaa;
+      background: #e8e5e0; color: #676767;
       font-size: 0.82rem; letter-spacing: 0.1em;
       text-transform: uppercase; text-align: center; gap: 0.8rem;
     }
@@ -928,7 +680,7 @@
       display: flex; align-items: center;
       justify-content: center;
       background: linear-gradient(145deg, #e8e5e0, #d8d5d0);
-      font-size: 3rem; color: #bbb;
+      font-size: 3rem; color: #767676;
     }
 
     .jasen-nimi {
@@ -941,17 +693,14 @@
       font-size: 0.8rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: var(--grey-mid);
       font-weight: 500;
     }
 
     /* FOOTER */
-    
-    
-    .footer-tagline { color: rgba(255,255,255,0.35); font-size: 0.82rem; letter-spacing: 0.1em; margin-bottom: 1.5rem; }
-    
-    
-    
+
+    .footer-tagline { color: rgba(255,255,255,0.6); font-size: 0.82rem; letter-spacing: 0.1em; margin-bottom: 1.5rem; }
+
     
 
     
@@ -966,106 +715,13 @@
       .jasenet-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
-    /* NAV */
-    nav#main-nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 1rem 2.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: var(--black);
-    }
-
-    .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem; font-weight: 900; font-style: italic;
-      color: var(--white); text-decoration: none;
-      text-shadow: 2px 2px 0px #000, 3px 3px 6px rgba(0,0,0,0.5);
-      letter-spacing: 0.04em;
-    }
-
-    .nav-links { display: flex; gap: 1.8rem; list-style: none; align-items: center; }
-
-    .nav-links a {
-      color: rgba(255,255,255,0.65);
-      text-decoration: none;
-      font-size: 0.85rem;
-      letter-spacing: 0.08em;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: var(--white); }
-
-    .nav-cta {
-      background: var(--white) !important;
-      color: var(--black) !important;
-      padding: 0.45rem 1.1rem;
-      border-radius: 4px;
-    }
-
-    .nav-cta:hover { background: var(--accent-light) !important; }
-
-    .nav-hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 4px;
-    }
-
-    .nav-hamburger span {
-      display: block;
-      width: 24px; height: 2px;
-      background: var(--white);
-      border-radius: 2px;
-    }
-
-    @media (max-width: 768px) {
-      nav#main-nav { padding: 1rem 1.2rem; }
-      .nav-hamburger { display: flex; }
-      .nav-links {
-        display: none;
-        position: absolute;
-        top: 100%; left: 0; right: 0;
-        background: var(--black);
-        flex-direction: column;
-        padding: 1rem 1.5rem 1.5rem;
-        gap: 1rem;
-        border-top: 1px solid rgba(255,255,255,0.08);
-      }
-      .nav-links.open { display: flex; }
-    }
-
-    
-    
-    
-
-    .page-header {
-      background: var(--black);
-      padding: 4rem 2rem 3rem;
-      text-align: center;
-    }
-
-    .page-header p { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 0.6rem; }
-
-    .page-header h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 5vw, 3.5rem);
-      font-weight: 900; font-style: italic;
-      color: var(--white);
-      text-shadow: 2px 2px 0 #000;
-    }
-
     /* TABS */
     .tab-bar {
       background: var(--white);
       border-bottom: 1px solid #e0ddd8;
       padding: 0 2rem;
       display: flex;
+      overflow-x: auto;
       position: sticky;
       top: 58px;
       z-index: 90;
@@ -1087,17 +743,14 @@
     }
 
     .tab-btn:hover { color: var(--black); }
-    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 500; }
+    .tab-btn.active { color: var(--accent-dark); border-bottom-color: var(--accent-dark); font-weight: 500; }
 
     /* CONTENT */
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
     
-    
 
-    
-    
     
 
     /* EVENTS */
@@ -1146,7 +799,7 @@
     .year-heading {
       font-family: 'Playfair Display', serif;
       font-size: 1.1rem; font-weight: 700;
-      color: var(--grey-mid);
+      color: rgba(255,255,255,0.7);
       margin: 2rem 0 0.8rem;
       padding-bottom: 0.5rem;
       border-bottom: 1px solid #e0ddd8;
@@ -1155,110 +808,27 @@
     .year-heading:first-child { margin-top: 0; }
 
     footer { background: var(--black); padding: 2.5rem 2rem; text-align: center; }
-    
-    
+
     .footer-links { display: flex; justify-content: center; gap: 1.8rem; margin-bottom: 1.8rem; flex-wrap: wrap; }
-    .footer-links a { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.08em; transition: color 0.2s; }
+    .footer-links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.8rem; letter-spacing: 0.08em; transition: color 0.2s; display: inline-block; padding: 0.45rem 0.2rem; }
     .footer-links a:hover { color: rgba(255,255,255,0.85); }
-    .footer-copy { font-size: 0.72rem; color: rgba(255,255,255,0.18); }
+    .footer-copy { font-size: 0.72rem; color: rgba(255,255,255,0.55); }
 
     @media (max-width: 600px) {
       .event-item { grid-template-columns: 65px 1fr; }
       .event-tag { display: none; }
     }
 
-    /* NAV */
-    nav#main-nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 1rem 2.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: var(--black);
-    }
-
-    .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem; font-weight: 900; font-style: italic;
-      color: var(--white); text-decoration: none;
-      text-shadow: 2px 2px 0px #000, 3px 3px 6px rgba(0,0,0,0.5);
-      letter-spacing: 0.04em;
-    }
-
-    .nav-links { display: flex; gap: 1.8rem; list-style: none; align-items: center; }
-
-    .nav-links a {
-      color: rgba(255,255,255,0.65);
-      text-decoration: none;
-      font-size: 0.85rem;
-      letter-spacing: 0.08em;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: var(--white); }
-
-    .nav-cta {
-      background: var(--white) !important;
-      color: var(--black) !important;
-      padding: 0.45rem 1.1rem;
-      border-radius: 4px;
-    }
-
-    .nav-cta:hover { background: var(--accent-light) !important; }
-
-    .nav-hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 4px;
-    }
-
-    .nav-hamburger span {
-      display: block;
-      width: 24px; height: 2px;
-      background: var(--white);
-      border-radius: 2px;
-    }
-
-    @media (max-width: 768px) {
-      nav#main-nav { padding: 1rem 1.2rem; }
-      .nav-hamburger { display: flex; }
-      .nav-links {
-        display: none;
-        position: absolute;
-        top: 100%; left: 0; right: 0;
-        background: var(--black);
-        flex-direction: column;
-        padding: 1rem 1.5rem 1.5rem;
-        gap: 1rem;
-        border-top: 1px solid rgba(255,255,255,0.08);
-      }
-      .nav-links.open { display: flex; }
-    }
-
-    
     
 
     
 
-    /* PAGE HEADER */
+    /* PAGE HEADER
+       Yläpehmusteen on ohitettava kiinteä navigaatio (56px mobiili / 63px desktop) */
     .page-header {
       background: var(--black);
-      padding: 4rem 2rem 3rem;
+      padding: 5.5rem 2rem 3rem;
       text-align: center;
-    }
-
-    .page-header p {
-      font-size: 0.72rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.4);
-      margin-bottom: 0.6rem;
     }
 
     .page-header h1 {
@@ -1308,7 +878,7 @@
     }
 
     .filter-tab:hover { color: var(--black); }
-    .filter-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 500; }
+    .filter-tab.active { color: var(--accent-dark); border-bottom-color: var(--accent-dark); font-weight: 500; }
 
     /* CONTENT */
     main { max-width: 900px; margin: 0 auto; padding: 3rem 2rem 5rem; }
@@ -1324,20 +894,19 @@
       margin-bottom: 1.2rem;
     }
 
-    .genre-icon { font-size: 1.4rem; }
-
+    /* Sisältöalue on tumma, kappalelistat ovat vaaleita kortteja sen päällä */
     .genre-title {
       font-family: 'Playfair Display', serif;
       font-size: 1.3rem;
       font-weight: 700;
-      color: var(--black);
+      color: var(--white);
     }
 
     .genre-count {
       font-size: 0.72rem;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--grey-light);
+      color: rgba(255,255,255,0.6);
       margin-left: auto;
     }
 
@@ -1358,7 +927,7 @@
 
     .song-num {
       font-size: 0.78rem;
-      color: var(--grey-light);
+      color: var(--grey-on-light);
       text-align: center;
       font-weight: 500;
     }
@@ -1372,119 +941,24 @@
 
     .song-info .artist {
       font-size: 0.8rem;
-      color: var(--grey-light);
+      color: var(--grey-on-light);
     }
 
     .song-year {
       font-size: 0.75rem;
-      color: #bbb;
+      color: var(--grey-on-light);
       white-space: nowrap;
     }
-
-    /* FOOTER */
-    
-
-    
-
-    .footer-back {
-      color: rgba(255,255,255,0.4);
-      font-size: 0.82rem;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .footer-back:hover { color: rgba(255,255,255,0.85); }
 
     @media (max-width: 600px) {
       .song-row { grid-template-columns: 28px 1fr; }
       .song-year { display: none; }
     }
 
-    /* NAV */
-    nav#main-nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 1rem 2.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: var(--black);
-    }
-
-    .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem; font-weight: 900; font-style: italic;
-      color: var(--white); text-decoration: none;
-      text-shadow: 2px 2px 0px #000, 3px 3px 6px rgba(0,0,0,0.5);
-      letter-spacing: 0.04em;
-    }
-
-    .nav-links { display: flex; gap: 1.8rem; list-style: none; align-items: center; }
-
-    .nav-links a {
-      color: rgba(255,255,255,0.65);
-      text-decoration: none;
-      font-size: 0.85rem;
-      letter-spacing: 0.08em;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: var(--white); }
-
-    .nav-cta {
-      background: var(--white) !important;
-      color: var(--black) !important;
-      padding: 0.45rem 1.1rem;
-      border-radius: 4px;
-    }
-
-    .nav-cta:hover { background: var(--accent-light) !important; }
-
-    .nav-hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 4px;
-    }
-
-    .nav-hamburger span {
-      display: block;
-      width: 24px; height: 2px;
-      background: var(--white);
-      border-radius: 2px;
-    }
-
-    @media (max-width: 768px) {
-      nav#main-nav { padding: 1rem 1.2rem; }
-      .nav-hamburger { display: flex; }
-      .nav-links {
-        display: none;
-        position: absolute;
-        top: 100%; left: 0; right: 0;
-        background: var(--black);
-        flex-direction: column;
-        padding: 1rem 1.5rem 1.5rem;
-        gap: 1rem;
-        border-top: 1px solid rgba(255,255,255,0.08);
-      }
-      .nav-links.open { display: flex; }
-    }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    
 
-    .page-header {
-      background: var(--black);
-      padding: 4rem 2rem 3rem;
-      text-align: center;
-    }
-
-    .page-header p { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 0.6rem; }
+    .page-header p { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 0.6rem; }
 
     .page-header h1 {
       font-family: 'Playfair Display', serif;
@@ -1519,13 +993,14 @@
     .uutinen-pvm {
       font-family: 'DM Sans', sans-serif;
       font-size: 0.72rem; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--accent);
+      text-transform: uppercase; color: var(--accent-dark);
       margin-bottom: 0.5rem; font-weight: 500;
     }
 
-    .uutinen-otsikko {
+    .uutinen-full .uutinen-otsikko {
       font-family: 'Playfair Display', serif;
       font-size: 1.6rem; font-weight: 900;
+      color: var(--black);
       margin-bottom: 1rem; line-height: 1.2;
     }
 
@@ -1541,14 +1016,6 @@
     .loading {
       text-align: center; padding: 4rem;
       color: var(--grey-light); font-size: 0.9rem;
-    }
-
-    
-    
-    .footer-back { color: rgba(255,255,255,0.4); font-size: 0.82rem; text-decoration: none; transition: color 0.2s; }
-    .footer-back:hover { color: rgba(255,255,255,0.85); }
-
-    @media (max-width: 600px) {
     }
 
     /* NAV */
@@ -1579,18 +1046,21 @@
       font-size: 0.85rem;
       letter-spacing: 0.08em;
       transition: color 0.2s;
+      display: inline-block;
+      padding: 0.5rem 0.25rem;
     }
 
     .nav-links a:hover { color: var(--white); }
 
-    .nav-cta {
-      background: var(--white) !important;
-      color: var(--black) !important;
+    /* Selektori on .nav-links a.nav-cta, jotta se voittaa .nav-links a:n paddingin */
+    .nav-links a.nav-cta {
+      background: var(--white);
+      color: var(--black);
       padding: 0.45rem 1.1rem;
       border-radius: 4px;
     }
 
-    .nav-cta:hover { background: var(--accent-light) !important; }
+    .nav-links a.nav-cta:hover { background: var(--accent-light); }
 
     .nav-hamburger {
       display: none;
@@ -1646,9 +1116,6 @@
   /* Videot 1 sarake */
   .music-grid { grid-template-columns: 1fr !important; }
 
-  /* Reels — pienemmät kortit mobiilissa */
-  .reel-card { flex: 0 0 220px; }
-
   /* Hero padding pienempi */
   #hero { padding: 4rem 1.5rem 3rem; }
 
@@ -1666,7 +1133,7 @@
   .historia-grid { grid-template-columns: 1fr !important; gap: 2rem; }
 
   /* Page header pienempi */
-  .page-header { padding: 3rem 1.5rem 2rem; }
+  .page-header { padding: 5.5rem 1.5rem 2rem; }
 
   /* Footer linkit pienemmällä välillä */
   .footer-links { gap: 1rem; }
@@ -1683,7 +1150,6 @@
   .hero-btns { flex-direction: row; justify-content: center; flex-wrap: wrap; gap: 0.8rem; }
   .hero-btns .btn-primary, .hero-btns .btn-secondary { width: auto; text-align: center; padding: 0.75rem 1.6rem; font-size: 0.85rem; }
 }
-
 
 /* ════════════════════════════════════════
    ALASIVUJEN TEKSTIVÄRIKORJAUKSET
@@ -1705,43 +1171,20 @@
 
 /* Keikat-sivu — vaaleat osiot */
 .tab-bar { color: var(--black); }
-.tab-btn { color: var(--grey-mid) !important; }
-.tab-btn:hover { color: var(--black) !important; }
-.tab-btn.active { color: var(--black) !important; }
 
 #tab-tulevat section,
 #tab-menneet section { color: var(--black); }
-
-.event-item.vaalea h3 { color: var(--black) !important; }
-.event-item.vaalea p  { color: var(--grey-mid) !important; }
 
 /* Keikat-sivun event-itemit ovat vaalealla taustalla */
 #tab-tulevat .event-info h3,
 #tab-menneet .event-info h3 { color: var(--black) !important; }
 
-#tab-tulevat .event-info p,
-#tab-menneet .event-info p { color: var(--grey-mid) !important; }
-
-#tab-tulevat .event-date .day,
-#tab-menneet .event-date .day { color: var(--black) !important; }
-
-.year-heading { color: var(--grey-mid) !important; }
 
 /* Settilista-sivu */
-.genre-title { color: var(--black) !important; }
-.genre-count { color: var(--grey-light) !important; }
 .song-list { color: var(--black); }
-.song-info .title { color: var(--black) !important; }
-.song-info .artist { color: var(--grey-light) !important; }
-.song-year { color: var(--grey-light) !important; }
-.song-num { color: var(--grey-light) !important; }
-.filter-tab { color: var(--grey-mid) !important; }
-.filter-tab.active { color: var(--black) !important; }
 
 /* Uutiset-sivu */
-.uutinen-otsikko { color: var(--black) !important; }
-.uutinen-teksti { color: #444 !important; }
-
+.uutinen-teksti { color: #444; }
 
 /* ════════════════════════════════════════
    LOPULLISET VÄRIKORJAUKSET
@@ -1769,23 +1212,19 @@
 #tab-menneet .event-info p  { color: var(--grey-mid) !important; }
 #tab-tulevat .event-date .day,
 #tab-menneet .event-date .day { color: var(--black) !important; }
+#tab-tulevat .event-date .month,
+#tab-menneet .event-date .month { color: var(--grey-on-light) !important; }
 #tab-tulevat .event-item:hover,
 #tab-menneet .event-item:hover { background: #f7f5f2 !important; border-left-color: var(--black) !important; }
-
-/* Bändi-sivu: jäsen-soitin */
-.jasen-soitin { color: var(--grey-mid) !important; }
 
 /* Settilista-sivu: song-row vaalealla taustalla */
 .song-row { background: var(--white) !important; }
 .song-row:hover { background: #f7f5f2 !important; }
 .song-info .title { color: var(--black) !important; }
-.song-info .artist { color: var(--grey-light) !important; }
-.song-num { color: var(--grey-light) !important; }
-.song-year { color: #bbb !important; }
-.genre-title { color: var(--black) !important; }
-.genre-count { color: var(--grey-light) !important; }
+.song-info .artist { color: var(--grey-on-light) !important; }
+.song-num { color: var(--grey-on-light) !important; }
+.song-year { color: var(--grey-on-light) !important; }
 .song-list { background: var(--white) !important; border: 1px solid #e8e5e0 !important; }
-
 
 /* YHTEYDENOTTO — form + kuva */
 .yhteydenotto-grid {

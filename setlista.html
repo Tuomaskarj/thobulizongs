@@ -19,7 +19,7 @@
   <div class="page-header">
     <p>Mitä soitamme</p>
     <h1>Settilista</h1>
-    <p class="sub">50 kappaletta · Häihin, juhliin ja pubeihin</p>
+    <p class="sub" id="setlista-maara">Häihin, juhliin ja pubeihin</p>
   </div>
 
   <div class="filter-bar" id="filter-bar">
@@ -61,6 +61,15 @@
 
     function renderLista(kappaleet) {
       const main = document.getElementById('main-content');
+
+      // Kappalemäärä otsikkoon — ei kovakoodattuna, vaan todellisesta listasta
+      const maara = document.getElementById('setlista-maara');
+      if (maara) {
+        maara.textContent = kappaleet.length
+          ? `${kappaleet.length} kappaletta · Häihin, juhliin ja pubeihin`
+          : 'Häihin, juhliin ja pubeihin';
+      }
+
       const suodatettu = aktiivinenGenre === 'kaikki'
         ? kappaleet
         : kappaleet.filter(k => k.genre === aktiivinenGenre);
