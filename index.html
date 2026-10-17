@@ -141,8 +141,8 @@
           </div>
         </div>
         <div class="band-photo-wrap">
-          <img id="bandi-kuva" src="kuvat/bandi.jpg" alt="Thö Bulizongs bändikuva"
-            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+          <img id="bandi-kuva" alt="Thö Bulizongs bändikuva" hidden
+            onerror="this.hidden = true; this.nextElementSibling.hidden = false;" />
           <div class="band-photo-placeholder">
             <div>
               <div style="font-size:3rem;margin-bottom:0.8rem;"></div>
@@ -269,9 +269,8 @@
           </form>
         </div>
         <div class="yhteydenotto-kuva">
-          <!-- Vaihda src oikeaan kuvaan: kuvat/keikka.jpg -->
-          <img id="keikka-kuva" src="kuvat/keikka.jpg" alt="Thö Bulizongs keikalla"
-            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+          <img id="keikka-kuva" alt="Thö Bulizongs keikalla" hidden
+            onerror="this.hidden = true; this.nextElementSibling.hidden = false;" />
           <div class="yhteydenotto-kuva-placeholder">
             <div>
               <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="opacity:0.3;margin-bottom:0.8rem;"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
@@ -310,6 +309,16 @@
         .join('\n');
     }
 
+    // Paikkamerkki pysyy näkyvissä kunnes CMS:stä löytyy oikea kuva
+    function naytaKuva(id, polku) {
+      if (!polku) return;
+      const img = document.getElementById(id);
+      if (!img) return;
+      img.src = polku;
+      img.hidden = false;
+      if (img.nextElementSibling) img.nextElementSibling.hidden = true;
+    }
+
     function youtubeEmbed(url) {
       if (!url) return null;
       const match = url.match(/(?:v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
@@ -327,14 +336,8 @@
           const s = data.sisalto;
           if (s.title) document.getElementById('about-title').innerHTML = s.title;
           if (s.body) document.getElementById('about-body').innerHTML = markdownToHtml(s.body);
-          if (s.bandi_kuva) {
-            const img = document.getElementById('bandi-kuva');
-            if (img) { img.src = s.bandi_kuva; img.style.display = 'block'; img.nextElementSibling.style.display = 'none'; }
-          }
-          if (s.keikka_kuva) {
-            const img = document.getElementById('keikka-kuva');
-            if (img) { img.src = s.keikka_kuva; img.style.display = 'block'; img.nextElementSibling.style.display = 'none'; }
-          }
+          naytaKuva('bandi-kuva', s.bandi_kuva);
+          naytaKuva('keikka-kuva', s.keikka_kuva);
         }
 
         // UUTISET
@@ -435,13 +438,36 @@
           } else {
             musicGrid.innerHTML = videot.map(v => {
               const videoId = youtubeEmbed(v.youtube_url||'');
+              const otsikko = v.title || 'Video';
+              // Näytetään vain pikkukuva. Soitin ladataan vasta klikkauksesta,
+              // koska YouTuben upotus tuo mukanaan raskaan soitinskriptin.
               return `<div class="video-card">
                 <div class="video-placeholder">
-                  ${videoId ? `<iframe src="https://www.youtube.com/embed/${videoId}" allowfullscreen title="${v.title||''}"></iframe>` : `<div class="play-icon">▶</div>`}
+                  ${videoId ? `
+                    <button class="video-kansi" data-video="${videoId}"
+                            aria-label="Toista video: ${otsikko}">
+                      <img src="https://i.ytimg.com/vi/${videoId}/hqdefault.jpg"
+                           alt="" loading="lazy" decoding="async" width="480" height="360" />
+                      <span class="play-icon" aria-hidden="true">▶</span>
+                    </button>`
+                    : `<div class="play-icon">▶</div>`}
                 </div>
-                <div class="video-info"><h3>${v.title||'Video'}</h3><p>${v.description||''}</p></div>
+                <div class="video-info"><h3>${otsikko}</h3><p>${v.description||''}</p></div>
               </div>`;
             }).join('');
+
+            // Vaihda pikkukuva oikeaksi soittimeksi vasta klikatessa
+            musicGrid.querySelectorAll('.video-kansi').forEach(btn => {
+              btn.addEventListener('click', () => {
+                const id = btn.dataset.video;
+                const kehys = document.createElement('iframe');
+                kehys.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0`;
+                kehys.title = btn.getAttribute('aria-label') || 'Video';
+                kehys.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                kehys.allowFullscreen = true;
+                btn.replaceWith(kehys);
+              }, { once: true });
+            });
           }
         }
 
@@ -453,19 +479,26 @@
     lataaKaikki();
   </script>
 
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" defer></script>
-  <script defer>
-    window.addEventListener('load', function() {
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
+  <script>
+    // Netlify Identity -widget painaa n. 53 kt eikä sitä tarvita sivun
+    // lukemiseen. Se ladataan vain jos osoitteessa on kutsu- tai
+    // palautuslinkin tunniste, eli kun joku on oikeasti tulossa sisään.
+    (function () {
+      if (!/\b(invite_token|recovery_token|confirmation_token|email_change_token)=/.test(location.hash)) return;
+      const s = document.createElement('script');
+      s.src = 'https://identity.netlify.com/v1/netlify-identity-widget.js';
+      s.onload = function () {
+        if (!window.netlifyIdentity) return;
+        window.netlifyIdentity.on('init', user => {
           if (!user) {
-            window.netlifyIdentity.on("login", () => {
-              document.location.href = "/takaovi/";
+            window.netlifyIdentity.on('login', () => {
+              document.location.href = '/takaovi/';
             });
           }
         });
-      }
-    });
+      };
+      document.head.appendChild(s);
+    })();
 
     // Netlify Forms AJAX-lähetys
     const form = document.getElementById('keikka-form');

@@ -440,6 +440,37 @@
 
     .video-placeholder iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
 
+    /* Videon kansikuva — soitin ladataan vasta tätä painamalla */
+    .video-kansi {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      padding: 0; border: none; background: #1a1a1a;
+      cursor: pointer; display: block;
+    }
+
+    .video-kansi img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+
+    .video-kansi .play-icon {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .video-kansi:hover .play-icon,
+    .video-kansi:focus-visible .play-icon {
+      transform: translate(-50%, -50%) scale(1.12);
+      background: var(--accent-light);
+    }
+
+    .video-kansi:focus-visible {
+      outline: 2px solid var(--white);
+      outline-offset: -3px;
+    }
+
     .play-icon {
       width: 52px; height: 52px;
       background: var(--white);
