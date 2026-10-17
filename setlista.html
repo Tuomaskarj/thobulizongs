@@ -6,11 +6,8 @@
   <title>Settilista – Thö Bulizongs</title>
   <link rel="preload" href="styles.css" as="style" />
   <link rel="stylesheet" href="styles.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" /></noscript>
+  <link rel="preload" href="/fontit/playfair-display-latin-900-italic.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fontit/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
 </head>
 <body>
   <script src="nav.js" defer></script>
@@ -35,22 +32,24 @@
   </main>
 
   <script>
-    const REPO = 'Tuomaskarj/thobulizongs';
-    const API = `https://api.github.com/repos/${REPO}/contents/_settilista`;
+    // Sisältö tulee yhdestä data.json-tiedostosta, jonka Netlify kokoaa
+    // julkaisun yhteydessä (scripts/build.py).
+    const DATA = '/data.json?v=' + Date.now();
+
+    function parseDate(str) {
+      if (!str) return null;
+      // Vain päiväosa, jotta aikavyöhyke ei siirrä päivää
+      return new Date(str.slice(0, 10) + 'T12:00:00');
+    }
+
+    function formatDate(str) {
+      if (!str) return '';
+      return parseDate(str).toLocaleDateString('fi-FI',
+        { day: 'numeric', month: 'long', year: 'numeric' });
+    }
 
     let kaikki = [];
     let aktiivinenGenre = 'kaikki';
-
-    function parseFrontmatter(text) {
-      const match = text.match(/^---\n([\s\S]*?)\n---/);
-      if (!match) return {};
-      const fm = {};
-      match[1].split('\n').forEach(line => {
-        const [key, ...val] = line.split(':');
-        if (key) fm[key.trim()] = val.join(':').trim().replace(/^"|"$/g, '');
-      });
-      return fm;
-    }
 
     const GENRE_SLUG = {
       'Suomalainen iskelmä': 'iskelma',
@@ -69,6 +68,9 @@
           ? `${kappaleet.length} kappaletta · Häihin, juhliin ja pubeihin`
           : 'Häihin, juhliin ja pubeihin';
       }
+
+      const ensimmainenSuodatin = document.querySelector('.filter-tab');
+      if (ensimmainenSuodatin) ensimmainenSuodatin.textContent = `Kaikki (${kappaleet.length})`;
 
       const suodatettu = aktiivinenGenre === 'kaikki'
         ? kappaleet
@@ -102,9 +104,6 @@
             </div>
           </div>`;
       }).join('');
-
-      // Päivitä "Kaikki"-napin laskuri
-      document.querySelector('.filter-tab').textContent = `Kaikki (${kappaleet.length})`;
     }
 
     function filterGenre(genre, btn) {
@@ -117,22 +116,13 @@
     async function lataaSettilista() {
       const main = document.getElementById('main-content');
       try {
-        const res = await fetch(API);
-        if (!res.ok) throw new Error();
-        const files = await res.json();
-
-        const mdFiles = files.filter(f => f.name.endsWith('.md'));
-
-        kaikki = await Promise.all(mdFiles.map(async f => {
-          const r = await fetch(f.download_url);
-          const text = await r.text();
-          return parseFrontmatter(text);
-        }));
-
+        const res = await fetch(DATA);
+        if (!res.ok) throw new Error('data.json ' + res.status);
+        kaikki = (await res.json()).settilista || [];
         kaikki.sort((a, b) => (a.title || '').localeCompare(b.title || '', 'fi'));
         renderLista(kaikki);
-
-      } catch(e) {
+      } catch (e) {
+        console.error('Settilistan lataus epäonnistui:', e);
         main.innerHTML = '<div class="loading">Settilistaa ei juuri nyt löydy.</div>';
       }
     }

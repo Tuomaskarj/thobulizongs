@@ -6,11 +6,8 @@
   <title>Uutiset – Thö Bulizongs</title>
   <link rel="preload" href="styles.css" as="style" />
   <link rel="stylesheet" href="styles.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" /></noscript>
+  <link rel="preload" href="/fontit/playfair-display-latin-900-italic.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fontit/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
 </head>
 <body>
   <script src="nav.js" defer></script>
@@ -28,85 +25,77 @@
   </main>
 
   <script>
-    const REPO = 'Tuomaskarj/thobulizongs';
-    const API = `https://api.github.com/repos/${REPO}/contents/_uutiset`;
+    // Sisältö tulee yhdestä data.json-tiedostosta, jonka Netlify kokoaa
+    // julkaisun yhteydessä (scripts/build.py).
+    const DATA = '/data.json?v=' + Date.now();
 
-    function parseFrontmatter(text) {
-      const match = text.match(/^---\n([\s\S]*?)\n---/);
-      if (!match) return { body: text };
-      const fm = {};
-      match[1].split('\n').forEach(line => {
-        const [key, ...val] = line.split(':');
-        if (key) fm[key.trim()] = val.join(':').trim().replace(/^"|"$/g, '');
-      });
-      fm.body = text.replace(/^---\n[\s\S]*?\n---\n/, '').trim();
-      return fm;
+    function parseDate(str) {
+      if (!str) return null;
+      // Vain päiväosa, jotta aikavyöhyke ei siirrä päivää
+      return new Date(str.slice(0, 10) + 'T12:00:00');
     }
 
     function formatDate(str) {
       if (!str) return '';
-      return new Date(str).toLocaleDateString('fi-FI', { day: 'numeric', month: 'long', year: 'numeric' });
+      return parseDate(str).toLocaleDateString('fi-FI',
+        { day: 'numeric', month: 'long', year: 'numeric' });
     }
 
-    // Yksinkertainen markdown → HTML
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, c =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+    }
+
+    // Kevyt markdown → HTML
     function markdownToHtml(md) {
-      return md
-        .replace(/^## (.*)/gm, '<h2>$1</h2>')
-        .replace(/^# (.*)/gm, '<h2>$1</h2>')
+      if (!md) return '';
+      return escapeHtml(md)
+        .replace(/\\\s*$/gm, '')
+        .replace(/^## (.*)$/gm, '<h3>$1</h3>')
+        .replace(/^# (.*)$/gm, '<h3>$1</h3>')
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        .replace(/\n\n/g, '</p><p>')
-        .replace(/^/, '<p>')
-        .replace(/$/, '</p>');
+        .split(/\n\s*\n/)
+        .filter(p => p.trim())
+        .map(p => p.startsWith('<h') ? p : `<p>${p.replace(/\n/g, ' ')}</p>`)
+        .join('\n');
     }
 
-    async function lataaKaikki() {
+    async function lataaUutiset() {
       const lista = document.getElementById('uutiset-lista');
       try {
-        const res = await fetch(API);
-        if (!res.ok) throw new Error();
-        const files = await res.json();
+        const res = await fetch(DATA);
+        if (!res.ok) throw new Error('data.json ' + res.status);
+        const uutiset = (await res.json()).uutiset || [];
 
-        const mdFiles = files
-          .filter(f => f.name.endsWith('.md'))
-          .sort((a, b) => b.name.localeCompare(a.name));
-
-        if (mdFiles.length === 0) {
+        if (!uutiset.length) {
           lista.innerHTML = '<div class="loading">Uutisia ei vielä ole.</div>';
           return;
         }
 
-        const uutiset = await Promise.all(mdFiles.map(async f => {
-          const r = await fetch(f.download_url);
-          const text = await r.text();
-          return { ...parseFrontmatter(text), slug: f.name.replace('.md', '') };
-        }));
-
         lista.innerHTML = uutiset.map(u => `
-          <article class="uutinen-full" id="${u.slug}">
-            ${u.image ? `<div class="uutinen-full-kuva"><img src="${u.image}" alt="${u.title || ''}" /></div>` : ''}
+          <article class="uutinen-full" id="${escapeHtml(u.slug)}">
+            ${u.image ? `<div class="uutinen-full-kuva"><img src="${escapeHtml(u.image)}" alt="${escapeHtml(u.title || '')}" loading="lazy" /></div>` : ''}
             <div class="uutinen-full-body">
               <div class="uutinen-pvm">${formatDate(u.date)}</div>
-              <h2 class="uutinen-otsikko">${u.title || 'Uutinen'}</h2>
+              <h2 class="uutinen-otsikko">${escapeHtml(u.title || 'Uutinen')}</h2>
               <div class="uutinen-teksti">${markdownToHtml(u.body)}</div>
             </div>
-          </article>
-        `).join('');
+          </article>`).join('');
 
-        // Scroll to anchor if present
+        // Jos osoitteessa on ankkuri, siirry siihen vasta kun sisältö on paikallaan
         if (window.location.hash) {
-          setTimeout(() => {
-            const el = document.querySelector(window.location.hash);
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }, 300);
+          const el = document.querySelector(window.location.hash);
+          if (el) requestAnimationFrame(() => el.scrollIntoView({ behavior: 'smooth' }));
         }
 
-      } catch(e) {
+      } catch (e) {
+        console.error('Uutisten lataus epäonnistui:', e);
         lista.innerHTML = '<div class="loading">Uutisia ei juuri nyt löydy — palataan pian!</div>';
       }
     }
 
-    lataaKaikki();
+    lataaUutiset();
   </script>
 
   <script src="footer.js" defer></script>

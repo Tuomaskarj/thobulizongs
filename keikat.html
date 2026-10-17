@@ -6,11 +6,8 @@
   <title>Keikat – Thö Bulizongs</title>
   <link rel="preload" href="styles.css" as="style" />
   <link rel="stylesheet" href="styles.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" /></noscript>
+  <link rel="preload" href="/fontit/playfair-display-latin-900-italic.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fontit/dm-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
 </head>
 <body>
   <script src="nav.js" defer></script>
@@ -49,34 +46,24 @@
   </div>
 
   <script>
-    const REPO = 'Tuomaskarj/thobulizongs';
-    const API = `https://api.github.com/repos/${REPO}/contents/_keikat`;
-    const KUUKAUDET = ['Tammi','Helmi','Maalis','Huhti','Touko','Kesä','Heinä','Elo','Syys','Loka','Marras','Joulu'];
-
-    function parseFrontmatter(text) {
-      const fm = {};
-      const lines = text.split('\n');
-      let currentKey = null;
-
-      for (const line of lines) {
-        if (line.trim() === '---') continue;
-        if (line.match(/^[a-zA-Z]/)) {
-          const colonIdx = line.indexOf(':');
-          if (colonIdx > -1) {
-            currentKey = line.slice(0, colonIdx).trim();
-            fm[currentKey] = line.slice(colonIdx + 1).trim().replace(/^"|"$/g, '');
-          }
-        } else if (currentKey && line.match(/^\s+/)) {
-          fm[currentKey] += ' ' + line.trim();
-        }
-      }
-      return fm;
-    }
+    // Sisältö tulee yhdestä data.json-tiedostosta, jonka Netlify kokoaa
+    // julkaisun yhteydessä (scripts/build.py).
+    const DATA = '/data.json?v=' + Date.now();
 
     function parseDate(str) {
       if (!str) return null;
+      // Vain päiväosa, jotta aikavyöhyke ei siirrä päivää
       return new Date(str.slice(0, 10) + 'T12:00:00');
     }
+
+    function formatDate(str) {
+      if (!str) return '';
+      return parseDate(str).toLocaleDateString('fi-FI',
+        { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+
+    const KUUKAUDET = ['Tammi','Helmi','Maalis','Huhti','Touko','Kesä',
+                       'Heinä','Elo','Syys','Loka','Marras','Joulu'];
 
     function eventItemHTML(k, mennyt = false) {
       const d = parseDate(k.date);
@@ -107,19 +94,14 @@
     }
 
     async function lataaKeikat() {
+      const listTulevat = document.getElementById('list-tulevat');
+      const listMenneet = document.getElementById('list-menneet');
       try {
-        const res = await fetch(API);
-        if (!res.ok) throw new Error();
-        const files = await res.json();
+        const res = await fetch(DATA);
+        if (!res.ok) throw new Error('data.json ' + res.status);
+        const keikat = (await res.json()).keikat || [];
 
-        const mdFiles = files.filter(f => f.name.endsWith('.md'));
-        const keikat = await Promise.all(mdFiles.map(async f => {
-          const r = await fetch(f.download_url);
-          const text = await r.text();
-          return parseFrontmatter(text);
-        }));
-
-        const today = new Date(); today.setHours(0,0,0,0);
+        const today = new Date(); today.setHours(0, 0, 0, 0);
 
         const tulevat = keikat
           .filter(k => k.date && parseDate(k.date) >= today)
@@ -129,27 +111,18 @@
           .filter(k => k.date && parseDate(k.date) < today)
           .sort((a, b) => parseDate(b.date) - parseDate(a.date));
 
-        // Render tulevat
-        const listTulevat = document.getElementById('list-tulevat');
-        if (tulevat.length === 0) {
-          listTulevat.innerHTML = '<div class="empty-state">Ei tulevia keikkoja juuri nyt — seuraa Instagramia!</div>';
-        } else {
-          listTulevat.innerHTML = '<div class="events-list">' + tulevat.map(k => eventItemHTML(k, false)).join('') + '</div>';
-        }
+        listTulevat.innerHTML = tulevat.length
+          ? '<div class="events-list">' + tulevat.map(k => eventItemHTML(k, false)).join('') + '</div>'
+          : '<div class="empty-state">Ei tulevia keikkoja juuri nyt — <a href="index.html#yhteydenotto">varaa meidät esiintymään täältä</a></div>';
 
-        // Render menneet ryhmiteltynä vuoden mukaan
-        const listMenneet = document.getElementById('list-menneet');
-        if (menneet.length === 0) {
+        if (!menneet.length) {
           listMenneet.innerHTML = '<div class="empty-state">Keikkahistoria kertyy ajan myötä.</div>';
         } else {
-          // Ryhmittele vuoden mukaan
           const vuosiRyhmat = {};
           menneet.forEach(k => {
-            const vuosi = new Date(k.date).getFullYear();
-            if (!vuosiRyhmat[vuosi]) vuosiRyhmat[vuosi] = [];
-            vuosiRyhmat[vuosi].push(k);
+            const vuosi = parseDate(k.date).getFullYear();
+            (vuosiRyhmat[vuosi] = vuosiRyhmat[vuosi] || []).push(k);
           });
-
           listMenneet.innerHTML = Object.keys(vuosiRyhmat)
             .sort((a, b) => b - a)
             .map(vuosi => `
@@ -160,12 +133,12 @@
             .join('');
         }
 
-        // Päivitä tab-napin laskuri
         document.querySelector('.tab-btn').textContent = `Tulevat keikat (${tulevat.length})`;
 
-      } catch(e) {
-        document.getElementById('list-tulevat').innerHTML = '<div class="empty-state">Keikkoja ei juuri nyt löydy.</div>';
-        document.getElementById('list-menneet').innerHTML = '<div class="empty-state">Keikkoja ei juuri nyt löydy.</div>';
+      } catch (e) {
+        console.error('Keikkojen lataus epäonnistui:', e);
+        listTulevat.innerHTML = '<div class="empty-state">Keikkoja ei juuri nyt löydy.</div>';
+        listMenneet.innerHTML = '<div class="empty-state">Keikkoja ei juuri nyt löydy.</div>';
       }
     }
 

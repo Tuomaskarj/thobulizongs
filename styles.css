@@ -1,4 +1,83 @@
 /* ════════════════════════════════════════
+   FONTIT — tarjoillaan omalta palvelimelta
+   Ei yhteyttä fonts.googleapis.com- tai fonts.gstatic.com-osoitteeseen,
+   joten tekstin piirtäminen ei odota ulkopuolista palvelinta.
+   Osajoukko: latin (sisältää ä, ö, å).
+════════════════════════════════════════ */
+
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fontit/playfair-display-latin-700-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fontit/playfair-display-latin-700-italic.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('/fontit/playfair-display-latin-900-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Playfair Display';
+  font-style: italic;
+  font-weight: 900;
+  font-display: swap;
+  src: url('/fontit/playfair-display-latin-900-italic.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fontit/dm-sans-latin-300-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fontit/dm-sans-latin-400-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fontit/dm-sans-latin-400-italic.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fontit/dm-sans-latin-500-normal.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ════════════════════════════════════════
    Thö Bulizongs — styles.css
    Muuta tätä tiedostoa → muutos näkyy kaikilla sivuilla
 ════════════════════════════════════════ */
@@ -29,7 +108,9 @@
       color: var(--white);
       font-family: 'DM Sans', sans-serif;
       font-weight: 400;
-      overflow-x: hidden;
+      /* clip leikkaa ylivuodon tekemättä bodystä vierityssäiliötä.
+         hidden tekisi, ja se katkaisee iOS:n liikemäärävierityksen. */
+      overflow-x: clip;
     }
 
 /* ════════════════════════════════════════
@@ -489,6 +570,9 @@
     .palaute-lainaus {
       font-size: 2.5rem;
       font-family: 'Playfair Display', serif;
+      /* 700 on jo ladattu muualle; 400 vaatisi oman 22 kt tiedoston
+         pelkkää lainausmerkkiä varten */
+      font-weight: 700;
       color: var(--black);
       line-height: 1;
       margin-bottom: 0.5rem;
@@ -591,7 +675,6 @@
       .form-row { grid-template-columns: 1fr; }
       #hero { padding: 4rem 1.5rem 3rem; min-height: auto; }
       .hero-logo { margin-top: 1rem; }
-      html, 
     }
 
     .page-header h1 {
@@ -652,7 +735,8 @@
 
     .jasenet-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      /* minmax(0, 1fr) — pelkkä 1fr sallii sarakkeen kasvaa sisällön mukaan */
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 2rem;
     }
 
@@ -683,6 +767,8 @@
       font-size: 3rem; color: #767676;
     }
 
+    .jasen-card { overflow-wrap: break-word; }
+
     .jasen-nimi {
       font-family: 'Playfair Display', serif;
       font-size: 1.05rem; font-weight: 700;
@@ -708,11 +794,11 @@
 
     @media (max-width: 768px) {
       .historia-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      .jasenet-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+      .jasenet-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
     }
 
     @media (max-width: 480px) {
-      .jasenet-grid { grid-template-columns: repeat(2, 1fr); }
+      .jasenet-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     /* TABS */
@@ -791,6 +877,13 @@
     .empty-state {
       text-align: center; padding: 3rem;
       color: var(--grey-light); font-style: italic; font-size: 0.9rem;
+    }
+
+    /* Ilman tätä linkki saisi selaimen oletussinisen, joka ei erotu mustalta */
+    .empty-state a {
+      color: var(--white);
+      text-decoration: underline;
+      text-underline-offset: 3px;
     }
 
     .loading { text-align: center; padding: 3rem; color: var(--grey-light); font-size: 0.9rem; }
@@ -958,6 +1051,15 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
 
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
     .page-header p { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 0.6rem; }
 
     .page-header h1 {
@@ -1105,7 +1207,7 @@
   .setlist-preview-grid { grid-template-columns: 1fr !important; }
 
   /* Jäsenet 2 saraketta mobiilissa */
-  .jasenet-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .jasenet-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
 
   /* Uutiset 1 sarake */
   .uutiset-grid { grid-template-columns: 1fr !important; }
@@ -1144,7 +1246,7 @@
 
 @media (max-width: 480px) {
   /* Jäsenet 2 saraketta myös pienellä */
-  .jasenet-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .jasenet-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
 
   /* Hero fontti */
   .hero-btns { flex-direction: row; justify-content: center; flex-wrap: wrap; gap: 0.8rem; }
