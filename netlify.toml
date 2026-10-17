@@ -29,3 +29,9 @@
   for = "/data.json"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+
+# Testisivu ei kuulu hakukoneisiin
+[[headers]]
+  for = "/testi/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"

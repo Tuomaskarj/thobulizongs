@@ -109,9 +109,11 @@
       color: var(--white);
       font-family: 'DM Sans', sans-serif;
       font-weight: 400;
-      /* clip leikkaa ylivuodon tekemättä bodystä vierityssäiliötä.
-         hidden tekisi, ja se katkaisee iOS:n liikemäärävierityksen. */
-      overflow-x: clip;
+      /* Ei overflow-x:ää. Sekä hidden että clip luovat bodylle
+         leikkauskontekstin, mikä voi pakottaa iOS:n käsittelemään koko
+         6300px korkean sivun yhtenä kerroksena normaalin ruudutuksen
+         sijaan. Vaakaylivuodon todellinen syy on korjattu
+         (jäsenruudukon minmax), joten leikkausta ei tarvita. */
     }
 
 /* ════════════════════════════════════════
