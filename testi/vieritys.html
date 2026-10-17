@@ -119,9 +119,10 @@
 <div class="ohjaus">
   <h1>Vieritystesti</h1>
   <p class="vinkki">
-    Vieritä sivua sormella alas ja ylös. Kun pysähdyt, ruudulle ilmestyy mittaustulos.
-    Kytke sitten yksi asia kerrallaan pois ja vieritä uudelleen — se joka korjaa
-    luvun, on syy.
+    <strong>Tee tämä ensin:</strong> paina <em>Kaikki pois</em> ja vieritä sormella.
+    Se on paljas sivu — pelkkää tekstiä, ei mitään sivustolta. Paina sitten
+    <em>Kaikki päälle</em> ja vieritä uudelleen. Mittari vertaa lukuja ja kertoo
+    onko vika sivustossa vai ei. Vasta jos on, kytke yksi asia kerrallaan pois.
   </p>
   <div class="kytkimet">
     <label class="kytkin"><input type="checkbox" data-v="clip" /> body overflow-x</label>
@@ -222,15 +223,41 @@ function loppui() {
   const hyva = fpsAlku >= 45 && osuus <= 15;
   const arvio = hyva ? 'Sujuva' : (fpsAlku < 30 ? 'Nykii selvästi' : 'Hieman nykii');
 
+  // Paljas sivu = kaikki kytkimet pois. Se on vertailukoe: jos sekin
+  // nykii yhtä paljon, vika ei ole sivustossa vaan selaimessa tai laitteessa.
+  const paljas = kytkimet.every(k => !k.checked);
+  if (paljas) {
+    try { localStorage.setItem('vieritystesti-paljas', String(Math.round(fpsAlku))); } catch (e) {}
+  }
+  let vertailu = '';
+  try {
+    const p = parseInt(localStorage.getItem('vieritystesti-paljas'), 10);
+    if (!isNaN(p) && !paljas) {
+      vertailu = rivi('Paljas sivu samalla puhelimella', p + ' fps');
+      const ero = Math.round(fpsAlku) - p;
+      vertailu += '<div class="selite"><strong>' +
+        (Math.abs(ero) <= 8
+          ? 'Sama kuin paljaalla sivulla → vika EI ole sivustossa, vaan selaimessa tai laitteessa. Sivuston muokkaaminen ei auta.'
+          : (ero < 0
+              ? 'Tämä sivu on ' + Math.abs(ero) + ' fps paljasta huonompi → jokin kytketyistä asioista maksaa. Etsi se kytkemällä yksi kerrallaan pois.'
+              : 'Tämä sivu on paljasta parempi — mittaus heittelee, ota toinen otos.')) +
+        '</strong></div>';
+    }
+  } catch (e) {}
+
+  const ohje = paljas
+    ? '<div class="selite"><strong>Tämä oli paljas sivu</strong> — pelkkää tekstiä, ei fontteja, ei kuvia, ei mitään sivustolta. ' +
+      'Jos tämä nykii, vika ei ole sivustossa. Luku jäi muistiin vertailukohdaksi: kytke nyt kaikki päälle ja vieritä uudelleen.</div>'
+    : '<div class="selite">Eleen alku on tärkein luku — siinä nykiminen tuntuu. ' +
+      'Yli 45 fps on sujuva, alle 30 nykii selvästi.</div>';
+
   nayta(
     '<b>' + arvio + '</b>' +
     rivi('Eleen alku (ensimmäiset 200 ms)', Math.round(fpsAlku) + ' fps') +
     rivi('Koko ele', Math.round(fpsKaikki) + ' fps') +
     rivi('Hitain ruutu', Math.round(pahin) + ' ms') +
     rivi('Ruutuja yli 20 ms', osuus + ' %') +
-    '<div class="selite">Eleen alku on tärkein luku — siinä nykiminen tuntuu. ' +
-    'Yli 45 fps on sujuva, alle 30 nykii selvästi. ' +
-    'Kytke yksi asia pois ja vieritä uudelleen.</div>'
+    vertailu + ohje
   );
 }
 
