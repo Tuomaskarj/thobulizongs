@@ -190,7 +190,6 @@
       font-style: italic;
       color: var(--white);
       line-height: 0.9;
-      text-shadow: 3px 3px 0px #000, 5px 5px 0px rgba(0,0,0,0.4), 8px 8px 20px rgba(0,0,0,0.6);
       letter-spacing: -0.01em;
       opacity: 0;
       animation: fadeUp 0.7s 0.2s forwards;
@@ -202,7 +201,6 @@
       font-weight: 700;
       font-style: italic;
       color: var(--white);
-      text-shadow: 2px 2px 0px #000, 4px 4px 12px rgba(0,0,0,0.5);
       opacity: 0;
       animation: fadeUp 0.7s 0.35s forwards;
       margin-bottom: 2rem;
@@ -687,7 +685,6 @@
       font-weight: 900;
       font-style: italic;
       color: var(--white);
-      text-shadow: 2px 2px 0 #000, 4px 4px 10px rgba(0,0,0,0.5);
       margin-bottom: 0.5rem;
     }
 
@@ -714,7 +711,6 @@
       font-size: clamp(2rem, 5vw, 3.5rem);
       font-weight: 900; font-style: italic;
       color: var(--white);
-      text-shadow: 2px 2px 0 #000, 4px 4px 12px rgba(0,0,0,0.4);
     }
 
     /* SECTIONS */
@@ -961,7 +957,6 @@
       font-weight: 900;
       font-style: italic;
       color: var(--white);
-      text-shadow: 2px 2px 0 #000, 4px 4px 12px rgba(0,0,0,0.4);
       margin-bottom: 0.8rem;
     }
 
@@ -1098,7 +1093,6 @@
       font-size: clamp(2rem, 5vw, 3.5rem);
       font-weight: 900; font-style: italic;
       color: var(--white);
-      text-shadow: 2px 2px 0 #000;
     }
 
     main { max-width: 900px; margin: 0 auto; padding: 3rem 2rem 5rem; }
@@ -1170,7 +1164,6 @@
       font-family: 'Playfair Display', serif;
       font-size: 1.3rem; font-weight: 900; font-style: italic;
       color: var(--white); text-decoration: none;
-      text-shadow: 2px 2px 0px #000, 3px 3px 6px rgba(0,0,0,0.5);
       letter-spacing: 0.04em;
     }
 

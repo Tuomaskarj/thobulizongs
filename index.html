@@ -346,7 +346,7 @@
           uutisetGrid.innerHTML = data.uutiset.slice(0, 3).map(u => `
             <a class="uutinen-card" href="uutiset.html#${u.slug}">
               <div class="uutinen-kuva">
-                ${u.image ? `<img src="${u.image}" alt="${u.title||''}" />` : `<div class="uutinen-kuva-placeholder">♪</div>`}
+                ${u.image ? `<img src="${u.image}" alt="${u.title||''}" loading="lazy" decoding="async" />` : `<div class="uutinen-kuva-placeholder">♪</div>`}
               </div>
               <div class="uutinen-body">
                 <div class="uutinen-pvm">${formatDate(u.date)}</div>

@@ -75,7 +75,7 @@
 
         lista.innerHTML = uutiset.map(u => `
           <article class="uutinen-full" id="${escapeHtml(u.slug)}">
-            ${u.image ? `<div class="uutinen-full-kuva"><img src="${escapeHtml(u.image)}" alt="${escapeHtml(u.title || '')}" loading="lazy" /></div>` : ''}
+            ${u.image ? `<div class="uutinen-full-kuva"><img src="${escapeHtml(u.image)}" alt="${escapeHtml(u.title || '')}" loading="lazy" decoding="async" /></div>` : ''}
             <div class="uutinen-full-body">
               <div class="uutinen-pvm">${formatDate(u.date)}</div>
               <h2 class="uutinen-otsikko">${escapeHtml(u.title || 'Uutinen')}</h2>
