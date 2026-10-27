@@ -516,7 +516,7 @@
     }
 
     .uutinen-kuva {
-      aspect-ratio: 16/9;
+      aspect-ratio: 4/3;
       background: #e8e5e0;
       overflow: hidden;
     }
@@ -538,7 +538,6 @@
       font-size: 2rem;
     }
 
-    .uutinen-
 
     .uutinen-body { padding: 1.5rem 1.8rem 1.8rem; }
 
@@ -1004,8 +1003,9 @@
     /* CONTENT */
     main { max-width: 900px; margin: 0 auto; padding: 3rem 2rem 5rem; }
 
-    .genre-
 
+    .genre-section { margin-bottom: 2.5rem; }
+    .genre-section:last-child { margin-bottom: 0; }
     .genre-section.hidden { display: none; }
 
     .genre-header {
@@ -1110,14 +1110,15 @@
     }
 
     .uutinen-full-kuva {
-      aspect-ratio: 16/6;
+      aspect-ratio: 16/9;
       background: #e8e5e0;
       overflow: hidden;
     }
 
     .uutinen-full-kuva img { width: 100%; height: 100%; object-fit: cover; }
 
-    .uutinen-full-
+    .uutinen-full-body { padding: 1.8rem 2rem 2.2rem; }
+
 
     .uutinen-pvm {
       font-family: 'DM Sans', sans-serif;
